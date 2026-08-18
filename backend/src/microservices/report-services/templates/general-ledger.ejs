@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>General Ledger Report</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #111827;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 3px solid #003bff;
+        }
+        .company-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003bff;
+            margin-bottom: 5px;
+        }
+        .report-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin: 10px 0 5px 0;
+        }
+        .date-range {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background-color: #003bff;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        th.amount {
+            text-align: right;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        td.amount {
+            text-align: right;
+            font-weight: 600;
+        }
+        .account-header {
+            font-weight: 600;
+            background-color: #ffffff;
+            font-size: 14.4px;
+        }
+        .payment-row {
+            background-color: #ffffff;
+        }
+        .payment-row td {
+            padding-left: 30px;
+        }
+        .total-row {
+            background-color: #003bff;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .total-row td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-name"><%= companyName %></div>
+            <div class="report-title">General Ledger Report</div>
+            <div class="date-range"><%= dateRange %></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Account / Date</th>
+                    <th class="amount">Debit</th>
+                    <th class="amount">Credit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (accounts && accounts.length > 0) { %>
+                    <% accounts.forEach(account => { %>
+                        <!-- Account Header -->
+                        <tr class="account-header">
+                            <td><strong><%= account.name %></strong></td>
+                            <td class="amount">$<%= (account.totalDebits || 0).toFixed(2) %></td>
+                            <td class="amount">$<%= (account.totalCredits || 0).toFixed(2) %></td>
+                        </tr>
+
+                        <!-- Payment Details -->
+                        <% if (account.payments && account.payments.length > 0) { %>
+                            <% account.payments.forEach(payment => { %>
+                                <tr class="payment-row">
+                                    <td><%= payment.date || '-' %></td>
+                                    <td class="amount">$<%= (payment.debit || 0).toFixed(2) %></td>
+                                    <td class="amount">$<%= (payment.credit || 0).toFixed(2) %></td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3" style="text-align: center; padding: 20px; color: #6b7280;">No records found</td>
+                    </tr>
+                <% } %>
+
+                <!-- Total Row -->
+                <tr class="total-row">
+                    <td>Total</td>
+                    <td class="amount">$<%= totalDebits.toFixed(2) %></td>
+                    <td class="amount">$<%= totalCredits.toFixed(2) %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

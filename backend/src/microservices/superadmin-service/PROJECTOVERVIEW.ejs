@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.project.name %> - Project Overview</title>
+    <style>
+        :root {
+            --bg: #f4f8f8;
+            --surface: #ffffff;
+            --text: #0f2f30;
+            --muted: #4d696b;
+            --brand: #0f766e;
+            --brand-alt: #1e40af;
+            --border: #d8e4e5;
+            --shadow: 0 10px 24px rgba(15, 47, 48, 0.08);
+            --ok-bg: #eaf8f0;
+            --ok-text: #146c38;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 8% 6%, rgba(15, 118, 110, 0.10), transparent 30%),
+                radial-gradient(circle at 93% 14%, rgba(30, 64, 175, 0.13), transparent 34%),
+                var(--bg);
+            line-height: 1.55;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f766e, #1e40af);
+            color: #fff;
+            border-radius: 16px;
+            padding: 38px 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            right: -70px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.2px;
+        }
+
+        .subtitle {
+            max-width: 920px;
+            font-size: 1.02rem;
+            opacity: 0.96;
+            margin-bottom: 12px;
+        }
+
+        .pill-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pill {
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.14);
+            font-weight: 600;
+        }
+
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 14px;
+        }
+
+        .section h2 {
+            color: var(--brand);
+            border-bottom: 2px solid #d6ece9;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            font-size: 1.35rem;
+        }
+
+        .section h3 {
+            color: #125d95;
+            margin: 12px 0 8px;
+            font-size: 1.02rem;
+        }
+
+        .status {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 3px 9px;
+            border-radius: 999px;
+            margin-left: 8px;
+            border: 1px solid #b7e6c3;
+            background: var(--ok-bg);
+            color: var(--ok-text);
+            font-weight: 700;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .metric {
+            background: #f8fbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--brand-alt);
+        }
+
+        .metric .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .card {
+            background: #f8fbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .card h4 {
+            margin-bottom: 6px;
+            color: #125d95;
+            font-size: 0.98rem;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+        }
+
+        .role-card {
+            background: #f8fbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .role-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .role-name {
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .role-level {
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        li {
+            margin: 4px 0;
+        }
+
+        .tree-wrap {
+            overflow-x: auto;
+            padding-top: 6px;
+        }
+
+        .tree,
+        .tree ul {
+            list-style: none;
+            margin: 0;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .tree ul::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            border-left: 2px dashed #c4d4d5;
+        }
+
+        .tree li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 12px;
+        }
+
+        .tree li::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 14px;
+            width: 10px;
+            border-top: 2px dashed #c4d4d5;
+        }
+
+        .tree-node {
+            background: #f8fbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .tree-root {
+            background: #eef7ff;
+            border-color: #cfe0f8;
+        }
+
+        .tree-step {
+            display: inline-block;
+            border: 1px solid #c4d4d5;
+            border-radius: 999px;
+            padding: 2px 8px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #315154;
+        }
+
+        .tree-branch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tree-branch {
+            background: #fcfefe;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px;
+        }
+
+        .tree-branch h4 {
+            font-size: 0.9rem;
+            color: #125d95;
+            margin-bottom: 5px;
+        }
+
+        .doc-note {
+            margin-top: 8px;
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+
+        code {
+            font-family: "JetBrains Mono", Consolas, monospace;
+            font-size: 0.86em;
+        }
+
+        footer {
+            text-align: center;
+            color: #597476;
+            padding: 10px 0 22px;
+            font-size: 0.88rem;
+        }
+
+        @media (max-width: 920px) {
+            .grid-2,
+            .tree-branch-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.85rem;
+            }
+            .hero {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <h1><%= data.project.name %></h1>
+            <p class="subtitle"><strong><%= data.project.tagline %></strong> - <%= data.project.description %></p>
+            <div class="pill-wrap">
+                <span class="pill">Version <%= data.project.version %></span>
+                <span class="pill"><%= data.architecture.backend.name %></span>
+                <span class="pill"><%= data.architecture.frontend.name %></span>
+                <span class="pill">Status: <%= data.project.status %></span>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2>Project Snapshot <span class="status"><%= data.project.status %></span></h2>
+            <p class="muted">Unified operations and accounting flow from company setup to financial reporting.</p>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="value"><%= data.roles.length %></div>
+                    <div class="label">User Roles</div>
+                </div>
+                <div class="metric">
+                    <div class="value"><%= data.architecture.backend.technologies.length %></div>
+                    <div class="label">Backend Highlights</div>
+                </div>
+                <div class="metric">
+                    <div class="value"><%= data.architecture.frontend.technologies.length %></div>
+                    <div class="label">Frontend Highlights</div>
+                </div>
+                <div class="metric">
+                    <div class="value"><%= data.detailedImplementation.stepTree.steps.length %></div>
+                    <div class="label">End-to-End Steps</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>System Architecture</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h4><%= data.architecture.frontend.name %></h4>
+                    <ul>
+                        <% data.architecture.frontend.technologies.forEach(function(tech) { %>
+                            <li><%= tech %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><%= data.architecture.backend.name %></h4>
+                    <ul>
+                        <% data.architecture.backend.technologies.forEach(function(tech) { %>
+                            <li><%= tech %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><%= data.architecture.database.name %></h4>
+                    <ul>
+                        <% data.architecture.database.features.forEach(function(feature) { %>
+                            <li><%= feature %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>User Roles And Permissions</h2>
+            <div class="role-grid">
+                <% data.roles.forEach(function(role) { %>
+                    <div class="role-card">
+                        <div class="role-head">
+                            <div class="role-name" style="color:<%= role.color %>"><%= role.name %></div>
+                            <div class="role-level"><%= role.level %></div>
+                        </div>
+                        <p><strong>Access:</strong> <%= role.access %></p>
+                        <p><strong>Responsibilities:</strong></p>
+                        <ul>
+                            <% role.responsibilities.forEach(function(resp) { %>
+                                <li><%= resp %></li>
+                            <% }) %>
+                        </ul>
+                        <% if (role.canCreate && role.canCreate.length > 0) { %>
+                            <p><strong>Can create:</strong> <%= role.canCreate.join(", ") %></p>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <% if (data.detailedImplementation) { %>
+        <section class="section">
+            <h2>Detailed Implementation</h2>
+
+            <h3>Onboarding Sequence</h3>
+            <div class="grid-3">
+                <% data.detailedImplementation.onboardingSequence.forEach(function(item, index) { %>
+                    <div class="card">
+                        <h4>Step <%= index + 1 %></h4>
+                        <p class="muted"><%= item %></p>
+                    </div>
+                <% }) %>
+            </div>
+
+            <h3>Module Separation</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>Load Module</h4>
+                    <p class="muted"><%= data.detailedImplementation.moduleSeparation.loadModule %></p>
+                </div>
+                <div class="card">
+                    <h4>Load Customer Type</h4>
+                    <p class="muted"><%= data.detailedImplementation.moduleSeparation.loadCustomerType %></p>
+                </div>
+                <div class="card">
+                    <h4>Load Carrier Type</h4>
+                    <p class="muted"><%= data.detailedImplementation.moduleSeparation.loadCarrierType %></p>
+                </div>
+            </div>
+
+            <h3>Operational Flow</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>Load Creation</h4>
+                    <ul>
+                        <% data.detailedImplementation.loadOperations.creation.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Dispatcher Workflow</h4>
+                    <ul>
+                        <% data.detailedImplementation.loadOperations.dispatcherFlow.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Status Workflow</h4>
+                    <ul>
+                        <% data.detailedImplementation.loadOperations.statusFlow.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Rating Logic</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>Customer</h4>
+                    <p class="muted"><%= data.detailedImplementation.ratings.customer.generation %></p>
+                    <ul>
+                        <% data.detailedImplementation.ratings.customer.autoFactors.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Carrier</h4>
+                    <p class="muted"><%= data.detailedImplementation.ratings.carrier.generation %></p>
+                    <p class="muted"><strong>Source:</strong> <%= data.detailedImplementation.ratings.carrier.source %></p>
+                    <p class="muted"><strong>Trigger:</strong> <%= data.detailedImplementation.ratings.carrier.trigger %></p>
+                </div>
+                <div class="card">
+                    <h4>Driver</h4>
+                    <p class="muted"><%= data.detailedImplementation.ratings.driver.generation %></p>
+                    <ul>
+                        <% data.detailedImplementation.ratings.driver.autoFactors.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Accounting, Payment, Reporting</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Invoice And Bill</h4>
+                    <p><strong>Order:</strong></p>
+                    <ul>
+                        <% data.detailedImplementation.invoiceBillModel.orderOfOperations.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                    <p><strong>Scope:</strong></p>
+                    <ul>
+                        <% data.detailedImplementation.invoiceBillModel.scope.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Payment And Reporting</h4>
+                    <p><strong>Payment types:</strong> <%= data.detailedImplementation.paymentModel.types.join(", ") %></p>
+                    <p><strong>Core fields:</strong></p>
+                    <ul>
+                        <% data.detailedImplementation.paymentModel.coreFields.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                    <p><strong>Report outputs:</strong></p>
+                    <ul>
+                        <% data.detailedImplementation.reportingBase.outputs.forEach(function(item) { %>
+                            <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.detailedImplementation && data.detailedImplementation.stepTree) { %>
+        <section class="section">
+            <h2><%= data.detailedImplementation.stepTree.title %></h2>
+            <div class="tree-wrap">
+                <ul class="tree">
+                    <li>
+                        <div class="tree-node tree-root">
+                            <strong><%= data.detailedImplementation.stepTree.root %></strong>
+                        </div>
+                        <ul>
+                            <% data.detailedImplementation.stepTree.steps.forEach(function(step) { %>
+                                <li>
+                                    <div class="tree-node">
+                                        <div class="tree-step">Step <%= step.step %></div>
+                                        <div><strong><%= step.name %></strong></div>
+                                        <div class="tree-branch-grid">
+                                            <div class="tree-branch">
+                                                <h4>What We Use</h4>
+                                                <ul>
+                                                    <% step.whatWeUse.forEach(function(item) { %>
+                                                        <li><%= item %></li>
+                                                    <% }) %>
+                                                </ul>
+                                            </div>
+                                            <div class="tree-branch">
+                                                <h4>How We Use</h4>
+                                                <ul>
+                                                    <% step.howWeUse.forEach(function(item) { %>
+                                                        <li><%= item %></li>
+                                                    <% }) %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <p class="doc-note">Word format download: <code>/api/superadmin/doc</code></p>
+        </section>
+        <% } %>
+
+        <footer>
+            <p>Copyright 2026 <%= data.project.name %> - <%= data.project.tagline %></p>
+            <p>Unified Freight Operations and Accounting Platform</p>
+        </footer>
+    </div>
+</body>
+</html>

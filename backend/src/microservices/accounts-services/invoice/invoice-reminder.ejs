@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice Payment Reminder</title>
+</head>
+
+<%
+  const formatDate = (date) =>
+    date ? new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '-';
+
+  const formatAmount = (value) =>
+    typeof value === 'number'
+      ? value.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })
+      : '-';
+
+  const customerName = invoice?.customerId?.displayCustomerName
+    || invoice?.customerId?.company
+    || invoice?.customerId?.nameToPrintOnCheck
+    || 'Valued Customer';
+
+  const companyName = invoice?.companyId?.label || 'FreightBooks';
+  const companyPhone = invoice?.companyId?.phone || '';
+  const companyEmail = invoice?.companyId?.email || '';
+  const companyAddress = invoice?.companyId?.address || '';
+  const invoiceNumber = invoice?.invoiceNumber || '-';
+  const totalAmount = invoice?.summary?.finalAmount ?? invoice?.summary?.subTotal ?? 0;
+  const balanceDue = invoice?.summary?.balanceDue ?? 0;
+%>
+
+<body style="margin:0;padding:25px 0px;background:#e5e5e5;font-family:Segoe UI,Arial,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#e5e5e5;">
+<tr>
+<td align="center">
+
+<!-- Main Container -->
+<table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+
+<!-- Header -->
+<tr>
+<td align="center" style="background:#3d66f0;padding:30px 20px;color:#ffffff;">
+<!-- Icon -->
+<div style="margin-bottom:0px;">  	
+<img src="https://api.freightbooks.net/uploads/email-icon.png" width="34" alt="Email Icon"> 		
+</div>
+<h2 style="margin:0;font-weight:500;font-size:22px;">Invoice Payment Reminder</h2>
+<p style="margin:5px 0 0 0;font-size:14px;">Action Required</p>
+</td> 
+</tr> 
+
+<tr>
+  <td style="padding:0;line-height:0;font-size:0;">    
+    <img src="https://api.freightbooks.net/uploads/zigzag-divider.png" width="600" height="6" alt="zigzag-divider">	
+  </td>
+</tr> 
+
+<tr>
+  <td style="padding:30px 30px 10px 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <!-- Left Side -->
+        <td style="font-size:14px;color:#222;"> 
+          Dear <strong><%= customerName %></strong>,
+        </td>
+
+        <!-- Right Side -->
+        <td align="right">
+          <span style="display:inline-block; border:1px solid #ddd;padding:6px 10px;border-radius:5px;font-size:13px;">
+            Invoice No: <strong>#<%= invoiceNumber %></strong>     
+          </span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+ 
+<!-- Message Box -->
+<tr>
+<td style="padding:10px 30px;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="background:<%= bgColor %>;border-left:3px solid <%= color %>;padding:12px;font-size:14px; border-radius:5px;">
+  <%= message %>
+</td>
+
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Invoice Table -->
+<tr>
+<td style="padding:10px 30px 0 30px;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;">
+
+<tr style="background:#f0f0f0;font-weight:600;">
+<td style="padding:8px;">Info</td>
+<td style="padding:8px;">Detail</td>
+</tr>
+
+<tr>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">Invoice Number</td>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">#<%= invoiceNumber %></td>
+</tr>
+
+<tr>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">Invoice Date</td>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;"><%= formatDate(invoice?.invoiceDate) %></td>
+</tr>
+
+<tr>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">Total Amount</td>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;font-weight:600;"><%= formatAmount(totalAmount) %></td>
+</tr>
+
+<tr>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">Balance Due</td>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;font-weight:700;color:<%= color %>;"><%= formatAmount(balanceDue) %></td>
+</tr>
+
+<tr>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;">Due Date</td>
+<td style="padding:8px;border-bottom:1px solid #e5e5e5;"><%= formatDate(invoice?.dueDate) %></td>
+</tr>
+
+<tr>
+<td style="padding:8px;">Status</td>
+<td style="padding:8px;">
+<span style="background:<%= bgColor %>;color:<%= color %>;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;">
+<%= label %>
+</span>
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<!-- Warning Text -->
+<tr>
+<td style="padding:20px 30px 10px 30px;color:<%= color %>;font-size:14px;font-weight:500;">
+Please arrange for payment at your earliest convenience to avoid any potential late fees or service disruptions.
+</td>
+
+</tr>
+
+<!-- Note Box -->
+<tr>
+<td style="padding:10px 30px;">
+<table width="100%">
+<tr>
+<td style="background:#f0f5fa;border-left:3px solid #667eea;padding:12px;font-size:14px;border-radius:5px;">
+<strong>Note:</strong> We value your business and want to ensure uninterrupted service. Please contact us if you need to discuss payment arrangements.
+</td>
+</tr>
+
+<tr style="margin-top:10px; display:inline-block">
+<td style="font-weight:400; font-size:14px; line-height:21px;">
+If you have already made the payment, please disregard this notice. It may take a few business days for payments to be processed and reflected in our system.
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:10px 30px;font-size:14px;"> 
+Thank you for your continued partnership with <strong><%= companyName %></strong>.<br><br>
+Best regards,<br>
+<strong><%= companyName %> Team</strong>
+</td>
+</tr>
+
+<tr>
+  <td style="padding:0px 30px 30px 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <!-- Left Side -->
+        <td style="font-size:14px;color:#444;">
+		<% if (companyPhone) { %>Phone: <%= companyPhone %><br><% } %>
+		<% if (companyEmail) { %>Email: <%= companyEmail %><% } %><br>
+		<% if (companyAddress) { %><span style="display:inline-block;margin-top:6px;color:#555;">Address: <%= companyAddress %></span><% } %>
+		</td>
+
+        <!-- Right Side -->
+        <td align="right">
+		<a href="https://freightbooks.net/" target="_blank">
+        <img src="<%= logoUrl %>" width="150" alt="FreightBooks"
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=FreightBooks';" />
+		</a>
+		</td>   
+      </tr>
+    </table> 
+  </td>
+</tr>
+
+<!-- Logo -->
+</table>
+
+<!-- Bottom Note -->
+<table width="600" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" style="font-size:13px;color:#555;padding:12px;">
+This is an automated reminder. Please do not reply to this email.
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+{
+  "project": {
+    "name": "FreightBooks",
+    "tagline": "FreightBooks Accounting System",
+    "description": "Complete freight management and accounting platform designed to replace multiple disconnected systems with one unified solution for trucking companies and freight brokers",
+    "version": "1.0.0",
+    "status": "Production Ready"
+  },
+
+  "architecture": {
+    "frontend": {
+      "name": "React CRM",
+      "technologies": [
+        "React 19 + TypeScript",
+        "MUI 6 + Redux Toolkit",
+        "Vite 6 + TanStack Query",
+        "21 Feature Pages",
+        "Responsive Design"
+      ]
+    },
+    "backend": {
+      "name": "Node.js API",
+      "technologies": [
+        "Express.js + MongoDB",
+        "33 Microservices",
+        "Session-based Auth",
+        "Role-based Permissions",
+        "PDF Generation"
+      ]
+    },
+    "database": {
+      "name": "MongoDB",
+      "features": [
+        "30 Models",
+        "Relationships",
+        "Company Isolation"
+      ]
+    }
+  },
+  "roles": [
+    {
+      "name": "superadmin",
+      "level": "Platform Level",
+      "access": "Platform only",
+      "responsibilities": [
+        "Plans",
+        "Sessions",
+        "System cleanup",
+        "Account types"
+      ],
+      "canCreate": [
+        "admin"
+      ],
+      "color": "#9c27b0"
+    },
+    {
+      "name": "admin",
+      "level": "Company Owner",
+      "access": "Full company",
+      "responsibilities": [
+        "Everything in their company",
+        "User management"
+      ],
+      "canCreate": [
+        "dispatcher",
+        "manager",
+        "accountant"
+      ],
+      "color": "#2196f3"
+    },
+    {
+      "name": "manager",
+      "level": "Operations",
+      "access": "Granular",
+      "responsibilities": [
+        "Company settings",
+        "Carriers",
+        "Assigned operations"
+      ],
+      "canCreate": [],
+      "color": "#ff9800"
+    },
+    {
+      "name": "dispatcher",
+      "level": "Daily Operations",
+      "access": "Granular",
+      "responsibilities": [
+        "Load creation",
+        "Dispatch",
+        "Customer/carrier management"
+      ],
+      "canCreate": [],
+      "color": "#4caf50"
+    },
+    {
+      "name": "accountant",
+      "level": "Financial",
+      "access": "Granular",
+      "responsibilities": [
+        "Invoices",
+        "Bills",
+        "Accounting",
+        "Reports"
+      ],
+      "canCreate": [],
+      "color": "#f44336"
+    }
+  ],
+ 
+  "detailedImplementation": {
+    "onboardingSequence": [
+      "First create users",
+      "Then create company",
+      "Every new company auto-seeds default chart of accounts and default Load product service"
+    ],
+    "stepTree": {
+      "title": "Implementation Tree: What We Use And How We Use It",
+      "root": "FreightBooks End-to-End Workflow",
+      "steps": [
+        {
+          "step": 1,
+          "name": "User And Company Setup",
+          "whatWeUse": [
+            "User and role system",
+            "Company service",
+            "Default chart seeding helper",
+            "Default Load product service seeding"
+          ],
+          "howWeUse": [
+            "Create users first",
+            "Create company next",
+            "Auto-seed chart of accounts per company",
+            "Auto-seed default Load product mapping"
+          ]
+        },
+        {
+          "step": 2,
+          "name": "Load Operations Layer",
+          "whatWeUse": [
+            "Load service",
+            "Customer service (isAccountCustomer=false)",
+            "Carrier service (isCarrier=true)",
+            "Dispatcher expense and document flow"
+          ],
+          "howWeUse": [
+            "Create load with customer and carrier",
+            "Assign trailer, powerunit, drivers, carrier pay",
+            "Track pickup and delivery updates",
+            "Collect and manage operational docs"
+          ]
+        },
+        {
+          "step": 3,
+          "name": "Rating Engines",
+          "whatWeUse": [
+            "Vendor rating model and service",
+            "Report model for warning/issue/complaint",
+            "Driver rating pipeline service",
+            "Customer invoice aggregate scoring"
+          ],
+          "howWeUse": [
+            "Capture manual carrier rating load-wise",
+            "Generate customer score from payment and report behavior",
+            "Generate driver score from consistency and report signals",
+            "Use delivered/cancelled load lifecycle in rating flow"
+          ]
+        },
+        {
+          "step": 4,
+          "name": "Invoice And Bill Posting",
+          "whatWeUse": [
+            "Chart of accounts",
+            "Product service mapping",
+            "Shared expense schema",
+            "Tax service with chart account reference"
+          ],
+          "howWeUse": [
+            "Build expense lines using product, qty, rate, tax",
+            "Create invoice for customer flow",
+            "Create bill for carrier/vendor flow",
+            "Support load-linked and standalone posting"
+          ]
+        },
+        {
+          "step": 5,
+          "name": "Payment Settlement",
+          "whatWeUse": [
+            "Payment model",
+            "PaymentType (invoice or bill)",
+            "Deposit To chart account mapping",
+            "Reference number controls"
+          ],
+          "howWeUse": [
+            "Receive customer payments against invoices",
+            "Record paid amounts for bills",
+            "Update invoice and bill due balances",
+            "Store posting and payment timeline"
+          ]
+        },
+        {
+          "step": 6,
+          "name": "Financial Reporting",
+          "whatWeUse": [
+            "Report services module",
+            "Shared accounting pipelines",
+            "Chart account transaction aggregations"
+          ],
+          "howWeUse": [
+            "Aggregate invoice, bill, payment data by chart account",
+            "Calculate Account-Recieveable/Accounts-Payable aging and summaries from invoice and bill data",
+            "Generate Profit &Loss and Balance Sheet",
+            "Generate Trial Balance and General Ledger"
+          ]
+        }
+      ]
+    },
+    "moduleSeparation": {
+      "loadModule": "Load module is separate from accounting masters",
+      "loadCustomerType": "Load customer flow uses customers with isAccountCustomer=false",
+      "loadCarrierType": "Load carrier flow uses carriers with isCarrier=true"
+    },
+    "loadOperations": {
+      "creation": [
+        "Create load with customer and carrier",
+        "Carrier assignment includes trailer, powerunit, assignDrivers and carrierPay inputs",
+        "Carrier financial fields are calculated from carrier rate and load amount pipelines"
+      ],
+      "dispatcherFlow": [
+        "Dispatcher tracks expense after load creation",
+        "Dispatcher updates pickup and delivery checkout",
+        "Dispatcher uploads and manages operational documents"
+      ],
+      "statusFlow": [
+        "Load status progresses to Delivered or Cancelled",
+        "Carrier load-wise rating is managed for completed/cancelled scenarios"
+      ]
+    },
+    "ratings": {
+      "customer": {
+        "generation": "Customer score combines report-based score and payment behavior score",
+        "autoFactors": [
+          "Invoice due and overdue behavior",
+          "Report model severity mapping (warning/issue/complaint)"
+        ]
+      },
+      "carrier": {
+        "generation": "Carrier rating is manual and load-wise",
+        "source": "vendorratings model with communication, Behavior, Performance, overallScore",
+        "trigger": "Applied around delivered/cancelled load lifecycle with vendor rating services"
+      },
+      "driver": {
+        "generation": "Driver score combines manual report entries and automatic pickup/delivery consistency",
+        "autoFactors": [
+          "Pickup on-time vs late consistency",
+          "Delivery on-time vs late consistency"
+        ]
+      }
+    },
+    "invoiceBillModel": {
+      "orderOfOperations": [
+        "Create chart of account",
+        "Create product service",
+        "Create expense lines",
+        "Create invoice or bill"
+      ],
+      "scope": [
+        "Invoices are created for customer flows",
+        "Bills are created for carrier/vendor flows",
+        "Both support load-linked and standalone creation"
+      ],
+      "expenseSchema": {
+        "model": "IInvoiceBilExpense",
+        "fields": [
+          "productservice (ObjectId, required, immutable)",
+          "description",
+          "qty (required, immutable)",
+          "rate (required, immutable)",
+          "tax (ObjectId, immutable)",
+          "readonly (immutable)",
+          "taxAmount (immutable)",
+          "totalAmount (immutable)",
+          "totalTaxAmount (immutable)",
+          "totalAmountWithTax (immutable)",
+          "totalAmountWithoutTax (immutable)"
+        ]
+      },
+      "chartAccountUsage": [
+        "Invoice and bill support chartOfAccount mapping",
+        "Chart of account is required when discount is applied",
+        "Tax model has ChartOfAccountId reference"
+      ]
+    },
+    "paymentModel": {
+      "types": [
+        "bill",
+        "invoice"
+      ],
+      "coreFields": [
+        "invoiceIds",
+        "billids",
+        "postingDate",
+        "customerId",
+        "status",
+        "paymentDate",
+        "paymentMethod",
+        "referenceNo",
+        "Deposit To (chartofaccounts reference)",
+        "amount",
+        "PaymentType"
+      ]
+    },
+    "reportingBase": {
+      "description": "After received/paid invoice or bill, chart-of-account reporting is generated by report services using shared pipelines.",
+      "outputs": [
+        "Profit and Loss",
+        "Balance Sheet",
+        "Accounts Receivable Summary and Detail",
+        "Accounts Payable Summary and Detail",
+        "Trial Balance",
+        "General Ledger"
+      ]
+    }
+  }
+}

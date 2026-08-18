@@ -1,0 +1,461 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>FreightBooks Bill</title>
+  </head>
+  <body style="margin:0;padding:20px;background:#f3f6fb;font-family:Segoe UI,Arial,sans-serif;color:#111827;font-size: 14px;">
+    <!-- MAIN CONTAINER -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:900px;margin:auto;background:#ffffff;border-radius:0px;overflow:hidden;border:1px solid #e5e7eb;">
+      <!-- TOP BAR -->
+      <tr>
+        <td style="height:5px;background:#003bff;"></td>
+      </tr>
+      <!-- HEADER -->
+      <tr>
+        <td style="padding:25px 40px;background:#ffffff;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- LEFT -->
+              <td valign="top">
+                <div style="font-size:24px;font-weight:700;color:#003bff;">
+                 <%= companyName %>
+                </div>
+                <div style="margin-top:10px;font-size:14px;color:#6b7280;line-height:20px;">
+                  <%= companyAddress %><br>
+                  <%= companyPhone %><br>
+                  <%= companyEmail %>
+                </div>
+              </td>
+              <!-- RIGHT -->
+              <td align="right" valign="top">
+                <div style="font-size:32px;font-weight:700;color:#e0e7ff;letter-spacing:2px;text-transform:uppercase;">
+                  Bill
+                </div>
+                <div style="margin-top:5px;font-size:14px;color:#374151;line-height:22px;">
+                  <strong>Invoice #:</strong> <%= invoiceNumber %><br>
+                  <strong>Date:</strong> <%= invoiceDate %><br>
+                  <strong>Due Date:</strong> <%= dueDate %><br>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Bill To -->
+      <tr>
+        <td style="padding:20px 40px 30px 40px;background:#ffffff;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- BILL TO -->
+              <td width="58%" valign="top"
+                style="
+                background:#ffffff;
+                border:1px solid #dbe4ff;
+                border-left:4px solid #003bff;
+                border-radius:15px;
+                padding:15px 20px;
+                ">
+                <!-- TITLE -->
+                <div style="
+                  font-size:14px;
+                  font-weight:700;
+                  color:#003bff;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  margin-bottom:7px;
+                  ">
+                  Bill To 
+                </div>
+                <!-- COMPANY -->
+                <div style="
+                  font-size:16px;
+                  font-weight:700;
+                  color:#111827;
+                  margin-bottom:5px;
+                  line-height:1;
+                  ">
+                  <%= customerCompany || 'N/A' %>
+                </div>
+                <!-- ADDRESS -->
+                <div style="
+                  font-size:15px;
+                  font-weight:600;
+                  color:#6b7280;
+                  line-height:22px;
+                  ">
+                   <%= customerAddress %><br>
+                  <%= customerCityState %><br>
+                </div>
+                <div style="
+                  background:#eef2ff;
+                  color:#003bff;
+                  padding:6px 15px;
+                  border-radius:30px;
+                  font-size:15px;
+                  font-weight:700;
+                  display: block;
+                  margin-top: 10px;
+                  ">
+                  Phone: <%= customerPhoneDisplay %>
+                </div>
+                <div style="
+                  background:#f3f4f6;
+                  color:#374151;
+                  padding:6px 15px;
+                  border-radius:30px;
+                  font-size:14px;
+                  font-weight:600;
+                  display: block;
+                  margin-top: 10px;
+                  ">
+                  Email: <%= customerEmailDisplay %>
+                </div>
+              </td>
+              <td width="2%"></td>
+              <!-- PAYMENT DETAILS -->
+              <td width="40%" valign="top"
+                style="
+                background:linear-gradient(135deg,#003bff 0%,#1d4ed8 100%);
+                border-radius:15px;
+                padding:15px;
+                ">
+                <!-- TITLE -->
+                <div style="
+                  font-size:12px;
+                  font-weight:700;
+                  color:#c7d2fe;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  margin-bottom:10px;
+                  ">
+                  Payment Details
+                </div>
+                <!-- METHOD -->
+                <div style="
+                  background:rgba(255,255,255,0.12);
+                  border:1px solid rgba(255,255,255,0.15);
+                  border-radius:14px;
+                  padding:10px 15px;
+                  ">
+                  <div style="
+                    font-size:12px;
+                    font-weight:700;
+                    color:#c7d2fe;
+                    text-transform:uppercase;
+                    letter-spacing:1px;
+                    margin-bottom:5px;
+                    ">
+                    Payment Method
+                  </div>
+                  <div style="
+                    font-size:14px;
+                    font-weight:700;
+                    color:#ffffff;
+                    margin-bottom:5px;
+                    line-height:1;
+                    ">
+                    <%= paymentMethod %>
+                  </div>
+                  <!-- TERMS -->
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:12px;
+                        font-weight:700;
+                        ">
+                        Bill Total :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:14px;
+                        font-weight:700;
+                        ">
+                        $<%= total %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:12px;
+                        font-weight:700;
+                        ">
+                        Amount Paid :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:14px;
+                        font-weight:700;
+                        ">
+                        $<%= amountPaid %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:12px;
+                        font-weight:700;
+                        ">
+                        Balance Due :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:14px;
+                        font-weight:700;
+                        ">
+                        $<%= balanceDueDisplay %>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+     <!-- Load Information -->
+      <% if (load) { %>
+       <!-- <tr>
+        <td style="padding:20px 40px 0px 40px;">
+          <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:5px;">
+            Load #: <%= load.loadNumber || 'N/A' %>
+          </div>
+        </td>
+      </tr> -->
+          <% if (load.pickupLocationId && load.pickupLocationId.length > 0) { %>
+       <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Pickup Locations
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+             <% load.pickupLocationId.forEach((location, index) => { %>
+            <tr>
+              <td style="background:#ffffff;border:1px solid #e5e7eb;border-left:4px solid #10b981;border-radius:16px;padding:10px 15px;">
+                <table width="100%">
+                  <tr>
+                    <td width="70%" valign="top">
+                      <div style="font-size:15px;font-weight:700;color:#111827;">
+                        <%= location.address || 'N/A' %>
+                      </div>
+                      <div style="margin-top:5px;font-size:14px;color:#6b7280;line-height:21px;">
+                       <%= location.city || 'N/A' %>, <%= location.state || 'N/A' %> <%= location.zipcode || 'N/A' %><br>
+                        Pickup Date: <%= location?.combinedDateTime || 'N/A' %><br>
+                        Case Count: <%= location.casecount || 'N/A' %><br>
+                        Purchase Order #: <%= location.pickupNumber || 'N/A' %><br>
+                        Weight : <%= location.weight || 'N/A' %><br>
+                        <!-- Pickup Time: <%= location?.time || 'N/A' %> -->
+                      </div>
+                    </td>
+                      <td width="30%" align="right" valign="top">
+                         <% if (location.status) { %>
+                      <span style="background:#dcfce7;color:#166534;padding:5px 14px;border-radius:30px;font-size:12px;font-weight:bold;">
+                      <%= location.status %>
+                       <% } %>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <% }); %>
+        </td>
+      </tr>
+        <% } %>
+        <!-- DELIVERY -->
+         <% if (load.deliveryLocationId && load.deliveryLocationId.length > 0) { %>
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Delivery Locations
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <% load.deliveryLocationId.forEach((location, index) => { %>
+            <tr>
+              <td style="background:#ffffff;border:1px solid #e5e7eb;border-left:4px solid #003bff;border-radius:16px;padding:10px 15px;">
+                <table width="100%">
+                  <tr>
+                    <td width="70%" valign="top">
+                      <div style="font-size:15px;font-weight:700;color:#111827;">
+                          <%= location.address || 'N/A' %>
+                      </div>
+                      <div style="margin-top:5px;font-size:14px;color:#6b7280;line-height:21px;">
+                        <%= location.city || 'N/A' %>, <%= location.state || 'N/A' %> <%= location.zipcode || 'N/A' %><br>
+                        Delivery Date: <%= location.combinedDateTime || 'N/A' %><br>
+                        Case Count: <%= location.casecount || 'N/A' %><br>
+                        Purchase Order #: <%= location.deliveryNumber || 'N/A' %><br>
+                        Weight : <%= location.weight || 'N/A' %><br>
+                        <!-- Delivery Time: <%= location.time || 'N/A' %> -->
+                      </div>
+                    </td>
+                    <td width="30%" align="right" valign="top">
+                       <% if (location.status) { %>
+                      <span style="background:#dcfce7;color:#166534;padding:5px 14px;border-radius:30px;font-size:12px;font-weight:bold;">
+                      <%= location.status %>
+                      </span>
+                       <% } %>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+             <% }); %>
+          </table>
+        </td>
+      </tr>
+       <% } %>
+       <% } %>
+     <!-- End Load Information -->
+      
+      <!-- FREIGHT CHARGES -->
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+            <tr style="background:#003bff;">
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">#</td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Service
+              </td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Description
+              </td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Tax
+              </td>
+              <td align="center" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Qty
+              </td>
+              <td align="right" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Rate
+              </td>
+              <td align="right" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Amount
+              </td>
+            </tr>
+            <% expense.forEach((item, index) => { %>
+            <tr>
+              <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:14px">1</td>
+              <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:14px">
+                <%= item.isloadExpenses && item.label ?item.label: item.productservice?.name || '-' %>
+              </td>
+              <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:14px">
+                <%= item.description || '-' %>
+              </td>
+              <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:14px">
+                <%= item.tax ? `${item.tax.value}% ${item.tax.label}` : 'N/A' %>
+              </td>
+              <td align="center" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:14px">
+                <%= item.qty || 1 %>
+              </td>
+              <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:14px">
+                $<%= parseFloat(item.rate || 0).toFixed(2) %>
+              </td>
+              <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:14px">
+                $<%= parseFloat(item.summary?.total || 0).toFixed(2) %>
+              </td>
+            </tr>
+              <% }); %>
+          </table>
+        </td>
+      </tr>
+      <!-- NOTES + TOTALS -->
+      <tr>
+        <td style="padding:0 40px 40px 40px;">
+          <table width="100%">
+            <tr>
+              <!-- NOTES -->
+              <td width="58%" valign="top">
+			   <div style="font-size:12px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-top:15px;margin-bottom:12px;">
+                  Payment Options
+                </div>
+                <ul style="list-style:none;margin:0px;padding:0px;">
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Cash</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Credit Card</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Check</li>
+                </ul>
+                <ul style="list-style:none;margin:8px 0 0 0;padding:0px;">
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Bank Transfer</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Debit Card</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Wire</li>
+                </ul>  
+              </td>
+              <!-- TOTALS -->
+              <td width="42%" valign="top">
+                <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Subtotal
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                      $<%= subTotal.toFixed(2) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Tax
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                     $<%= taxAmount.toFixed(2) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Discount
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                       <%= invoice.discountPercent %>%
+                    </td>
+                  </tr>
+                  <tr style="background:#eaeaea;">
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px;font-weight:bold">
+                      Total
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                       $<%= total.toFixed(2) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px;">
+                      Payment Received
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#15803d;font-size:15px">
+                       $<%= amountPaid %>
+                    </td>
+                  </tr>
+                  <tr style="background:#003bff;">
+                    <td style="padding:5px 20px;color:#ffffff;font-size:16px;font-weight:600;">
+                      Balance Due
+                    </td>
+                    <td align="right" style="padding:5px 20px;color:#ffffff;font-size:21px;font-weight:600;">
+                      $<%= balanceDueDisplay %>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- FOOTER -->
+      <tr>
+        <td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:15px 40px;">
+          <table width="100%">
+            <tr>
+              <td align="center" style="font-size:13px;color:#9ca3af;">
+                Thank you for your business!
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

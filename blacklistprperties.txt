@@ -1,0 +1,6 @@
+insuranceDocuments
+loadId
+loadAmount
+loadNumber
+isAccountCustomer
+isCarrier

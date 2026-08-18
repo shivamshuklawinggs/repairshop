@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bill</title>
+   
+</head>
+<body>
+ 
+    <div >
+        <p><strong>Bill Number:</strong> <%= billNumber %></p>
+        <p><strong>Date:</strong> <%= invoiceDate %></p>
+        <p><strong>Due Date:</strong> <%= dueDate %></p>
+        <% if (amount) { %>
+        <p><strong>Amount:</strong> <%= amount %></p>
+        <% } %>
+        <% if (balanceDue) { %>
+        <p><strong>Balance Due:</strong> <%= balanceDue %></p>
+        <% } %>
+    </div>
+
+    <p>Dear <%= customerName %>,</p>
+    
+    <p>Please find your bill attached.</p>
+    
+    <p>Thank you for your business.</p>
+</body>
+</html>

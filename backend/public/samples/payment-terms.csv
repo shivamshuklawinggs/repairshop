@@ -1,0 +1,4 @@
+name,days,description
+Net 45,45,Payment due within 45 days
+Net 60,60,Payment due within 60 days
+Due on Receipt,0,Payment due immediately upon receipt

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts Payable Summary</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #111827;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 3px solid #003bff;
+        }
+        .company-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003bff;
+            margin-bottom: 5px;
+        }
+        .report-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin: 10px 0 5px 0;
+        }
+        .date-range {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14.4px;
+        }
+        th:first-child {
+            text-align: left;
+        }
+        .th-customer {
+            background-color: rgba(37,99,235,0.12);
+        }
+        .th-current {
+            background-color: rgba(0, 255, 213, 0.12);
+        }
+        .th-1-30 {
+            background-color: rgba(220, 38, 38, 0.10);
+        }
+        .th-31-60 {
+            background-color: rgba(220, 38, 38, 0.20);
+        }
+        .th-61-90 {
+            background-color: rgba(220, 38, 38, 0.30);
+        }
+        .th-90-plus {
+            background-color: rgba(220, 38, 38, 0.40);
+        }
+        .th-total {
+            background-color: rgba(37,99,235,0.12);
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+        }
+        td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+        .total-row {
+            background-color: #003bff;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14.4px;
+        }
+        .total-row td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-name"><%= companyName %></div>
+            <div class="report-title">Accounts Payable Summary</div>
+            <div class="date-range"><%= dateRange %></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="th-customer">Vendor</th>
+                    <th class="th-current">Current</th>
+                    <th class="th-1-30">1 - 30</th>
+                    <th class="th-31-60">31 - 60</th>
+                    <th class="th-61-90">61 - 90</th>
+                    <th class="th-90-plus">91 and over</th>
+                    <th class="th-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (data && data.length > 0) { %>
+                    <% data.forEach(item => { %>
+                        <tr>
+                            <td><%= item.customer?.name || '-' %></td>
+                            <td>$<%= (item.currentDueAmount || 0).toFixed(2) %></td>
+                            <td>$<%= (item.due_0_30 || 0).toFixed(2) %></td>
+                            <td>$<%= (item.due_31_60 || 0).toFixed(2) %></td>
+                            <td>$<%= (item.due_61_90 || 0).toFixed(2) %></td>
+                            <td>$<%= (item.due_90_plus || 0).toFixed(2) %></td>
+                            <td style="font-weight: 600;">$<%= (item.totalDueAmount || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 20px; color: #6b7280;">No records found</td>
+                    </tr>
+                <% } %>
+
+                <!-- Total Row -->
+                <tr class="total-row">
+                    <td style="text-align: left;">Total</td>
+                    <td>$<%= (totalData?.currentDueAmount || 0).toFixed(2) %></td>
+                    <td>$<%= (totalData?.due_0_30 || 0).toFixed(2) %></td>
+                    <td>$<%= (totalData?.due_31_60 || 0).toFixed(2) %></td>
+                    <td>$<%= (totalData?.due_61_90 || 0).toFixed(2) %></td>
+                    <td>$<%= (totalData?.due_90_plus || 0).toFixed(2) %></td>
+                    <td>$<%= (totalData?.totalDueAmount || 0).toFixed(2) %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

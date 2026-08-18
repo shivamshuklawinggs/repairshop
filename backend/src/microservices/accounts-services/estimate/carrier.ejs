@@ -1,0 +1,229 @@
+<%- include('header.ejs') %>
+
+<% if (load) { %>
+  <%- include('load-details.ejs', { load }) %>
+  <div class="page-break"></div>
+<% } %>
+
+<div class="invoice-container">
+  <header class="invoice-header">
+    <div class="company-info">
+      <h2>Wing Global IT Services Pvt. Ltd</h2>
+      <p>123 Business Park, Mumbai, India</p>
+      <p>Phone: +91-9876543210 | Email: info@wingglobal.com</p>
+    </div>
+
+    <div class="invoice-meta">
+      <h1>CARRIER INVOICE</h1>
+      <p><strong>Invoice #:</strong> <%= invoice.invoiceNumber %></p>
+      <p><strong>Date:</strong> <%= formatDate(invoice.invoiceDate) %></p>
+      <p><strong>Due Date:</strong> <%= formatDate(invoice.dueDate) %></p>
+      <p><strong>Status:</strong> <%= invoice.status.toUpperCase() %></p>
+    </div>
+  </header>
+
+  <section class="invoice-details">
+    <div class="bill-to">
+      <h3>Bill To</h3>
+      <p><strong><%= carrier.carrierName %></strong></p>
+      <p><%= invoice.billingAddress || 'N/A' %></p>
+      <p>Phone: <%= carrier.phone || 'N/A' %></p>
+      <p>Email: <%= carrier.email || 'N/A' %></p>
+    </div>
+
+    <div class="payment-info">
+      <h3>Payment Method</h3>
+      <p><strong>Method:</strong> <%= invoice.paymentOptions || 'N/A' %></p>
+    </div>
+  </section>
+
+  <section class="items-section">
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Account</th>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% expense.forEach(item => { %>
+          <tr>
+            <td><%= item.productservice || '-' %></td>
+            <td><%= item.account || '-' %></td>
+            <td><%= item.description || '-' %></td>
+            <td><%= item.qty || 0 %></td>
+            <td>$<%= parseFloat(item.rate || 0).toFixed(2) %></td>
+            <td>$<%= parseFloat(item.amount || 0).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="totals-section">
+    <div class="totals">
+      <div class="total-row"><span>Carrier Rate:</span><span>$<%= baseAmount %></span></div>
+      <div class="total-row"><span>Extra Expenses:</span><span>$<%= totalExpense.toFixed(2) %></span></div>
+      <div class="total-row"><span>Sub Total:</span><span>$<%= subTotal.toFixed(2) %></span></div>
+
+      <% if (invoice.discountPercent) { %>
+        <div class="total-row"><span>Discount (<%= invoice.discountPercent %>%):</span><span>-$<%= totalDiscount.toFixed(2) %></span></div>
+      <% } %>
+
+      <% if (tax) { %>
+        <div class="total-row"><span>Tax (<%= tax %>%):</span><span>$<%= taxAmount.toFixed(2) %></span></div>
+      <% } %>
+
+      <div class="total-row final"><span>Total:</span><span>$<%= total.toFixed(2) %></span></div>
+      <div class="total-row"><span>Deposit:</span><span>$<%= invoice.deposit.toFixed(2) %></span></div>
+      <div class="total-row balance-due"><span>Balance Due:</span><span>$<%= balanceDue.toFixed(2) %></span></div>
+    </div>
+  </section>
+
+  <section class="notes-section">
+    <% if (invoice.customerNotes) { %>
+      <h3>Notes</h3>
+      <p><%= invoice.customerNotes %></p>
+    <% } %>
+
+    <% if (invoice.terms_conditions) { %>
+      <h3>Terms & Conditions</h3>
+      <p><%= invoice.terms_conditions %></p>
+    <% } %>
+  </section>
+
+  <footer class="invoice-footer">
+    <p>Thank you for your business!</p>
+  </footer>
+</div>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    background: #fff;
+  }
+
+  .invoice-container {
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+  }
+
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #1976d2;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+
+  .company-info h2 {
+    margin-bottom: 5px;
+    color: #1976d2;
+  }
+
+  .invoice-meta h1 {
+    color: #1976d2;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+  }
+
+  .invoice-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+
+  .bill-to, .payment-info {
+    width: 48%;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+  }
+
+  .bill-to h3, .payment-info h3 {
+    margin-bottom: 10px;
+    color: #1976d2;
+  }
+
+  .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+  }
+
+  .items-table th {
+    background: #1976d2;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .items-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .items-table tr:nth-child(even) {
+    background: #f7f9fc;
+  }
+
+  .totals {
+    width: 300px;
+    margin-left: auto;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .total-row.final {
+    font-weight: bold;
+    border-top: 2px solid #1976d2;
+    padding-top: 8px;
+  }
+
+  .balance-due {
+    color: #d32f2f;
+    font-weight: 600;
+  }
+
+  .notes-section {
+    margin-top: 30px;
+  }
+
+  .notes-section h3 {
+    color: #1976d2;
+    margin-bottom: 10px;
+  }
+
+  .invoice-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 2px solid #1976d2;
+    font-weight: 500;
+    color: #555;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+</style>

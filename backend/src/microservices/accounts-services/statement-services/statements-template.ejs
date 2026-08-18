@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Account Statement</title>
+</head>
+<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f4f6f8;">
+  
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding:20px;">
+    <tr>
+      <td align="center">
+        
+        <!-- Main Container -->
+        <table width="700" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px; overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background:#2c3e50; color:#ffffff; padding:20px;">
+              <h2 style="margin:0;">Account Statement</h2>
+              <p style="margin:5px 0 0; font-size:13px;">
+                Generated on <%= statement.createdAt %>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Customer Info -->
+          <tr>
+            <td style="padding:20px;">
+              <h3 style="margin-bottom:10px;">Customer Details</h3>
+              <p style="margin:0;"><strong><%= statement.customerId.company %></strong></p>
+              <p style="margin:0;"><%= statement.customerId.address %></p>
+              <p style="margin:0;">Phone: <%= statement.customerId.phone %></p>
+              <p style="margin:0;">Email: <%= statement.customerId.email %></p>
+            </td>
+          </tr>
+
+          <!-- Summary -->
+          <tr>
+            <td style="padding:20px;">
+              <h3 style="margin-bottom:10px;">Summary</h3>
+              <table width="100%" style="border-collapse:collapse;">
+                <tr>
+                  <td><strong>Total Amount:</strong></td>
+                  <td align="right">$<%= statement.totalBalance.toFixed(2) %></td>
+                </tr>
+                <tr>
+                  <td><strong>Received:</strong></td>
+                  <td align="right">$<%= statement.totalRecievedAmount.toFixed(2) %></td>
+                </tr>
+                <tr>
+                  <td><strong>Balance Due:</strong></td>
+                  <td align="right" style="color:red;">
+                    $<%= statement.totalBalanceDue.toFixed(2) %>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Invoice Table -->
+          <tr>
+            <td style="padding:20px;">
+              <h3 style="margin-bottom:10px;">Invoice Details</h3>
+
+              <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse; font-size:13px;">
+                <thead>
+                  <tr style="background:#ecf0f1;">
+                    <th align="left">Invoice #</th>
+                    <th align="left">Date</th>
+                    <th align="left">Due Date</th>
+                    <th align="right">Total</th>
+                    <th align="right">Received</th>
+                    <th align="right">Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% statement.data.forEach(function(item){ %>
+                    <tr style="border-bottom:1px solid #ddd;">
+                      <td><%= item.invoiceNumber %></td>
+                      <td><%= item.invoiceDate %></td>
+                      <td><%= item.dueDate %></td>
+                      <td align="right">$<%= item.totalAmount %></td>
+                      <td align="right">$<%= item.recievedAmount %></td>
+                      <td align="right" style="color:red;">$<%= item.balanceDue %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background:#f4f6f8; padding:20px; text-align:center; font-size:12px; color:#777;">
+              <p style="margin:0;">Thank you for your business!</p>
+              <p style="margin:5px 0 0;">If you have any questions, please contact us.</p>
+            
+              <p style="margin:5px 0 0; font-size:10px; color:#999;">
+                <%= companyAddress %>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

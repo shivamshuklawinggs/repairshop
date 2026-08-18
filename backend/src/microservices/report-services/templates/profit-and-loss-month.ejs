@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profit and Loss Monthly Report</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #111827;
+            font-size: 12px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            text-align: left;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .report-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 5px 0;
+        }
+        .date-range {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #003bff;
+            color: #ffffff;
+            padding: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 11px;
+        }
+        .section-header {
+            font-weight: 600;
+            background-color: #f9fafb;
+            color: #374151;
+        }
+        .total-row {
+            font-weight: 600;
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+        .grand-total {
+            font-weight: 600;
+            background-color: #e5e7eb;
+            color: #111827;
+            border-top: 2px solid #374151;
+        }
+        .amount {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            min-width: 80px;
+        }
+        .negative {
+            color: #dc2626;
+        }
+        .positive {
+            color: #059669;
+        }
+        .indent {
+            padding-left: 20px;
+        }
+        .company-info {
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .account-name {
+            min-width: 150px;
+        }
+        .month-header {
+            background-color: #1e40af !important;
+            font-weight: 600;
+        }
+        .total-column {
+            background-color: #1e40af !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="report-title">Profit and Loss Monthly Report</h1>
+            <p class="date-range"><%= dateRange %></p>
+            <div class="company-info">
+                <p><%= companyName %></p>
+                <% if (companyAddress) { %><p><%= companyAddress %></p><% } %>
+                <% if (companyPhone) { %><p>Phone: <%= companyPhone %></p><% } %>
+                <% if (companyEmail) { %><p>Email: <%= companyEmail %></p><% } %>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="account-name">Account</th>
+                    <% months.forEach(month => { %>
+                        <th class="month-header"><%= month.label %></th>
+                    <% }); %>
+                    <th class="total-column">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Income Section -->
+                <% if (incomeSection && incomeSection.data && incomeSection.data.length > 0) { %>
+                    <tr class="section-header">
+                        <td colspan="<%= months.length + 2 %>">Income</td>
+                    </tr>
+                    <% incomeSection.data.forEach(item => { %>
+                        <tr>
+                            <td class="account-name indent"><%= item.name %></td>
+                            <% months.forEach(month => { %>
+                                <td class="amount">
+                                    <% 
+                                    const monthData = item.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                    const amount = monthData?.totalAmount || 0;
+                                    %>
+                                    <%= amount.toFixed(2) %>
+                                </td>
+                            <% }); %>
+                            <td class="amount"><%= (item.totalAmount || item.total || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="total-row">
+                        <td>Total Income</td>
+                        <% months.forEach(month => { %>
+                            <td class="amount">
+                                <% 
+                                const monthTotal = incomeSection.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                const amount = monthTotal?.totalAmount || 0;
+                                %>
+                                <%= amount.toFixed(2) %>
+                            </td>
+                        <% }); %>
+                        <td class="amount"><%= totalIncome.toFixed(2) %></td>
+                    </tr>
+                <% } %>
+
+                <!-- Cost of Goods Sold Section -->
+                <% if (COGSSection && COGSSection.data && COGSSection.data.length > 0) { %>
+                    <tr class="section-header">
+                        <td colspan="<%= months.length + 2 %>">Cost of Goods Sold</td>
+                    </tr>
+                    <% COGSSection.data.forEach(item => { %>
+                        <tr>
+                            <td class="account-name indent"><%= item.name %></td>
+                            <% months.forEach(month => { %>
+                                <td class="amount">
+                                    <% 
+                                    const monthData = item.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                    const amount = monthData?.totalAmount || 0;
+                                    %>
+                                    <%= amount.toFixed(2) %>
+                                </td>
+                            <% }); %>
+                            <td class="amount"><%= (item.totalAmount || item.total || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="total-row">
+                        <td>Total Cost of Goods Sold</td>
+                        <% months.forEach(month => { %>
+                            <td class="amount">
+                                <% 
+                                const monthTotal = COGSSection.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                const amount = monthTotal?.totalAmount || 0;
+                                %>
+                                <%= amount.toFixed(2) %>
+                            </td>
+                        <% }); %>
+                        <td class="amount"><%= totalCOGS.toFixed(2) %></td>
+                    </tr>
+                <% } %>
+
+                <!-- Gross Profit -->
+                <tr class="grand-total">
+                    <td>Gross Profit</td>
+                    <% months.forEach(month => { %>
+                        <td class="amount">
+                            <% 
+                            const incomeMonth = incomeSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const cogsMonth = COGSSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const grossProfit = (incomeMonth?.totalAmount || 0) - (cogsMonth?.totalAmount || 0);
+                            %>
+                            <span class="<%= grossProfit >= 0 ? 'positive' : 'negative' %>"><%= grossProfit.toFixed(2) %></span>
+                        </td>
+                    <% }); %>
+                    <td class="amount <%= totalGrossProfit >= 0 ? 'positive' : 'negative' %>"><%= totalGrossProfit.toFixed(2) %></td>
+                </tr>
+
+                <!-- Expenses Section -->
+                <% if (expenseSection && expenseSection.data && expenseSection.data.length > 0) { %>
+                    <tr class="section-header">
+                        <td colspan="<%= months.length + 2 %>">Expenses</td>
+                    </tr>
+                    <% expenseSection.data.forEach(item => { %>
+                        <tr>
+                            <td class="account-name indent"><%= item.name %></td>
+                            <% months.forEach(month => { %>
+                                <td class="amount">
+                                    <% 
+                                    const monthData = item.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                    const amount = monthData?.totalAmount || 0;
+                                    %>
+                                    <%= amount.toFixed(2) %>
+                                </td>
+                            <% }); %>
+                            <td class="amount"><%= (item.totalAmount || item.total || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="total-row">
+                        <td>Total Expenses</td>
+                        <% months.forEach(month => { %>
+                            <td class="amount">
+                                <% 
+                                const monthTotal = expenseSection.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                const amount = monthTotal?.totalAmount || 0;
+                                %>
+                                <%= amount.toFixed(2) %>
+                            </td>
+                        <% }); %>
+                        <td class="amount"><%= totalExpense.toFixed(2) %></td>
+                    </tr>
+                <% } %>
+
+                <!-- Net Operating Income -->
+                <tr class="grand-total">
+                    <td>Net Operating Income</td>
+                    <% months.forEach(month => { %>
+                        <td class="amount">
+                            <% 
+                            const incomeMonth = incomeSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const cogsMonth = COGSSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const expenseMonth = expenseSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const netOperating = (incomeMonth?.totalAmount || 0) - (cogsMonth?.totalAmount || 0) - (expenseMonth?.totalAmount || 0);
+                            %>
+                            <span class="<%= netOperating >= 0 ? 'positive' : 'negative' %>"><%= netOperating.toFixed(2) %></span>
+                        </td>
+                    <% }); %>
+                    <td class="amount <%= totalNetOperatingIncome >= 0 ? 'positive' : 'negative' %>"><%= totalNetOperatingIncome.toFixed(2) %></td>
+                </tr>
+
+                <!-- Other Income Section -->
+                <% if (otherIncomeSection && otherIncomeSection.data && otherIncomeSection.data.length > 0) { %>
+                    <tr class="section-header">
+                        <td colspan="<%= months.length + 2 %>">Other Income</td>
+                    </tr>
+                    <% otherIncomeSection.data.forEach(item => { %>
+                        <tr>
+                            <td class="account-name indent"><%= item.name %></td>
+                            <% months.forEach(month => { %>
+                                <td class="amount">
+                                    <% 
+                                    const monthData = item.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                    const amount = monthData?.totalAmount || 0;
+                                    %>
+                                    <%= amount.toFixed(2) %>
+                                </td>
+                            <% }); %>
+                            <td class="amount"><%= (item.totalAmount || item.total || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="total-row">
+                        <td>Total Other Income</td>
+                        <% months.forEach(month => { %>
+                            <td class="amount">
+                                <% 
+                                const monthTotal = otherIncomeSection.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                const amount = monthTotal?.totalAmount || 0;
+                                %>
+                                <%= amount.toFixed(2) %>
+                            </td>
+                        <% }); %>
+                        <td class="amount"><%= totalOtherIncome.toFixed(2) %></td>
+                    </tr>
+                <% } %>
+
+                <!-- Other Expenses Section -->
+                <% if (otherExpenseSection && otherExpenseSection.data && otherExpenseSection.data.length > 0) { %>
+                    <tr class="section-header">
+                        <td colspan="<%= months.length + 2 %>">Other Expenses</td>
+                    </tr>
+                    <% otherExpenseSection.data.forEach(item => { %>
+                        <tr>
+                            <td class="account-name indent"><%= item.name %></td>
+                            <% months.forEach(month => { %>
+                                <td class="amount">
+                                    <% 
+                                    const monthData = item.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                    const amount = monthData?.totalAmount || 0;
+                                    %>
+                                    <%= amount.toFixed(2) %>
+                                </td>
+                            <% }); %>
+                            <td class="amount"><%= (item.totalAmount || item.total || 0).toFixed(2) %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="total-row">
+                        <td>Total Other Expenses</td>
+                        <% months.forEach(month => { %>
+                            <td class="amount">
+                                <% 
+                                const monthTotal = otherExpenseSection.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                                const amount = monthTotal?.totalAmount || 0;
+                                %>
+                                <%= amount.toFixed(2) %>
+                            </td>
+                        <% }); %>
+                        <td class="amount"><%= totalOtherExpense.toFixed(2) %></td>
+                    </tr>
+                <% } %>
+
+                <!-- Net Other Income -->
+                <tr class="total-row">
+                    <td>Net Other Income</td>
+                    <% months.forEach(month => { %>
+                        <td class="amount">
+                            <% 
+                            const otherIncomeMonth = otherIncomeSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const otherExpenseMonth = otherExpenseSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const netOther = (otherIncomeMonth?.totalAmount || 0) - (otherExpenseMonth?.totalAmount || 0);
+                            %>
+                            <span class="<%= netOther >= 0 ? 'positive' : 'negative' %>"><%= netOther.toFixed(2) %></span>
+                        </td>
+                    <% }); %>
+                    <td class="amount <%= totalNetOtherIncome >= 0 ? 'positive' : 'negative' %>"><%= totalNetOtherIncome.toFixed(2) %></td>
+                </tr>
+
+                <!-- Net Income -->
+                <tr class="grand-total">
+                    <td><strong>Net Income</strong></td>
+                    <% months.forEach(month => { %>
+                        <td class="amount">
+                            <% 
+                            const incomeMonth = incomeSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const cogsMonth = COGSSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const expenseMonth = expenseSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const otherIncomeMonth = otherIncomeSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const otherExpenseMonth = otherExpenseSection?.monthlyTotals?.find(mt => mt.month === month.month && mt.year === month.year);
+                            const netIncome = (incomeMonth?.totalAmount || 0) - (cogsMonth?.totalAmount || 0) - (expenseMonth?.totalAmount || 0) + (otherIncomeMonth?.totalAmount || 0) - (otherExpenseMonth?.totalAmount || 0);
+                            %>
+                            <span class="<%= netIncome >= 0 ? 'positive' : 'negative' %>"><strong><%= netIncome.toFixed(2) %></strong></span>
+                        </td>
+                    <% }); %>
+                    <td class="amount <%= totalNetProfit >= 0 ? 'positive' : 'negative' %>"><strong><%= totalNetProfit.toFixed(2) %></strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+import { Router, ErrorRequestHandler } from "express";
+import { Middleware } from "middlewares";
+import { microservicesConfig } from 'config/microservices';
+import { errorHandler, notFound } from "middlewares/error";
+import accountsRoutes from "microservices/accounts-services/route";
+import authRoutes from "microservices/auth-service/route";
+import chartAccountsRoutes from "microservices/chart-accounts-services/route";
+import companyRoutes from "microservices/company-services/route";
+import dashboardRoutes from "microservices/dashboard-services/route";
+import documentRoutes from "microservices/document-services/route";
+import journalEntryRoutes from "microservices/journal-entry-services/route";
+import noteRoutes from "microservices/note-services/route";
+import notificationRoutes from "microservices/notification-services/route";
+import paymentRoutes from "microservices/payment-services/route";
+import paymentTermsRoutes from "microservices/payment-terms-services/route";
+import plansRoutes from "microservices/plans-service/route";
+import productsRoutes from "microservices/products-services/route";
+import ratingReportRoutes from "microservices/rating-report-services/route";
+import reportRoutes from "microservices/report-services/route";
+import saferRoutes from "microservices/safer-service/route";
+import superadminRoutes from "microservices/superadmin-service/route";
+import taxRoutes from "microservices/tax-services/route";
+import transactionRoutes from "microservices/transaction-services/route";
+import userRoutes from "microservices/user-service/route";
+import unifiedFinancialRoutes from "microservices/unified-financial-service/route";
+import invoiceReminderTemplatesRoutes from "microservices/invoice-reminder-templates/route";
+
+const rootRouter = Router();
+// apply global middleware
+rootRouter.use(Middleware.encryptResponseMiddleware);
+rootRouter.use(Middleware.decryptDataMiddleware);
+
+rootRouter.use(microservicesConfig.accounts.baseUrl, accountsRoutes);
+rootRouter.use(microservicesConfig.auth.baseUrl, authRoutes);
+
+rootRouter.use(microservicesConfig['chart-accounts'].baseUrl, chartAccountsRoutes);
+rootRouter.use(microservicesConfig.company.baseUrl, companyRoutes);
+rootRouter.use(microservicesConfig.dashboard.baseUrl, dashboardRoutes);
+rootRouter.use(microservicesConfig.document.baseUrl, documentRoutes);
+// rootRouter.use(microservicesConfig.income.baseUrl, incomeRoutes);
+rootRouter.use(microservicesConfig['journal-entry'].baseUrl, journalEntryRoutes);
+
+rootRouter.use(microservicesConfig.note.baseUrl, noteRoutes);
+rootRouter.use(microservicesConfig.notification.baseUrl, notificationRoutes);
+rootRouter.use(microservicesConfig.payment.baseUrl, paymentRoutes);
+rootRouter.use(microservicesConfig['payment-terms'].baseUrl, paymentTermsRoutes);
+rootRouter.use(microservicesConfig.plans.baseUrl, plansRoutes);
+rootRouter.use(microservicesConfig.products.baseUrl, productsRoutes);
+rootRouter.use(microservicesConfig['rating-report'].baseUrl, ratingReportRoutes);
+rootRouter.use(microservicesConfig.report.baseUrl, reportRoutes);
+rootRouter.use(microservicesConfig.safer.baseUrl, saferRoutes);
+rootRouter.use(microservicesConfig.superadmin.baseUrl, superadminRoutes);
+rootRouter.use(microservicesConfig.tax.baseUrl, taxRoutes);
+rootRouter.use(microservicesConfig.transaction.baseUrl, transactionRoutes);
+rootRouter.use(microservicesConfig.user.baseUrl, userRoutes);
+rootRouter.use(microservicesConfig['unified-financial'].baseUrl, unifiedFinancialRoutes);
+rootRouter.use(microservicesConfig['invoice-reminder-templates'].baseUrl, invoiceReminderTemplatesRoutes);
+rootRouter.use(notFound);
+rootRouter.use(errorHandler as ErrorRequestHandler);
+
+export default rootRouter;

@@ -1,0 +1,179 @@
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 10px;
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+body {
+    font-family: "Lato", sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+}
+
+strong,
+b {
+    font-weight: 600 !important;
+}
+
+.tellipsis {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 110px !important;
+}
+
+.cust_anchor {
+    color: #0055ff !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+}
+
+.pb-0 {
+    padding-bottom: 0px !important;
+}
+
+.pt-0 {
+    padding-top: 0px !important;
+}
+
+.mb-0 {
+    margin-bottom: 0px !important;
+}
+
+.mt-0 {
+    margin-top: 0px !important;
+}
+
+.mt-15 {
+    margin-top: 15px !important;
+}
+
+.load-chip span {
+    padding: 0px;
+}
+
+/* .dialog-title{
+    background-color: rgba(0, 0, 0, 0.089) !important;
+    padding: 15px 20px !important;
+    font-size: 15px !important;
+} */
+
+.dialog-title {
+    background-color: #383e4b !important;
+    padding: 12px 20px !important;
+    font-size: 15.5px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
+.dialog-title p {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.dialog-action {
+    border-top: 1px solid #00000021 !important;
+    padding: 13px 20px !important;
+    gap: 5px !important;
+}
+
+.dialog-content {
+    padding: 0px 20px !important;
+}
+
+.dialog-content ul li {
+    padding: 10px 10px !important;
+}
+
+.dialog-p {
+    font-size: 0.875rem !important;
+    margin-bottom: 2px !important;
+    color: #101721 !important;
+}
+
+.dialog-origin {
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    margin-bottom: 10px !important;
+    color: #101721 !important;
+    border: 1px solid #00000036 !important;
+    width: fit-content !important;
+    padding: 2px 10px !important;
+    border-radius: 4px !important;
+}
+
+.dialog-close {
+    position: absolute !important;
+    right: 0px !important;
+    top: 0px !important;
+}
+
+#createLoadForm .MuiStepConnector-root {
+    margin-left: 10px !important;
+}
+
+.modalStyleCss {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-height: 90vh;
+    background-color: #fff;
+    /* or use var(--mui-palette-background-paper) if using theme */
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 32px;
+    /* 4 * 8px (MUI spacing) */
+    overflow: auto;
+    border-radius: 12px;
+}
+
+.email_preview_outer {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    margin: 25px 0px 10px 0px;
+    border-radius: 5px;
+}
+
+.email_preview_outer h5 {
+    margin-bottom: 8px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.email_preview p {
+    margin-bottom: 8px;
+    margin-top: 0px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+#joyride-tooltip-content {
+    text-align: left;
+    padding: 0px 30px 5px 5px !important;
+}
+
+.react-joyride__floater {
+    filter: none !important;
+}
+
+.MuiDialog-container, .MuiDrawer-modal{
+   backdrop-filter: blur(3px) !important;
+}

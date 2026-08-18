@@ -1,0 +1,6 @@
+name,category,description,incomeAccount,expenseAccount,ProductRate,OpeningStock,reorderStock,inventoryAccount
+Freight Service,service,Standard freight transportation service,Sales,Cost of Goods Sold,500,0,0,
+Fuel Surcharge,service,Fuel surcharge fee applied to shipments,Sales,Cost of Goods Sold,150,0,0,
+Detention,service,Detention charge for extended wait time,Sales,Cost of Goods Sold,75,0,0,
+Lumper Service,service,Unloading and loading labor service,Sales,Cost of Goods Sold,200,0,0,
+Truck Parts,inventory,Replacement truck parts inventory,Sales,Cost of Goods Sold,100,50,10,Inventory Asset

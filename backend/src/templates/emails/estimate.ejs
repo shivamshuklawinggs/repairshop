@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Estimate</title>
+ 
+</head>
+<body>
+    <div >
+        <p><strong>Estimate Number:</strong> <%= estimateNumber %></p>
+        <p><strong>Date:</strong> <%= invoiceDate %></p>
+        <p><strong>Due Date:</strong> <%= dueDate %></p>
+        <% if (amount) { %>
+        <p><strong>Amount:</strong> <%= amount %></p>
+        <% } %>
+           <% if (balanceDue) { %>
+        <p><strong>Balance Due:</strong> <%= balanceDue %></p>
+        <% } %>
+    </div>
+
+    <p>Dear <%= customerName %>,</p>
+    
+    <p>Please find your estimate attached.</p>
+    
+    <p>Thank you for your business.</p>
+</body>
+</html>

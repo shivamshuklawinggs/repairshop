@@ -1,0 +1,606 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>FreightBooks Invoice</title>
+  <style>
+      .expense-row.alternate { background:#f9fafb; }
+      .expense-cell { padding:10px 15px; font-size:14px; }
+      .expense-cell-border { border-bottom:1px solid #e5e7eb; }
+      .expense-name { font-weight:600; }
+      .expense-desc { color:#6b7280; }
+      .expense-amount { font-weight:bold; }
+    </style>
+  </head>
+  <body style="margin:0;padding:20px;background:#f3f6fb;font-family:Segoe UI,Arial,sans-serif;color:#111827;font-size: 14px;">
+    <!-- MAIN CONTAINER -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:900px;margin:auto;background:#ffffff;border-radius:0px;overflow:hidden;border:1px solid #e5e7eb;">
+      <!-- TOP BAR -->
+      <tr>
+        <td style="height:5px;background:#003bff;"></td>
+      </tr>
+      <!-- HEADER -->
+      <tr>
+        <td style="padding:25px 40px;background:#ffffff;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- LEFT -->
+              <td valign="top">
+                <div style="font-size:24px;font-weight:700;color:#003bff;">
+                  FreightBooks
+                </div>
+                <div style="margin-top:10px;font-size:14px;color:#6b7280;line-height:20px;">
+                  500 Commerce Drive, Suite 200<br>
+                  <!-- Chicago, IL 60601<br> -->
+                  +1 (800) 555-0200<br>
+                  billing@freightbooks.net
+                </div>
+              </td>
+              <!-- RIGHT -->
+              <td align="right" valign="top">
+                <div style="font-size:32px;font-weight:700;color:#e0e7ff;letter-spacing:2px;text-transform:uppercase;">
+                  Invoice
+                </div>
+                <div style="margin-top:5px;font-size:14px;color:#374151;line-height:22px;">
+                  <strong>Invoice #:</strong> LD-20240<br>
+                  <strong>Date:</strong> May 20, 2026<br>
+                  <strong>Due Date:</strong> June 20, 2026<br>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Bill To -->
+      <tr>
+        <td style="padding:20px 40px 30px 40px;background:#ffffff;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- BILL TO -->
+              <td width="60%" valign="top"
+                style="
+                background:#ffffff;
+                border:1px solid #dbe4ff;
+                border-left:4px solid #003bff;
+                border-radius:15px;
+                padding:15px 20px;
+                ">
+                <!-- TITLE -->
+                <div style="
+                  font-size:14px;
+                  font-weight:700;
+                  color:#003bff;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  margin-bottom:7px;
+                  ">
+                  Bill To 
+                </div>
+                <!-- COMPANY -->
+                <div style="
+                  font-size:16px;
+                  font-weight:700;
+                  color:#111827;
+                  margin-bottom:5px;
+                  line-height:1;
+                  ">
+                  Sunrise Logistics LLC
+                </div>
+                <!-- ADDRESS -->
+                <div style="
+                  font-size:15px;
+                  font-weight:600;
+                  color:#6b7280;
+                  line-height:22px;
+                  ">
+                  789 Oak Street<br>
+                  Dallas, TX 75201<br>
+                </div>
+                <div style="
+                  background:#eef2ff;
+                  color:#003bff;
+                  padding:6px 15px;
+                  border-radius:30px;
+                  font-size:15px;
+                  font-weight:700;
+                  display: block;
+                  margin-top: 10px;
+                  ">
+                  Ph: +1 (214) 555-0303
+                </div>
+                <div style="
+                  background:#f3f4f6;
+                  color:#374151;
+                  padding:6px 15px;
+                  border-radius:30px;
+                  font-size:14px;
+                  font-weight:600;
+                  display: block;
+                  margin-top: 10px;
+                  ">
+                  Email: accounts@sunriselogistics.com
+                </div>
+              </td>
+              <td width="3%"></td>
+              <!-- PAYMENT DETAILS -->
+              <td width="30%" valign="top"
+                style="
+                background:linear-gradient(135deg,#003bff 0%,#1d4ed8 100%);
+                border-radius:15px;
+                padding:18px;
+                ">
+                <!-- TITLE -->
+                <div style="
+                  font-size:12px;
+                  font-weight:700;
+                  color:#c7d2fe;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  margin-bottom:10px;
+                  ">
+                  Payment Details
+                </div>
+                <!-- METHOD -->
+                <div style="
+                  background:rgba(255,255,255,0.12);
+                  border:1px solid rgba(255,255,255,0.15);
+                  border-radius:14px;
+                  padding:10px 15px;
+                  ">
+                  <div style="
+                    font-size:12px;
+                    font-weight:700;
+                    color:#c7d2fe;
+                    text-transform:uppercase;
+                    letter-spacing:1px;
+                    margin-bottom:5px;
+                    ">
+                    Payment Method
+                  </div>
+                  <div style="
+                    font-size:15px;
+                    font-weight:700;
+                    color:#ffffff;
+                    margin-bottom:5px;
+                    line-height:1;
+                    ">
+                    Bank Transfer
+                  </div>
+                  <!-- TERMS -->
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:13px;
+                        font-weight:700;
+                        ">
+                        Invoice Total :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:16px;
+                        font-weight:700;
+                        ">
+                        $4,500
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:13px;
+                        font-weight:700;
+                        ">
+                        Amount Paid :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:16px;
+                        font-weight:700;
+                        ">
+                        $750
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="
+                        padding:3px 0;
+                        color:#c7d2fe;
+                        font-size:13px;
+                        font-weight:700;
+                        ">
+                        Balance Due :
+                      </td>
+                      <td align="right" style="
+                        padding:3px 0;
+                        color:#ffffff;
+                        font-size:16px;
+                        font-weight:700;
+                        ">
+                        $3,750
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- LOAD INFO + CARRIER -->
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- LOAD INFO -->
+              <td width="49%" valign="top" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:16px;padding:10px 20px;">
+                <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">
+                  Load Information
+                </div>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Commodity</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">General Freight</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Equipment</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">53' Dry Van</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Load Size</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">Full Truckload</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Weight</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">42,000 lbs</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Temperature</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">34°</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Declared Value</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">$50,000</td>
+                  </tr>
+                </table>
+              </td>
+              <td width="2%"></td>
+              <!-- CARRIER -->
+              <td width="49%" valign="top" style="background:#ffffff;border:1px solid #e5e7eb;border-radius:16px;padding:10px 20px;">
+                <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">
+                  Carrier Assignment
+                </div>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Carrier</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">Swift Transportation</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">MC/DOT</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">MC-123456</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Power Unit</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">3232</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Trailer</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">TRL-4412</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:3px 0;color:#6b7280;font-weight:600;">Dispatch Rate</td>
+                    <td align="right" style="padding:3px 0;font-weight:600;">$3,500</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- DRIVERS -->
+      <tr>
+        <td style="padding:0 40px 30px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Assigned Drivers
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="background:#fff7ed;border:1px solid #fed7aa;border-radius:16px;padding:10px 20px;">
+                <table width="100%">
+                  <tr>
+                    <td width="25%">
+                      <div style="font-size:13px;color:#92400e;font-weight:bold;">Driver Name</div>
+                      <div style="margin-top:8px;font-size:15px;font-weight:600;">John Smith</div>
+                    </td>
+                    <td width="25%">
+                      <div style="font-size:13px;color:#92400e;font-weight:bold;">Phone</div>
+                      <div style="margin-top:8px;font-size:15px;font-weight:600;">+1 (312) 555-0191</div>
+                    </td>
+                    <td width="25%">
+                      <div style="font-size:13px;color:#92400e;font-weight:bold;">CDL Number</div>
+                      <div style="margin-top:8px;font-size:15px;font-weight:600;">IL-CDL-778899</div>
+                    </td>
+                    <td width="25%">
+                      <div style="font-size:13px;color:#92400e;font-weight:bold;">CDL Expiration</div>
+                      <div style="margin-top:8px;font-size:15px;font-weight:600;">Dec 31, 2026</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- PICKUP -->
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Pickup Locations
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="background:#ffffff;border:1px solid #e5e7eb;border-left:4px solid #10b981;border-radius:16px;padding:10px 15px;">
+                <table width="100%">
+                  <tr>
+                    <td width="70%" valign="top">
+                      <div style="font-size:15px;font-weight:700;color:#111827;">
+                        500 Industrial Pkwy
+                      </div>
+                      <div style="margin-top:5px;font-size:14px;color:#6b7280;line-height:21px;">
+                        Chicago, IL 60601<br>
+                        Pickup Date: May 20, 2026<br>
+                        Pickup Time: 08:00 AM
+                      </div>
+                    </td>
+                    <td width="30%" align="right" valign="top">
+                      <span style="background:#eef2ff;color:#4338ca;padding:5px 14px;border-radius:30px;font-size:12px;font-weight:bold;">
+                      Liftgate
+                      </span>
+                      <br><br>
+                      <span style="background:#fef3c7;color:#92400e;padding:5px 14px;border-radius:30px;font-size:12px;font-weight:bold;">
+                      Appointment Required
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- DELIVERY -->
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Delivery Locations
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="background:#ffffff;border:1px solid #e5e7eb;border-left:4px solid #003bff;border-radius:16px;padding:10px 15px;">
+                <table width="100%">
+                  <tr>
+                    <td width="70%" valign="top">
+                      <div style="font-size:15px;font-weight:700;color:#111827;">
+                        789 Commerce Blvd
+                      </div>
+                      <div style="margin-top:5px;font-size:14px;color:#6b7280;line-height:21px;">
+                        Dallas, TX 75201<br>
+                        Delivery Date: May 22, 2026<br>
+                        Delivery Time: 02:00 PM
+                      </div>
+                    </td>
+                    <td width="30%" align="right" valign="top">
+                      <span style="background:#dcfce7;color:#166534;padding:5px 14px;border-radius:30px;font-size:12px;font-weight:bold;">
+                      Delivered
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- FREIGHT CHARGES -->
+      <tr>
+        <td style="padding:0 40px 20px 40px;">
+          <div style="font-size:13px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0px;">
+            Freight Charges
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+            <tr style="background:#003bff;">
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">#</td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Service
+              </td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Description
+              </td>
+              <td style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Tax
+              </td>
+              <td align="center" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Qty
+              </td>
+              <td align="right" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Rate
+              </td>
+              <td align="right" style="padding:8px 15px;color:#ffffff;font-size:13px;font-weight:bold;">
+                Amount
+              </td>
+            </tr>
+            <tr>
+              <td class="expense-cell expense-cell-border">1</td>
+              <td class="expense-cell expense-name expense-cell-border">
+                Freight Hauling
+              </td>
+              <td class="expense-cell expense-desc expense-cell-border">
+                Chicago to Dallas full truckload shipment
+              </td>
+              <td class="expense-cell expense-cell-border">
+                12% GST
+              </td>
+              <td align="center" class="expense-cell expense-cell-border">
+                1
+              </td>
+              <td align="right" class="expense-cell expense-cell-border">
+                $3,500
+              </td>
+              <td align="right" class="expense-cell expense-amount expense-cell-border">
+                $3,500
+              </td>
+            </tr>
+            <tr class="expense-row alternate">
+              <td class="expense-cell expense-cell-border">2</td>
+              <td class="expense-cell expense-name expense-cell-border">
+                Fuel Surcharge
+              </td>
+              <td class="expense-cell expense-desc expense-cell-border">
+                Fuel adjustment charges
+              </td>
+              <td class="expense-cell expense-cell-border">
+                10% GST
+              </td>
+              <td align="center" class="expense-cell expense-cell-border">
+                1
+              </td>
+              <td align="right" class="expense-cell expense-cell-border">
+                $600
+              </td>
+              <td align="right" class="expense-cell expense-amount expense-cell-border">
+                $600
+              </td>
+            </tr>
+            <tr>
+              <td class="expense-cell">3</td>
+              <td class="expense-cell expense-name">
+                Accessorial Fee
+              </td>
+              <td class="expense-cell expense-desc">
+                Liftgate delivery service
+              </td>
+              <td class="expense-cell">
+                8% GST
+              </td>
+              <td align="center" class="expense-cell">
+                1
+              </td>
+              <td align="right" class="expense-cell">
+                $400
+              </td>
+              <td align="right" class="expense-cell expense-amount">
+                $400
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- NOTES + TOTALS -->
+      <tr>
+        <td style="padding:0 40px 40px 40px;">
+          <table width="100%">
+            <tr>
+              <!-- NOTES -->
+              <td width="58%" valign="top">
+                <div style="font-size:12px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">
+                  Notes & Terms
+                </div>
+                <div style="font-size:14px;line-height:21px;color:#4b5563;">
+                  *Please remit payment within 30 days.<br>
+                  *Late fees may apply after due date.<br>
+                  All transportation services are subject to FreightBooks standard <br>terms and conditions.
+                </div>
+                <div style="font-size:12px;font-weight:700;color:#003bff;text-transform:uppercase;letter-spacing:0.5px;margin-top:15px;margin-bottom:12px;">
+                  Payment Options
+                </div>
+                <ul style="list-style:none;margin:0px;padding:0px;">
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Cash</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Credit Card</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Check</li>
+                </ul>
+                <ul style="list-style:none;margin:8px 0 0 0;padding:0px;">
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Bank Transfer</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Debit Card</li>
+                  <li style="background:#eaeaea;padding:2px 10px;border-radius:30px;font-size:12px;font-weight:bold;display:inline-block;">Wire</li>
+                </ul> 
+              </td>
+              <!-- TOTALS -->
+              <td width="42%" valign="top">
+                <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Subtotal
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                      $4,500
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Tax
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                      $2.55
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px">
+                      Discount
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                      10%
+                    </td>
+                  </tr>
+                  <tr style="background:#eaeaea;">
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px;font-weight:bold">
+                      Total
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;font-size:15px">
+                      $4500
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-size:15px;">
+                      Payment Received
+                    </td>
+                    <td align="right" style="padding:10px 15px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#15803d;font-size:15px">
+                      $750
+                    </td>
+                  </tr>
+                  <tr style="background:#003bff;">
+                    <td style="padding:5px 20px;color:#ffffff;font-size:16px;font-weight:600;">
+                      Balance Due
+                    </td>
+                    <td align="right" style="padding:5px 20px;color:#ffffff;font-size:21px;font-weight:600;">
+                      $3,750
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- FOOTER -->
+      <tr>
+        <td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:15px 40px;">
+          <table width="100%">
+            <tr>
+              <td style="font-size:13px;color:#9ca3af;">
+                FreightBooks Inc.
+              </td>
+              <td align="center" style="font-size:13px;color:#9ca3af;">
+                Thank you for your business!
+              </td>
+              <td align="right" style="font-size:13px;color:#9ca3af;">
+                Invoice #LD-20240
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

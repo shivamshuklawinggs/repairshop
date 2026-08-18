@@ -1,0 +1,9 @@
+name,accountType,detailType,description
+Petty Cash,Bank,Checking,Petty cash fund for small expenses
+Office Savings,Bank,Savings,Office emergency savings account
+Prepaid Insurance,Other Current Assets,Prepaid Expenses,Insurance paid in advance
+Employee Advances,Other Current Assets,Employee Cash Advances,Advances given to employees
+Office Equipment,Fixed Assets,Buildings,Office equipment and fixtures
+Notes Payable - Bank,Long Term Liabilities,Notes Payable,Long-term bank loan
+Fuel Expense,Expenses,Auto,Vehicle fuel and maintenance costs
+Interest Income,Other Income,Interest Earned,Interest earned on bank accounts

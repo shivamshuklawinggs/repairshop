@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Balance Sheet Report</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #111827;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            text-align: left;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .report-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 5px 0;
+        }
+        .date-range {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        th.amount {
+            text-align: right;
+        }
+        .assets-header {
+            background-color: #003bff;
+        }
+        .liabilities-header {
+            background-color: #3585ae;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        td.amount {
+            text-align: right;
+            font-weight: 600;
+        }
+        .section-row {
+            cursor: pointer;
+            background-color: #ffffff;
+        }
+        .section-row:hover {
+            background-color: #ffffff;
+        }
+        .section-name {
+            font-weight: 600;
+            font-size: 14.4px;
+            white-space: nowrap;
+        }
+        .section-amount {
+            font-weight: 600;
+            font-size: 14.4px;
+        }
+        .indent-1 {
+            padding-left: 30px;
+        }
+        .detail-row:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        .total-row {
+            font-weight: 600;
+            font-size: 14.4px;
+            color: #ffffff;
+        }
+        .total-row td {
+            border-bottom: none;
+        }
+        .assets-total {
+            background-color: #003bff;
+        }
+        .liabilities-total {
+            background-color: #3585ae;
+        }
+        .section-total {
+            background-color: #e4ecfd;
+            font-weight: 600;
+        }
+        .no-records {
+            text-align: center;
+            color: #6b7280;
+            font-size: 17px;
+            padding: 20px;
+        }
+        .expand-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 2px;
+            vertical-align: middle;
+            color: #003bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="report-title">Balance Sheet</div>
+            <div class="date-range"><%= dateRange %></div>
+        </div>
+
+        <% 
+        const isNotAvailable = totalAssets === 0 && totalLiabilitiesAndEquity === 0;
+        %>
+
+        <% if (!isNotAvailable) { %>
+        <table>
+            <tbody>
+                <!-- Assets Section -->
+                <tr class="assets-header">
+                    <th>Assets</th>
+                    <th class="amount">Amount</th>
+                </tr>
+
+                <% if (Assets && Assets.length > 0) { %>
+                    <% Assets.forEach(section => { %>
+                        <!-- Section Header Row -->
+                        <tr class="section-row">
+                            <td style="padding: 0; width: 50%;">
+                                <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                    <span class="expand-icon">▼</span>
+                                    <span class="section-name"><%= section.name || section._id %></span>
+                                </div>
+                            </td>
+                            <td align="right" style="width: 50%;">
+                                <span class="section-amount">$<%= (section.endingBalance || 0).toFixed(2) %></span>
+                            </td>
+                        </tr>
+
+                        <!-- Detail Rows -->
+                        <% if (section.data && section.data.length > 0) { %>
+                            <% section.data.forEach(item => { %>
+                                <tr class="detail-row">
+                                    <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                        <%= item.name %>
+                                    </td>
+                                    <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                        $<%= (item.endingBalance || 0).toFixed(2) %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+
+                        <!-- Section Total Row -->
+                        <tr class="section-total">
+                            <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                                Total For <%= section.name || section._id %>
+                            </td>
+                            <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                                $<%= (section.endingBalance || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } %>
+
+                <tr class="total-row assets-total">
+                    <td>Total Assets</td>
+                    <td class="amount">$<%= totalAssets.toFixed(2) %></td>
+                </tr>
+
+                <!-- Liabilities & Equity Section -->
+                <tr class="liabilities-header">
+                    <th>Liabilities & Equity</th>
+                    <th class="amount">Amount</th>
+                </tr>
+
+                <% if (Liabilities && Liabilities.length > 0) { %>
+                    <% Liabilities.forEach(section => { %>
+                        <!-- Section Header Row -->
+                        <tr class="section-row">
+                            <td style="padding: 0; width: 50%;">
+                                <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                    <span class="expand-icon">▼</span>
+                                    <span class="section-name"><%= section.name || section._id %></span>
+                                </div>
+                            </td>
+                            <td align="right" style="width: 50%;">
+                                <span class="section-amount">$<%= (section.endingBalance || 0).toFixed(2) %></span>
+                            </td>
+                        </tr>
+
+                        <!-- Detail Rows -->
+                        <% if (section.data && section.data.length > 0) { %>
+                            <% section.data.forEach(item => { %>
+                                <tr class="detail-row">
+                                    <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                        <%= item.name %>
+                                    </td>
+                                    <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                        $<%= (item.endingBalance || 0).toFixed(2) %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
+
+                        <!-- Section Total Row -->
+                        <tr class="section-total">
+                            <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                                Total For <%= section.name || section._id %>
+                            </td>
+                            <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                                $<%= (section.endingBalance || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } %>
+
+                <tr class="total-row liabilities-total">
+                    <td>Total Liabilities & Equity</td>
+                    <td class="amount">$<%= totalLiabilitiesAndEquity.toFixed(2) %></td>
+                </tr>
+            </tbody>
+        </table>
+        <% } else { %>
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="no-records">
+                        No records found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+</body>
+</html>

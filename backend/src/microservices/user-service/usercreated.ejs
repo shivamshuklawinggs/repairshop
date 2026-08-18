@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to FreightBooks</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .email-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #1976d2;
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .welcome-banner {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .welcome-banner h2 {
+            color: #1976d2;
+            margin: 0;
+            font-size: 24px;
+        }
+        .credentials-box {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .credentials-box p {
+            margin: 8px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1976d2;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background-color: #1565c0;
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .info-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #1976d2;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- <div class="logo">
+            <h1>FreightBooks</h1>
+        </div> -->
+        
+        <div class="content">
+            <div class="welcome-banner">
+                <h2>Welcome to FreightBooks!</h2>
+                <p>We're excited to have you on board.</p>
+            </div>
+
+            <p>Hello <%= name %>,</p>
+            <p>Your account has been successfully created with FreightBooks. Here are your account details:</p>
+            
+            <div class="credentials-box">
+                <p><strong>Email:</strong> <%= email %></p>
+                <p><strong>Role:</strong> <%= role %></p>
+                <p><strong>Password:</strong> <%= password %></p>
+                <% if (manager) { %>
+                <p><strong>Your Manager:</strong> <%= manager.name %></p>
+                <% } %>
+            </div>
+
+            <div class="info-section">
+                <p><strong>⚠️ Important:</strong> For security reasons, please change your password after your first login.</p>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="<%= process.env.FRONTEND_URL %>/login" class="button">Login to FreightBooks</a>
+            </div>
+
+            <p>Here's what you can do next:</p>
+            <ul>
+                <li>Log in to your account using your email and password</li>
+                <li>Change your password for security</li>
+                <li>Complete your profile information</li>
+                <li>Explore the FreightBooks platform</li>
+            </ul>
+
+            <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+        </div>
+
+        <div class="footer">
+            <p>© <%= new Date().getFullYear() %> FreightBooks. All rights reserved.</p>
+            <p>This is an automated message, please do not reply to this email.</p>
+            <p>
+                Need help? <a href="#" style="color: #1976d2; text-decoration: none;">Contact Support</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

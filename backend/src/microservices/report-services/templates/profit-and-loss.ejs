@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profit and Loss Report</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #111827;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            text-align: left;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .report-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 5px 0;
+        }
+        .date-range {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #003bff;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        th.amount {
+            text-align: right;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        td.amount {
+            text-align: right;
+            font-weight: 600;
+        }
+        .section-row {
+            cursor: pointer;
+            background-color: #ffffff;
+        }
+        .section-row:hover {
+            background-color: #ffffff;
+        }
+        .section-name {
+            font-weight: 600;
+            font-size: 14.4px;
+            white-space: nowrap;
+        }
+        .section-amount {
+            font-weight: 600;
+            font-size: 14.4px;
+        }
+        .indent-1 {
+            padding-left: 30px;
+        }
+        .detail-row:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        .section-total {
+            background-color: #e4ecfd;
+            font-weight: 600;
+        }
+        .subtotal-row {
+            font-weight: 600;
+            font-size: 14.4px;
+        }
+        .subtotal-row.gross-profit {
+            background-color: #25eba11f;
+        }
+        .subtotal-row.operating {
+            background-color: rgba(245,158,11,0.12);
+        }
+        .subtotal-row.other {
+            background-color: rgb(237 58 58 / 12%);
+        }
+        .total-row {
+            background-color: #003bff;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .total-row td {
+            border-bottom: none;
+        }
+        .positive {
+            color: #00933b;
+        }
+        .negative {
+            color: #eb3030;
+        }
+        .net-income-positive {
+            color: #1bda68;
+        }
+        .net-income-negative {
+            color: #ff4949;
+        }
+        .expand-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 2px;
+            vertical-align: middle;
+            color: #003bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="report-title">Profit and Loss</div>
+            <div class="date-range"><%= dateRange %></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Income Section -->
+                <% if (incomeSection && (incomeSection.data || incomeSection.accounts) && (incomeSection.data || incomeSection.accounts).length > 0) { %>
+                    <!-- Section Header Row -->
+                    <tr class="section-row">
+                        <td style="padding: 0; width: 50%;">
+                            <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                <span class="expand-icon">▼</span>
+                                <span class="section-name">Income</span>
+                            </div>
+                        </td>
+                        <td align="right" style="width: 50%;">
+                            <span class="section-amount">$<%= totalIncome.toFixed(2) %></span>
+                        </td>
+                    </tr>
+
+                    <!-- Detail Rows -->
+                    <% (incomeSection.data || incomeSection.accounts).forEach(item => { %>
+                        <tr class="detail-row">
+                            <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                <%= item.name %>
+                            </td>
+                            <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                $<%= (item.totalAmount || item.total || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    <!-- Section Total Row -->
+                    <tr class="section-total">
+                        <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                            Total for Income
+                        </td>
+                        <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                            $<%= totalIncome.toFixed(2) %>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!-- Cost of Goods Sold Section -->
+                <% if (COGSSection && (COGSSection.data || COGSSection.accounts) && (COGSSection.data || COGSSection.accounts).length > 0) { %>
+                    <!-- Section Header Row -->
+                    <tr class="section-row">
+                        <td style="padding: 0; width: 50%;">
+                            <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                <span class="expand-icon">▼</span>
+                                <span class="section-name">Cost of Goods Sold</span>
+                            </div>
+                        </td>
+                        <td align="right" style="width: 50%;">
+                            <span class="section-amount">$<%= totalCOGS.toFixed(2) %></span>
+                        </td>
+                    </tr>
+
+                    <!-- Detail Rows -->
+                    <% (COGSSection.data || COGSSection.accounts).forEach(item => { %>
+                        <tr class="detail-row">
+                            <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                <%= item.name %>
+                            </td>
+                            <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                $<%= (item.totalAmount || item.total || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    <!-- Section Total Row -->
+                    <tr class="section-total">
+                        <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                            Total for Cost of Goods Sold
+                        </td>
+                        <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                            $<%= totalCOGS.toFixed(2) %>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!-- Gross Profit -->
+                <tr class="subtotal-row gross-profit">
+                    <td style="font-weight: 600; font-size: 14.4px;">Gross Profit</td>
+                    <td align="right" style="font-weight: 700; font-size: 14.4px;" class="<%= grossProfit >= 0 ? 'positive' : 'negative' %>">
+                        $<%= grossProfit.toFixed(2) %>
+                    </td>
+                </tr>
+
+                <!-- Expenses Section -->
+                <% if (expenseSection && (expenseSection.data || expenseSection.accounts) && (expenseSection.data || expenseSection.accounts).length > 0) { %>
+                    <!-- Section Header Row -->
+                    <tr class="section-row">
+                        <td style="padding: 0; width: 50%;">
+                            <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                <span class="expand-icon">▼</span>
+                                <span class="section-name">Expenses</span>
+                            </div>
+                        </td>
+                        <td align="right" style="width: 50%;">
+                            <span class="section-amount">$<%= totalExpense.toFixed(2) %></span>
+                        </td>
+                    </tr>
+
+                    <!-- Detail Rows -->
+                    <% (expenseSection.data || expenseSection.accounts).forEach(item => { %>
+                        <tr class="detail-row">
+                            <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                <%= item.name %>
+                            </td>
+                            <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                $<%= (item.totalAmount || item.total || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    <!-- Section Total Row -->
+                    <tr class="section-total">
+                        <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                            Total for Expenses
+                        </td>
+                        <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                            $<%= totalExpense.toFixed(2) %>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!-- Net Operating Income -->
+                <tr class="subtotal-row operating">
+                    <td style="font-weight: 600; font-size: 14.4px;">Net Operating Income</td>
+                    <td align="right" style="font-weight: 700; font-size: 14.4px;" class="<%= totalNetOperatingIncome >= 0 ? 'positive' : 'negative' %>">
+                        $<%= totalNetOperatingIncome.toFixed(2) %>
+                    </td>
+                </tr>
+
+                <!-- Other Income Section -->
+                <% if (otherIncomeSection && (otherIncomeSection.data || otherIncomeSection.accounts) && (otherIncomeSection.data || otherIncomeSection.accounts).length > 0) { %>
+                    <!-- Section Header Row -->
+                    <tr class="section-row">
+                        <td style="padding: 0; width: 50%;">
+                            <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                <span class="expand-icon">▼</span>
+                                <span class="section-name">Other Income</span>
+                            </div>
+                        </td>
+                        <td align="right" style="width: 50%;">
+                            <span class="section-amount">$<%= totalOtherIncome.toFixed(2) %></span>
+                        </td>
+                    </tr>
+
+                    <!-- Detail Rows -->
+                    <% (otherIncomeSection.data || otherIncomeSection.accounts).forEach(item => { %>
+                        <tr class="detail-row">
+                            <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                <%= item.name %>
+                            </td>
+                            <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                $<%= (item.totalAmount || item.total || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    <!-- Section Total Row -->
+                    <tr class="section-total">
+                        <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                            Total for Other Income
+                        </td>
+                        <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                            $<%= totalOtherIncome.toFixed(2) %>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!-- Other Expenses Section -->
+                <% if (otherExpenseSection && (otherExpenseSection.data || otherExpenseSection.accounts) && (otherExpenseSection.data || otherExpenseSection.accounts).length > 0) { %>
+                    <!-- Section Header Row -->
+                    <tr class="section-row">
+                        <td style="padding: 0; width: 50%;">
+                            <div style="display: flex; align-items: center; gap: 0; padding: 0;">
+                                <span class="expand-icon">▼</span>
+                                <span class="section-name">Other Expenses</span>
+                            </div>
+                        </td>
+                        <td align="right" style="width: 50%;">
+                            <span class="section-amount">$<%= totalOtherExpense.toFixed(2) %></span>
+                        </td>
+                    </tr>
+
+                    <!-- Detail Rows -->
+                    <% (otherExpenseSection.data || otherExpenseSection.accounts).forEach(item => { %>
+                        <tr class="detail-row">
+                            <td class="indent-1" style="width: 50%; border-bottom: 1px solid #e5e7eb;">
+                                <%= item.name %>
+                            </td>
+                            <td align="right" style="width: 50%; border-bottom: 1px solid #e5e7eb; color: #111827;">
+                                $<%= (item.totalAmount || item.total || 0).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    <!-- Section Total Row -->
+                    <tr class="section-total">
+                        <td style="font-weight: 600; border-top: 1px solid #e5e7eb;">
+                            Total for Other Expenses
+                        </td>
+                        <td align="right" style="font-weight: 600; border-top: 1px solid #e5e7eb; font-size: 14.4px;">
+                            $<%= totalOtherExpense.toFixed(2) %>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!-- Net Other Income -->
+                <tr class="subtotal-row other">
+                    <td style="font-weight: 600; font-size: 14.4px;">Net Other Income</td>
+                    <td align="right" style="font-weight: 700; font-size: 14.4px;" class="<%= totalNetOtherIncome >= 0 ? 'positive' : 'negative' %>">
+                        $<%= totalNetOtherIncome.toFixed(2) %>
+                    </td>
+                </tr>
+
+                <!-- Net Income -->
+                <tr class="total-row">
+                    <td style="font-weight: 500; font-size: 16px; color: #ffffff;">Net Income</td>
+                    <td class="amount" style="font-weight: 700; font-size: 16px;" class="<%= totalNetProfit >= 0 ? 'net-income-positive' : 'net-income-negative' %>">
+                        $<%= totalNetProfit.toFixed(2) %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

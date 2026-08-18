@@ -1,0 +1,82 @@
+import { ColumnDef } from "@/components/ui"
+import { ICustomer } from "@/types"
+import { PaymentMethods } from "@/types/enum"
+
+export const initialCustomerData:ICustomer =
+{
+  company: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  state: '',
+  zipCode: '',
+  mcNumber: '',
+  usdot: '',
+  paymentMethod: '' as PaymentMethods,
+  paymentTerms: '',
+  documents:[],
+  vatNumber: '',
+  utrNumber: '', autoScore:100, stars:5
+}
+
+export const AccountsCustomerColumns :ColumnDef[] = [
+  { key: "id", label: "ID", disabled:true},
+  { key: "name", label: "Name", disabled:true},
+  { key: "nickName", label: "Nick Name" , disabled:true},
+  { key: "company", label: "Company", disabled:true},
+  { key: "displayCustomerName", label: "Display Vendor Name", disabled:true},
+  { key: "email", label: "Email", disabled:true },
+  { key: "phone", label: "Phone" , disabled:true},
+  { key: "mobileNo", label: "Mobile No" },
+  { key: "billingAddress", label: "Billing Address" },
+  { key: "shippingAddress", label: "Shipping Address" },
+  { key: "paymentMethod", label: "Payment Method" },
+  { key: "paymentTerms", label: "Payment Terms" },
+  { key: "balanceDue", label: "Open Balance" },
+  { key: "status", label: "Status", align:'center' },
+  { key: "rating", label: "Rating", disabled:true },
+  { key: "fax", label: "Fax" },
+  { key: "other", label: "Other" },
+  { key: "website", label: "Website" },
+  { key: "nameToPrintOnCheck", label: "Name on Check" },
+  { key: "parentCustomer", label: "Parent Vendor" },
+  { key: "notes", label: "Notes" },
+]
+export const VendorsColumns:ColumnDef[] = [
+  { key: "id", label: "ID", disabled:true},
+  { key: "name", label: "Name", disabled:true},
+  { key: "company", label: "Company", disabled:true},
+  { key: "displayCustomerName", label: "Display Customer Name", disabled:true},
+  { key: "email", label: "Email", disabled:true },
+  { key: "phone", label: "Phone", disabled:true },
+  { key: "mobileNo", label: "Mobile No" },
+  { key: "billingAddress", label: "Billing Address" },
+  { key: "shippingAddress", label: "Shipping Address" },
+  { key: "paymentMethod", label: "Payment Method" },
+  { key: "paymentTerms", label: "Payment Terms" },
+  { key: "balanceDue", label: "Open Balance"},
+  { key: "status", label: "Status", align:'center', disabled:true},
+  { key: "rating", label: "Rating", disabled:true },
+  { key: "fax", label: "Fax" },
+  { key: "other", label: "Other" },
+  { key: "website", label: "Website" },
+  { key: "nameToPrintOnCheck", label: "Name To Print On Check" },
+  { key: "parentCustomer", label: "Parent Customer" },
+  { key: "notes", label: "Notes" },
+]
+export const CustomerColumns:ColumnDef[] = [
+  { key: "id", label: "ID", disabled:true },
+   { key: "nickName", label: "Nick Name", disabled:true },
+  { key: "company", label: "Company", disabled:true },
+  { key: "usdot", label: "US DOT", disabled:true },
+  { key: "mcNumber", label: "MC Number", disabled:true },
+  { key: "email", label: "Email", disabled:true },
+  { key: "phone", label: "Phone", disabled:true },
+  { key: "address", label: "Address" },
+  { key: "paymentMethod", label: "Payment Method" },
+  { key: "paymentTerms", label: "Payment Terms" },
+  { key: "balanceDue", label: "Open Balance"},
+  { key: "status", label: "Status", align:'center', disabled:true },
+  { key: "rating", label: "Rating" },
+]

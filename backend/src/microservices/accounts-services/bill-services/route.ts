@@ -1,0 +1,63 @@
+import express from 'express';
+import  BillController from './bill.controller';
+import multer from 'multer';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import { INVOICE_DIR } from 'config';
+import { ensureDirectoryExists } from 'libs';
+import { Middleware } from 'middlewares';
+try {
+  ensureDirectoryExists(INVOICE_DIR);
+} catch (error) {
+  console.warn('Error setting up upload directories:', error);
+}
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  
+  destination: function (_req , _file, cb) {
+    cb(null, INVOICE_DIR); // Make sure this directory exists
+  },
+  filename: function (_req, file, cb) {
+    cb(null, `bill-${uuidv4()}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({ storage: storage });
+  const tempUpload = multer({
+     storage: multer.memoryStorage(),
+     limits: {
+       fileSize: 5 * 1024 * 1024 // 5MB limit
+     }
+   });
+
+// Invoice routes
+const router = express.Router();
+// More specific routes first
+router.get("/export",Middleware.requirePermission("export",["accounting"]),tempUpload.single('file'),BillController.export)
+
+router.post("/import",Middleware.requirePermission("import",["accounting"]),tempUpload.single('file'),BillController.ImportInvoice)
+
+router.get("/",Middleware.requirePermission("view",["accounting"]),BillController.getInvoices)
+router.get("/getInvoiceById/:invoiceId",Middleware.requirePermission("view",["accounting"]),BillController.getInvoiceById)
+
+router.get("/getcustomers/get",Middleware.requirePermission("view",["accounting"]),BillController.getInvoiceCustomersById)
+router.get("/check-invoicenumberexist",Middleware.requirePermission("view",["accounting"]),BillController.checkInvoicenumberexist)
+
+router.post('/generate/:type', 
+  // Handle file uploads if any
+  upload.array('files'), 
+  Middleware.requirePermission("create",["accounting"]),
+  Middleware.decryptDataMiddleware,
+  BillController.generateInvoice
+);
+router.route('/update/:invoiceId/:type').put(
+  Middleware.requirePermission("update",["accounting"]),
+  upload.array('files'),
+  Middleware.decryptDataMiddleware,
+  BillController.updateInvoice
+);
+router.get('/:invoiceId', BillController.generatePDF);
+router.delete('/:invoiceId', Middleware.requirePermission("delete",["accounting"]), BillController.deleteInvoice);
+
+
+export default router;

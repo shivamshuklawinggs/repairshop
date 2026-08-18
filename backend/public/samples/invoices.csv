@@ -1,0 +1,5 @@
+invoiceNumber,invoiceDate,dueDate,paymentOptions,customerId,email,address,customerNotes,terms_conditions,discountPercent,terms,productId,quantity,price,tax
+INV-1001,2025-09-22,2025-10-22,Bank Transfer,CUSTOMER-10,john.doe@example.com,"123 Main St, New York, NY","Please pay before due date","Standard terms apply",5,Net 30,Freight Service,2,500,
+INV-1001,2025-09-22,2025-10-22,Bank Transfer,CUSTOMER-10,john.doe@example.com,"123 Main St, New York, NY","Please pay before due date","Standard terms apply",5,Net 30,Fuel Surcharge,1,150,
+INV-1002,2025-09-23,2025-10-23,cash,CUSTOMER-6,jane.smith@example.com,"456 Market St, Los Angeles, CA","Thank you for your business","All sales final",0,,Freight Service,3,400,
+INV-1003,2025-09-25,2025-10-25,check,CUSTOMER-8,bob.jones@example.com,"789 Lake Shore Dr, Chicago, IL","Late fee applies after due date","Net 40 terms",2,Net 15,Detention,5,75,
