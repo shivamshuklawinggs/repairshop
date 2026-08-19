@@ -4,7 +4,7 @@ const initialAccountsCustomerColumns=AccountsCustomerColumns.slice(0,6).map((col
 const initialCustomerColumns=CustomerColumns.slice(0,6).map((col)=>col.key)
 const initialVendorsColumns=VendorsColumns.slice(0,6).map((col)=>col.key)
 export interface ColumnFilterState {
-  // Load
+  // Service 
   visibleServiceColumns: string[];
   // Accounts Customer
   accountsCustomerVisbleColmns:string[]

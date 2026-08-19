@@ -30,13 +30,11 @@ export const useCustomerData = ({ customerId, form,_id }: UseCustomerDataProps) 
     if (customer) {
       if(!form.watch("email"))  form.setValue("email", customer.email);
       if(!form.watch("address")) form.setValue("address",customer.address || customer.billingAddress?.address || "");
-      form.setValue("name", customer.company || "");
       if(!_id){
         form.setValue("paymentOptions",customer.paymentMethod)
         form.setValue("terms",customer.paymentTerms)
       }
     } else if (isError) {
-      form.setValue("name", "");
       form.setValue("paymentOptions",PaymentMethods.NA)
       form.setValue("terms","")
     }

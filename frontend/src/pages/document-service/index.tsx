@@ -10,7 +10,6 @@ import { fetchDocuments } from '@/redux/api';
 import { getSubDocumentName,getDocumentCell } from '@/utils';
 import { IDocument, IFile } from '@/types';
 import { setDocuments } from '@/redux/Slice/DocumentSlice';
-import SubDocument from './subDocument'; // Import the SubDocument component
 import {documentType} from '@/data/documetsdata';
 import { withPermission } from '@/hooks/authUtils';
 import { HOUR_MINUTE_FORMAT, TIME_FORMAT } from '@/config/constant';
@@ -40,20 +39,12 @@ const modalStyle = {
 const Documents: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { data, pagination } = useSelector((state: RootState) => state.documents);
-  const [activeTab, setActiveTab] = useState<string>('load');
+  const [activeTab, setActiveTab] = useState<string>('customer');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
-  const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [selectedDocument] = useState<IFile | null>(null);
   const [viewModalOpen, setViewModalOpen] = useState(false);
 
-  const handleExpandRow = (id: string,) => {
-    if (expandedRow === id) {
-      setExpandedRow(null);
-    } else {
-      setExpandedRow(id);
-    }
-  };
   const { isPending } = useQuery({
     queryKey: ['documents', activeTab, currentPage, limit],
     queryFn: async () => {
@@ -68,7 +59,6 @@ const Documents: React.FC = () => {
   useEffect(() => {
     dispatch(setDocuments([]));
     setCurrentPage(1);
-    setExpandedRow(null);
   }, [activeTab, dispatch]);
 
   return (
@@ -177,32 +167,13 @@ const Documents: React.FC = () => {
                     </TableRow>
                   ) :Array(data) &&  data?.length > 0 ? (
                     data?.map((document: IDocument) => {
-                      const isExpanded = expandedRow === document?._id;
                       return (
                         <React.Fragment key={document?._id}>
                           <TableRow hover>
                             <TableCell sx={{whiteSpace:'nowrap'}}>{getSubDocumentName(document, activeTab)}</TableCell>
                             <TableCell sx={{whiteSpace:'nowrap'}}>{moment(document?.createdAt).format(`${TIME_FORMAT} ${HOUR_MINUTE_FORMAT}`)}</TableCell>
                             <TableCell sx={{whiteSpace:'nowrap'}}>{moment(document?.updatedAt).format(`${TIME_FORMAT} ${HOUR_MINUTE_FORMAT}`)}</TableCell>
-                            <TableCell padding="checkbox" sx={{textAlign:'center'}}>
-                              <IconButton size="small" onClick={() => handleExpandRow(document?._id)}>
-                                {isExpanded ?
-                                <ArrowDropUp fontSize="small"
-                                sx={{fontWeight:'600', color:'#333', border:'1px solid #caced4', borderRadius:0.2, my:1.1, backgroundColor:'#fff'}}/> :
-                                <ArrowDropDown fontSize="small"
-                                sx={{fontWeight:'600', color:'#333', border:'1px solid #caced4', borderRadius:0.2, my:1.1, backgroundColor:'#fff'}}/>}
-                              </IconButton>
-                            </TableCell>
                           </TableRow>
-                          {isExpanded && (
-                            <TableRow sx={{backgroundColor:'rgba(0, 0, 0, 0.04)'}}>
-                              <TableCell colSpan={8} sx={{p:{xs:1, md:1.5}}}>
-                                <Box sx={{border:'1px solid #caced4', borderRadius:0.5, backgroundColor:'#fff'}}>
-                                  <SubDocument parentId={document?._id} type={activeTab}/>
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          )}
                         </React.Fragment>
                       );
                     })

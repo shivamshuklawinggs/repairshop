@@ -7,7 +7,6 @@ import { ArrowForward as ArrowIcon } from '@mui/icons-material';
 
 const shortcutItems = [
   { icon: 'receiptLong', label: 'Create Invoice', path: paths.generateInvoice },
-  { icon: 'truck',       label: 'Create Load',    path: paths.createload },
   { icon: 'creditCard',  label: 'Take Payment',   path: paths.paymentterms },
   { icon: 'AttachMoneyIcon', label: 'Pay Bills',  path: paths.billpay },
 ];

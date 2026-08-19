@@ -56,7 +56,7 @@ const SignatureDrawer: React.FC<SignatureDrawerProps> = ({
     ctx.strokeStyle = "#101721";
   }, [width, height, open]);
 
-  // 🖼️ Load default signature (on open or defaultSignature change)
+  // default signature (on open or defaultSignature change)
   useEffect(() => {
     if (defaultSignature && open && canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");

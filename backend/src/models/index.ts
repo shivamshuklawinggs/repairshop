@@ -49,7 +49,7 @@ export type FlatReferenceProperties<T extends ModelName> = Extract<ModelReferenc
 // Type guard for model names
 export function isValidModelName(model: string): model is ModelName {
   return [
-    'Company', 'User', 'Load', 'accountsinvoices', 'Bill', 'estimates', 'Customer',
+    'Company', 'User', 'accountsinvoices', 'Bill', 'estimates', 'Customer',
     'Carrier', 'Driver', 'ContactPerson', 'ContactCarrier', 'Expense',
     'expensefees', 'Payment', 'PaymentTerms', 'taxservices', 'Note',
     'Notifications', 'Report', 'VendorRating', 'JournalEntry',

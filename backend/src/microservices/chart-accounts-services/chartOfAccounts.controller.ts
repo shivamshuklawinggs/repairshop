@@ -173,7 +173,6 @@ const getAllChartAccounts = async (
       };
     }
     if (isProductServicesPage == "1") {
-      initialquery["isLoad"] = false
       initialquery["SystemAccount"] = false
     }
 

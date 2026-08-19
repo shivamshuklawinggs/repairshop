@@ -38,7 +38,6 @@ const AccountsCustomers = lazy(() => import('@/pages/customer-service'));
 const ProductServices = lazy(() => import('@/pages/product-service'));
 // users
 const Users = lazy(() => import('@/pages/user-service'));
-const MarginReportPage = lazy(() => import('@/pages/user-service/MarginReport'));
 // superadmin: data management
 const SuperadminDashboard = lazy(() => import('@/pages/superadmin-service/SuperadminDashboard'));
 const Plans = lazy(() => import('@/pages/superadmin-service/Plans'));
@@ -494,18 +493,7 @@ const baseProtectedRoutes: Route[] = [
     resource: ["profile"],
     roles:Object.values(Role),
   },
-  {
-    path: '/margin-report/:userId',
-    element: MarginReportPage,
-    title: 'Margin Report',
-    key: "margin-report",
-    icon: 'barChart',
-    currentCompany: false,
-    action: 'view',
-    resource: ['users', 'superadmin'],
-    roles: Object.values(Role),
-    hideInMenu: true,
-  },
+  
   {
     path: paths.plans,
     element: Plans,

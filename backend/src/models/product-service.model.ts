@@ -2,7 +2,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import { commonSchemaOptions, CustomFieldsSchema } from './shared/schemas';
 import { deleteGuardPlugin } from './plugins/deleteGuard.plugin';
-import { reservedNamePlugin } from './plugins/reservedName.plugin';
 import { existsValidator } from './shared/existsValidator';
 // types.ts
 export type CategoryType = 'inventory' | 'non inventory' | 'service';
@@ -44,7 +43,6 @@ export interface IProductService extends Document {
   customFields?: Record<string, any>;
   manager?:Types.ObjectId,
   ownerAdminId: Types.ObjectId;
-  isLoad?:boolean
 }
 
 // Helper functions to extract enum values
@@ -170,11 +168,7 @@ const ProductServiceSchema: Schema<IProductService> = new Schema({
     type: CustomFieldsSchema,
     default: {}
   },
-  isLoad:{
-    type:Boolean,
-    default:false,
-    immutable:true
-  }
+ 
 }, {
   ...commonSchemaOptions,
   collection:"productservices",
@@ -189,14 +183,15 @@ ProductServiceSchema.index({ incomeAccount: 1 });
 ProductServiceSchema.index({ expenseAccount: 1 });
 ProductServiceSchema.index({ inventoryAccount: 1 });
 ProductServiceSchema.index({ category: 1 });
-ProductServiceSchema.plugin(reservedNamePlugin, {
-  reservedNames: ["Load"],
+ProductServiceSchema.pre('save', function(next) {
+  if (this.isNew) {
+    this.currentLevel = this.OpeningStock;
+  }
+  next();
 });
+
 ProductServiceSchema.plugin(deleteGuardPlugin, {
   modelName: "productservices",
-  protectedFields: [
-    { field: "name", values: ["Load"] },
-  ],
 });
 const ProductService = mongoose.model<IProductService>('productservices', ProductServiceSchema);
 

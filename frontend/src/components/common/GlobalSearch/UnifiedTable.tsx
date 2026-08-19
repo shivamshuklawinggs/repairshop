@@ -218,29 +218,7 @@ const UnifiedTable: React.FC<UnifiedTableProps> = ({
     }
   });
 
-  const deleteLoadMutation = useMutation({
-    mutationFn: (loadId: string) => apiService.LoadActivate(loadId),
-    onSuccess: (data) => {
-      if (data.icon === "success") {
-        toast.success(data.message || 'Load updated successfully');
-      } else {
-        toast.error(data.message || 'Load updated successfully');
-      }
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to activate load');
-    },
-  });
 
-  const deleteLoadDataMutation = useMutation({
-    mutationFn: (loadId: string) => apiService.deleteLoad(loadId),
-    onSuccess: (data) => {
-      toast.success(data.message || 'Load deleted successfully');
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete load');
-    },
-  });
 
   const deleteVendorMutation = useMutation({
     mutationFn: (vendorId: string) => apiService.deleteVendor(vendorId),
@@ -434,7 +412,7 @@ const UnifiedTable: React.FC<UnifiedTableProps> = ({
             showReminder: false,
             onEdit: handleBillClick,
             onDelete: (id: string) => {
-              const confirmDelete = window.confirm("Are you sure you want to delete this load?");
+              const confirmDelete = window.confirm("Are you sure you want to delete this?");
               if (confirmDelete) {
                 // Handle delete
               }

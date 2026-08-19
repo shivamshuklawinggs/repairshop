@@ -66,14 +66,6 @@ const getDocumentCell = (activeTab: string) => {
       return "Carrier Name";
     case 'invoice':
       return "Invoice Number";
-    case 'driver':
-      return "Driver Name";
-    case 'deliverycheckout':
-      return "Delivery Checkout";
-    case 'pickupcheckout':
-      return "Load Number";
-    case 'expense':
-      return "Expense";
     default:
       return '';
   }

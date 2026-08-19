@@ -6,8 +6,6 @@ export enum defaultChartsDetailTypeidIdsEnum {
     DISCOUNTS_RECEIVED = "Discounts Received",
     RETAINED_EARNINGS = "Retained Earnings",
     DISCOUNTS_GIVEN = "Discounts Given",
-    LOAD_EXPENSES = "Load Expenses",
-    LOAD_SALES = "Load Sales",
     ACCOUNTS_RECEIVABLE = "Accounts Receivable (A/R)",
     ACCOUNTS_PAYABLE = "Accounts Payable (A/P)",
     SALES_TAX_PAYABLE = "Sales Tax Payable",
@@ -58,18 +56,6 @@ const defaultChartsDetailTypeidIds:Array<IdefaultDetail> = [
         detailType: defaultChartsDetailTypeidIdsEnum.DISCOUNTS_GIVEN,
         detailTypeId: "8216",
         type: IAccountTypeEnum.EXPENSE,
-        masterType: masterType.other
-    },
-    {
-        detailType: defaultChartsDetailTypeidIdsEnum.LOAD_EXPENSES,
-        detailTypeId: "5535",
-        type: IAccountTypeEnum.EXPENSE,
-        masterType: masterType.other
-    },
-    {
-        detailType: defaultChartsDetailTypeidIdsEnum.LOAD_SALES,
-        detailTypeId: "5110",
-        type: IAccountTypeEnum.INCOME,
         masterType: masterType.other
     },
     {

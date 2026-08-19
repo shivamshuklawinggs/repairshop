@@ -33,28 +33,11 @@ const FIELD_LABELS: Record<string, string> = {
   dba_name: "DBA Name",
 
   // Driver Model
-  carrierId: "Carrier ID",
-  driverName: "Driver Name",
-  driverPhone: "Driver Phone",
-  driverCDL: "Driver CDL",
-  driverCDLExpiration: "Driver CDL Expiration",
   isActive: "Is Active",
   file: "File",
 
   // Invoice Model
-  carrier: "Carrier",
-  assignDrivers: "Assign Drivers",
-  carrierPay: "Carrier Pay",
-  powerunit: "Power Unit",
-  dipsatchRateAmt: "Dispatch Rate Amount",
-  carrierTotal: "Carrier Total",
-  trailer: "Trailer",
-
-  // Load Model
-  locationClass: "Location Class",
-  locationRequirement: "Location Requirement",
-  loadStatus: "Load Status",
-
+  carrier: "Vendor",
   // PaymentTerms Model
   days: "Days",
   description: "Description",

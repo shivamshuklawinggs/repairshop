@@ -16,13 +16,6 @@ export const testPageTypeDetection = () => {
     { path: paths.carriers, expected: 'carrier-list' },
     { path: '/carriers', expected: 'carrier-list' },
     
-    // Load pages
-    { path: paths.viewload, expected: 'load-list' },
-    { path: '/loads', expected: 'load-list' },
-    { path: paths.createload, expected: 'create-load' },
-    { path: '/createload', expected: 'create-load' },
-    { path: '/editload/123', expected: 'load-details' },
-    
     // Invoice/Bills pages
     { path: '/invoices', expected: 'invoice-list' },
     { path: '/bills', expected: 'invoice-list' },

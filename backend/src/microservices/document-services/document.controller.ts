@@ -38,15 +38,9 @@ import { fullurl } from "config";
 
 // ---- Upload path constants, grouped for clarity/lookup ----
 const UPLOAD_PATHS = {
-    CHECKOUT: "uploads/checkout/",
-    DRIVING_LICENSE: "uploads/driving-license/",
-    LOAD: "uploads/loads/",
     INVOICE: "uploads/invoice/",
     CARRIER_DOCUMENTS: "uploads/carrier-documents/",
-    CARRIER_INSURANCE_DOCUMENTS: "uploads/carrier-insurance-documents/",
     CUSTOMER_DOCUMENTS: "uploads/customer-documents/",
-    CUSTOMER_INSURANCE_DOCUMENTS: "uploads/customer-insurance-documents/",
-    EXPENSE: "uploads/expense/",
 } as const;
 
 interface IDocumentQuery {
@@ -164,18 +158,41 @@ async function getPaginatedSubDocuments(
     }
 }
 
-/** Generic paginated top-level entity listing (loads/carriers/customers that have attached docs). */
-async function getPaginatedEntities(
+async function getPaginatedDocuments(
     model: Model<any>,
-    matchStage: Record<string, any>,
+    uploadUrl: string,
     req: Request,
+    res: Response,
     page: number,
-    limit: number
+    limit: number,
+    extraProject: Record<string, any> = {}
 ): Promise<IDocumentResponse> {
     try {
+        const matchStage = {
+            companyId: new Types.ObjectId(res.locals.companyId),
+            "documents.0": { $exists: true },
+        };
         const [{ data, total }] = await model.aggregate(
             [
                 ...getServicesByCreatedBy({ req, matchStage }),
+                { $unwind: "$documents" },
+                {
+                    $addFields: {
+                        "documents.url": {
+                            $cond: { if: "$documents", then: uploadUrl, else: null },
+                        },
+                    },
+                },
+                {
+                    $project: {
+                        _id: { $concat: [{ $toString: "$_id" }, "-", { $ifNull: ["$documents.filename", ""] }] },
+                        file: "$documents",
+                        company: 1,
+                        createdAt: 1,
+                        updatedAt: 1,
+                        ...extraProject,
+                    },
+                },
                 { $sort: { createdAt: -1 } },
                 {
                     $facet: {
@@ -188,7 +205,7 @@ async function getPaginatedEntities(
         );
         return buildResponse(data, total, page, limit);
     } catch (error) {
-        console.error("[GetDocument] getPaginatedEntities failed:", error);
+        console.error("[GetDocument] getPaginatedDocuments failed:", error);
         return emptyResponse(page, limit);
     }
 }
@@ -284,18 +301,25 @@ class GetDocument {
     }
 
     private getCarriers({req,res,page,limit}:{req: Request, res: Response, page: number, limit: number}) {
-        const matchStage = {
-            companyId: new Types.ObjectId(res.locals.companyId),
-             "documents.0.createdBy": req.user?._id 
-        };
-        return getPaginatedEntities(Carrier, matchStage, req, page, limit);
+        return getPaginatedDocuments(
+            Carrier,
+            fullurl + UPLOAD_PATHS.CARRIER_DOCUMENTS,
+            req,
+            res,
+            page,
+            limit,
+            { contactPerson: 1, mcNumber: 1, usdot: 1 }
+        );
     }
     private getCustomers({req,res,page,limit}:{req: Request, res: Response, page: number, limit: number}) {
-        const matchStage = {
-            companyId: new Types.ObjectId(res.locals.companyId),
-             "documents.0.createdBy": req.user?._id 
-        };
-        return getPaginatedEntities(Customer, matchStage, req, page, limit);
+        return getPaginatedDocuments(
+            Customer,
+            fullurl + UPLOAD_PATHS.CUSTOMER_DOCUMENTS,
+            req,
+            res,
+            page,
+            limit
+        );
     }
     // ---------------- route handlers ----------------
     /** @description Get all top-level documents (loads / customers / carriers) */

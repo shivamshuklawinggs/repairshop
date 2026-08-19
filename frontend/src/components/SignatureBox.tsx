@@ -53,7 +53,7 @@ const SignatureBox: React.FC<SignatureBoxProps> = ({
     ctx.globalAlpha = 0.85;
   }, [height]);
 
-  // 🖼️ Load default signature
+  // default signature
   useEffect(() => {
     if (defaultSignature && canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");

@@ -110,7 +110,6 @@ export async function getOrCreateDiscountChartAccount(
     type: detailDoc.type,
     accountTypeData: accountTypeDoc,
     detailTypeData: detailDoc,
-    isLoad: defaultItem.detailType === defaultChartsDetailTypeidIdsEnum.LOAD_SALES || defaultItem.detailType === defaultChartsDetailTypeidIdsEnum.LOAD_EXPENSES,
     readonly: true,
     SystemAccount: true,
   };

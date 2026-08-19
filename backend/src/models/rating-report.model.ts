@@ -44,18 +44,6 @@ const RatingSchema: Schema<IComment> = new Schema({
       ),
       message: "Carrier is not associated with this Company"
     }, },
-  driverId: {
-    type: Schema.Types.ObjectId, ref: 'Driver', required: false, immutable: true, validate: {
-      validator: existsValidator(
-        (_ctx, value) => ({
-          _id: value,
-          
-        }),
-        "Driver"
-      ),
-      message: "Driver is not associated with this Company"
-    },
-  },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true ,immutable:true},
   file: { type: Object, required: false },
 

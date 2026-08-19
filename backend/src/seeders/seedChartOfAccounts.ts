@@ -3,7 +3,7 @@ import Counter from "models/universalid.model";
 import { masterType, balanceSheets, profitAndLoss } from "models/AccountType.model";
 import detailAccountTypeMap from "microservices/chart-accounts-services/helpers/detailAccountTypeMap";
 import { IProductService } from "models/product-service.model";
-import { defaultChartsDetailTypeidIds, defaultChartsDetailTypeidIdsEnum } from "microservices/chart-accounts-services/services/Accounttypes.service";
+import { defaultChartsDetailTypeidIds } from "microservices/chart-accounts-services/services/Accounttypes.service";
 import { disableImmutableFields } from "utils/disableImmutableFields";
 interface Result {
     created: number,
@@ -86,7 +86,6 @@ export const seedChartOfAccounts = async ({
       const filter = isSystemAccount
         ? { companyId, masterType: item.masterType }
         : { companyId, name: item.detailType };
-       const isLoad= item.detailType==defaultChartsDetailTypeidIdsEnum.LOAD_SALES || item.detailType== defaultChartsDetailTypeidIdsEnum.LOAD_EXPENSES ?true:false
       bulkOps.push({
         updateOne: {
           filter,
@@ -105,7 +104,6 @@ export const seedChartOfAccounts = async ({
               type: detailDoc.type,
               accountTypeData: accountTypeDoc,
               detailTypeData: detailDoc,
-              isLoad:isLoad,
               readonly:true,
               SystemAccount:true,
             },

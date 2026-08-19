@@ -1,6 +1,6 @@
 import { paths } from './paths';
 
-type PageType = 'dashboard' | 'table' | 'report' | 'form' | 'customer-list' | 'carrier-list' | 'load-list' | 'invoice-list' | 'transaction-list' | 'report-detail' | 'load-details' | 'create-load' | 'edit-transaction' | 'default';
+type PageType = 'dashboard' | 'table' | 'report' | 'form' | 'customer-list' | 'carrier-list' | 'invoice-list' | 'transaction-list' | 'report-detail' | 'edit-transaction' | 'default';
 
 /**
  * Determines the page type based on the current pathname
@@ -38,10 +38,7 @@ export const detectPageType = (pathname: string): PageType => {
     return 'carrier-list';
   }
 
-  // Load list page
-  if (pathname === paths.viewload || pathname.includes('/loads')) {
-    return 'load-list';
-  }
+ 
 
   // Invoice/Bills/Estimates list pages
   if (
@@ -52,17 +49,6 @@ export const detectPageType = (pathname: string): PageType => {
   ) {
     return 'invoice-list';
   }
-
-  // Create load page
-  if (pathname === paths.createload || pathname.includes('/createload')) {
-    return 'create-load';
-  }
-
-  // Load details modal (for edit load pages)
-  if (pathname.includes('/editload') || pathname.includes('/load-details')) {
-    return 'load-details';
-  }
-
   // Report detail pages (specific report types)
   if (
     pathname.includes('/reports/') ||

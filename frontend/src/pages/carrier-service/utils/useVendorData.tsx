@@ -35,13 +35,12 @@ export const useVendorData = ({ vendorId, form,_id }: UseVendorDataProps) => {
     if (vendorData) {
        if(!form.watch("email"))  form.setValue("email", vendorData.email);
       if(!form.watch("address")) form.setValue("address",vendorData.address || vendorData.billingAddress?.address || "");
-      form.setValue("name", vendorData.company || "");
+      
       if(!_id){
         form.setValue("paymentOptions",vendorData.paymentMethod || PaymentMethods.NA)
         form.setValue("terms",vendorData.paymentTerms || "")
       }
     } else if (isError) {
-      form.setValue("name","");
       form.setValue("paymentOptions",PaymentMethods.NA)
       form.setValue("terms","")
     }

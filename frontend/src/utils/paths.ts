@@ -17,8 +17,6 @@ export const paths={
     dashboard:"/",
     dynamicFieldMaster:"/settings/dynamic-fields",
     customFieldMaster:"/settings/custom-fields",
-    createload:"/createload",
-    viewload:"/loads",
     customers:"/customers",
     carriers:"/carriers",
     drivers:"/drivers",
@@ -47,7 +45,6 @@ export const paths={
     //  without forward slash
     AccountRegister:"/chart-accounts/AccountRegister",
     vendortransactionlist:"/vendortransactionlist",
-    editload:"/editload",
     viewcompany:"/company",
     recievedpayment:"/recievedpayment",
     recievedbill:"/recievedbill",

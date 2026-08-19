@@ -1040,7 +1040,7 @@ export interface INotification {
   isRead: boolean;
   UserId: string;
   referenceNumber:string
-  type:"Follow-up Load Expense"| "Follow-up Load" | "Pickup Ready" | "ProductServiceReminer" | "Delivery Ready"
+  type: "ProductServiceReminer" 
 }
 export interface INotificationUpdate {
   _id?: string;

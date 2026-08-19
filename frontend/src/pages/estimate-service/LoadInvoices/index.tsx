@@ -110,11 +110,11 @@ const GetInvoices: React.FC = () => {
   const deleteMutation = useMutation({
     mutationFn: (loadId: string) => apiService.deleteEstimateInvoice(loadId),
     onSuccess: () => {
-      toast.success('Load deleted successfully');
+      toast.success('estimate deleted successfully');
       refetch();
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete load');
+      toast.error(error.message || 'Failed to delete estimate');
     },
   });
 

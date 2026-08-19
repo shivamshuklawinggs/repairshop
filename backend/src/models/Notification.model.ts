@@ -12,7 +12,7 @@ export interface INotification extends Document {
   isRead: boolean;
   UserId: mongoose.Types.ObjectId;
   companyId: mongoose.Types.ObjectId;
-  type:"Follow-up Load Expense"| "Follow-up Load" | "Pickup Ready" | "ProductServiceReminer" | "Delivery Ready"
+  type: "ProductServiceReminer" 
 }
 
 const NotesSchema: Schema<INotification> = new Schema({
@@ -30,8 +30,8 @@ const NotesSchema: Schema<INotification> = new Schema({
   },
   type:{
     type:String,
-    enum:["Follow-up Load Expense","Follow-up Load","Pickup Ready","ProductServiceReminer","Delivery Ready"],
-    default:"Follow-up Load Expense"
+    enum:["ProductServiceReminer"],
+    default:"ProductServiceReminer"
   },
   companyId:{
     type:Schema.Types.ObjectId,

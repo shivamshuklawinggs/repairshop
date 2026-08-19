@@ -4,7 +4,6 @@ import { commonSchemaOptions } from './shared/schemas';
 export interface INotes extends Document {
   _id?:Schema.Types.ObjectId;
   note: string;
-  loadid:Schema.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: mongoose.Types.ObjectId;
@@ -20,11 +19,7 @@ const NotesSchema: Schema<INotes> = new Schema({
     ref: 'User',
     immutable: true
   },
-  loadid: {
-    type: Schema.Types.ObjectId,
-    ref: 'Load',
-    required:[true,"Load Id is Required"]
-  },
+
   updatedBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',

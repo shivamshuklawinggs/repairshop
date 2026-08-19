@@ -30,7 +30,6 @@ export interface IChartOfAccount extends Document {
   ownerAdminId:Types.ObjectId
   readonly:boolean;
   SystemAccount:boolean;
-  isLoad:boolean
 }
 
 const ChartOfAccountSchema: Schema<IChartOfAccount> = new Schema({
@@ -198,11 +197,7 @@ ownerAdminId: {
     default: false,
     immutable:true
   },
-  isLoad: {
-    type: Boolean,
-    default: false,
-    immutable:true
-  }
+ 
 }, {
   ...commonSchemaOptions,
   collection: 'chartofaccounts'

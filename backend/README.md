@@ -76,34 +76,6 @@ superadmin
 ### Two-Layer Access Control
 
 1. **Role-based (`requireRole`)** - Checks if user has one of the allowed roles
-2. **Permission-based (`requirePermission`)** - Checks user's `menuPermission` object for granular CRUD access
-
-### Menu Permissions (for dispatcher, manager, accountant)
-
-Each non-admin user has a `menuPermission` object with these resource keys:
-
-| Resource Key | Controls Access To |
-|---|---|
-| `loads` | Load management (CRUD, status, follow-up) |
-| `dispatcher` | Dispatcher board |
-| `customers` | Customer management (load-customers) |
-| `carriers` | Carrier management |
-| `documents` | Document center |
-| `expense_service` | Expense fee services |
-
-Each resource has 6 permission flags: `create`, `view`, `update`, `delete`, `import`, `export`
-
-### Additional Resource Types (used in frontend routing only)
-
-| Resource | Description |
-|---|---|
-| `accounting` | Invoices, bills, estimates, chart of accounts, journal entries, payments, reports |
-| `users` | User management page |
-| `dashboard` | Dashboard page |
-| `company` | Company settings |
-| `layout` | Main app layout (authenticated wrapper) |
-| `public` | Public pages (login, reset password) |
-| `superadmin` | Superadmin-only pages |
 
 ---
 
@@ -145,7 +117,6 @@ Each resource has 6 permission flags: `create`, `view`, `update`, `delete`, `imp
 
 | Service | Resource Key | Notes |
 |---|---|---|
-| Loads | `loads` | CRUD + status update, follow-up, rate confirmation |
 | Customers (load) | `customers` | CRUD, export |
 | Carriers | `carriers` | CRUD, documents, SAFER update |
 | Expense Fees | `expense_service` | CRUD |
@@ -166,7 +137,7 @@ Each resource has 6 permission flags: `create`, `view`, `update`, `delete`, `imp
 
 | Service | Operations |
 |---|---|
-| Dashboard | Load data, P&L, sales, AR, AP, expense, customer, vendor |
+| Dashboard | P&L, sales, AR, AP, expense, customer, vendor |
 | Documents | List, sub-documents, send by email |
 | Expenses | CRUD by load/location/service, follow-up |
 | Drivers | CRUD |
@@ -201,18 +172,12 @@ Each resource has 6 permission flags: `create`, `view`, `update`, `delete`, `imp
 |---|---|---|
 | **User** | `users` | System users with role, menuPermission, visibleCompany, ActivePlan |
 | **Company** | `companies` | Company profiles with logo |
-| **Load** | `loads` | Freight loads with pickup/delivery locations, carrier assignments, status tracking |
-| **Customer** | `customers` | Load-level customers (shippers) with USDOT/MC, insurance, documents |
+| **Customer** | `customers` | insurance, documents |
 | **Carrier** | `carriers` | Carriers/vendors with USDOT/MC, insurance, powerunits, trailers, documents |
-| **ContactPerson** | `contactpersons` | Contact persons linked to customers |
-| **CarrierContactPerson** | `carriercontactpersons` | Contact persons linked to carriers |
-| **Driver** | `drivers` | Drivers with CDL info and license documents |
 | **Invoice** | `invoices` | Customer invoices with line items (expenses), payment tracking |
 | **Bill** | `bills` | Vendor bills with line items (expenses), payment tracking |
 | **Estimate** | `estimates` | Estimates that can be converted to invoices |
 | **Payment** | `payments` | Received payments linked to invoices/bills |
-| **Expense** | `expenses` | Load-level expenses by location and service |
-| **ExpenseFee** | `expensefees` | Expense service types/categories |
 | **TaxService** | `taxservices` | Tax rates (label + percentage) linked to chart of accounts |
 | **ProductService** | `productservices` | Products/services for invoice line items |
 | **PaymentTerms** | `paymentterms` | Payment term definitions (days, discount) |

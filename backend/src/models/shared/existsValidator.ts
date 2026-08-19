@@ -16,7 +16,7 @@ import  mongoose , { ClientSession, Query } from "mongoose";
 // };
 export const existsValidator = (
   _buildQuery: (ctx: any, value: any) => Record<string, any>,
-  _modelName: | "chartofaccounts" | "Customer" | "Carrier" | "productservices" | "expensefees" | "Load" | "Driver" | "PaymentTerms" | "accountspayments"| "taxservices"
+  _modelName: | "chartofaccounts" | "Customer" | "Carrier" | "productservices" | "PaymentTerms" | "accountspayments"| "taxservices"
 ) => {
   return async function (this: any, value: any): Promise<boolean> {
     try {

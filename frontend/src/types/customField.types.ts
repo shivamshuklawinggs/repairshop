@@ -3,8 +3,6 @@ export const CUSTOM_FIELD_SCHEMAS = [
   'Bill',
   'Customer',
   'Carrier',
-  'Load',
-  'Driver',
   'Payment',
   'ProductService',
 ] as const;

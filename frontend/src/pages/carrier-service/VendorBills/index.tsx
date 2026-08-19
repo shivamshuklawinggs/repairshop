@@ -142,13 +142,13 @@ const VendorBills: React.FC = () => {
   });
   const allerrors = BillImportMutation?.error?.response?.data?.errors?.allErrors
   const deleteMutation = useMutation({
-    mutationFn: (loadId: string) => apiService.deleteAccountBill(loadId),
+    mutationFn: (id: string) => apiService.deleteAccountBill(id),
     onSuccess: () => {
-      toast.success('Load deleted successfully');
+      toast.success('bill deleted successfully');
       refetch();
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete load');
+      toast.error(error.message || 'Failed to delete bill');
     },
   });
   const exportCustomersMutation = useMutation({
@@ -164,10 +164,10 @@ const VendorBills: React.FC = () => {
   const handleExportData = async () => {
     exportCustomersMutation.mutate();
   }
-  const handleDeleteLoad = async (loadId: string): Promise<void> => {
+  const handleDelete = async (id: string): Promise<void> => {
     const confirmDelete = window.confirm("Are you sure you want to delete this load?");
     if (confirmDelete) {
-      deleteMutation.mutate(loadId);
+      deleteMutation.mutate(id);
     }
   }
   const handleInvoiceClick =async (invoice: VendorInvoiceResponse) => {
@@ -376,7 +376,7 @@ const VendorBills: React.FC = () => {
                         showDownload: false,
                         showReminder: false,
                         onEdit: handleInvoiceClick,
-                        onDelete: handleDeleteLoad,
+                        onDelete: handleDelete,
                       })}
                     />
                   </Stack>
