@@ -4,7 +4,6 @@ import { commonSchemaOptions, FileSchema } from './shared/schemas';
 import { deleteGuardPlugin } from './plugins/deleteGuard.plugin';
 import { companyPlanLimitPlugin } from './plugins/company.plan.imit.plugin';
 import validator from 'validator';
-export type companyType = "BROKER" | "DISPATCH" | "REPAIR"
 export interface IContactDetails {
   phone?: string;
   email?: string;
@@ -14,7 +13,6 @@ export interface IContactDetails {
 export interface ICompany extends Document {
   label: string; 
   description:string; 
-  type:companyType
   mcNumber?:string;
   usdot?:string;
   prefix:string;
@@ -59,7 +57,6 @@ const CompanySchema: Schema<ICompany> = new Schema({
   description:{type:String,required:false,trim:true},
   mcNumber:{type:String,required:false,trim:true},
   usdot:{type:String,required:false,trim:true},
-  type:{type:String,enum:["BROKER","DISPATCH","REPAIR"],required:[true,'Type is required']},
   color:{type:String,required:false ,default:"#C2410C"},
   physicalDetails: { type: ContactDetailsSchema, required: false },
   billingDetails: { type: ContactDetailsSchema, required: false },

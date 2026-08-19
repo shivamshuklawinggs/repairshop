@@ -216,6 +216,9 @@ const CompanySection: React.FC<CompanySectionProps> = ({
                 size="small"
                 error={!!form.formState.errors.address}
                 helperText={form.formState.errors.address?.message}
+                 InputLabelProps={{
+                            shrink: Boolean(field.value?.toString().trim()),
+                        }}
               />
             )}
           />

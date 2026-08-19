@@ -67,7 +67,6 @@ const SideDrawer: React.FC<SideDrawerProps> = ({ drawerWidth }) => {
   const filteredMenuItems = React.useMemo(() => {
     return getMenuItems(
         user?.user?.role,
-        user?.user?.menuPermission
       )
   }, [user?.user?.role]);
   // Generate unique menu key for nested items

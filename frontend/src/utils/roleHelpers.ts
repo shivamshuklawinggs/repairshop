@@ -4,12 +4,7 @@ import { Role, SidebarMenuItem, ResourceType } from "@/types";
 export const roleMenuConfig: Record<Role, ResourceType[]> = {
   [Role.SUPERADMIN]: ['superadmin', 'users', 'company', 'profile'],
   [Role.ADMIN]: ["InvoiceReminderTemplatesList","advancedSearch",'dashboard', 'customers', 'carriers', 'documents', 'expense_service', 'accounting', 'users', 'company', 'profile'],
-  [Role.MANAGER]: ["InvoiceReminderTemplatesList",'dashboard','users', 'profile',"advancedSearch","InvoiceReminderTemplatesList"],
-
-  [Role.ACCOUNTANT]: ['dashboard', 'accounting', 'profile',"advancedSearch","InvoiceReminderTemplatesList",],
-  [Role.DRIVER]:['dashboard', "profile"],
-  [Role.CARRIER]:['dashboard',"profile"],
-  [Role.CUSTOMER]:['dashboard',"profile"],
+  [Role.ACCOUNTANT]: ["InvoiceReminderTemplatesList",'accounting','dashboard','profile',"advancedSearch","InvoiceReminderTemplatesList"],
 };
 
 /**

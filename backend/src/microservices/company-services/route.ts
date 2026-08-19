@@ -42,10 +42,10 @@ const storage = multer.diskStorage({
       fileSize: 5 * 1024 * 1024 // 5MB limit
     }
   });
-router.post("/",requireRole([Role.ADMIN,Role.MANAGER]),upload.single('logo'),decryptDataMiddleware,requestValidate(createCompanyServiceSchema), createCompanyService);
-router.get("/", requireRole([Role.ADMIN,Role.MANAGER,Role.ACCOUNTANT,Role.SUPERADMIN]), getAllCompanyServices);
-router.put("/:id", requireRole([Role.ADMIN,Role.MANAGER]),upload.single('logo'),decryptDataMiddleware,requestValidate(createCompanyServiceSchema), updateCompanyService);
-router.delete("/:id", requireRole([Role.ADMIN,Role.MANAGER]), deleteCompanyService);
+router.post("/",requireRole([Role.ADMIN,Role.ACCOUNTANT]),upload.single('logo'),decryptDataMiddleware,requestValidate(createCompanyServiceSchema), createCompanyService);
+router.get("/", requireRole([Role.ADMIN,Role.ACCOUNTANT,Role.SUPERADMIN]), getAllCompanyServices);
+router.put("/:id", requireRole([Role.ADMIN,Role.ACCOUNTANT]),upload.single('logo'),decryptDataMiddleware,requestValidate(createCompanyServiceSchema), updateCompanyService);
+router.delete("/:id", requireRole([Role.ADMIN,Role.ACCOUNTANT]), deleteCompanyService);
 router.get("/:id", getCompanyServiceById);
 
 export default router;

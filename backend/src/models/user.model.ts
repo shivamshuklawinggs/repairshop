@@ -2,7 +2,7 @@ import mongoose, { Document, Schema, Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import { Role, ROLES } from 'microservices/auth-service/types';
-import { createPermissionSchema, IPermissions, commonSchemaOptions } from './shared/schemas';
+import {  commonSchemaOptions } from './shared/schemas';
 import { deleteGuardPlugin } from './plugins/deleteGuard.plugin';
 import { planLimitPlugin } from './plugins/user.plan.imit.plugin';
 
@@ -25,11 +25,7 @@ export interface IUserDocument extends Document {
   };
   matchPassword(enteredPassword: string, password: string): Promise<boolean>;
   resetPasswordToken?: string;
-  menuPermission: {
-    customers: { permissions: IPermissions };
-    carriers: { permissions: IPermissions };
-    documents: { permissions: IPermissions };
-  };
+ 
   resetPasswordExpire?: Number;
   extentionNo: string;
   phone: string;
@@ -60,12 +56,7 @@ const userSchema: Schema<IUserDocument> = new Schema({
       default: undefined
     }
   },
-  menuPermission: {
-    customers: { permissions: createPermissionSchema() },
-    carriers: { permissions: createPermissionSchema() },
-    documents: { permissions: createPermissionSchema() },
-    expense_service: { permissions: createPermissionSchema() }
-  },
+  
   manager: {
     type: Schema.Types.ObjectId,
     ref: 'User'

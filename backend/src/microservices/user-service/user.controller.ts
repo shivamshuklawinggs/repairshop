@@ -41,7 +41,7 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction): Pro
     if (currentRole === Role.SUPERADMIN) {
       matchSatge.role = Role.ADMIN
     }
-    if (currentRole === Role.MANAGER) {
+    if (currentRole === Role.ACCOUNTANT) {
       matchSatge.manager = new mongoose.Types.ObjectId(req.user?._id)
     }
     if (currentRole === Role.ADMIN) {
@@ -177,7 +177,7 @@ const createUser =
 
       }
 
-      else if (req.user?.role == Role.MANAGER ) {
+      else if (req.user?.role == Role.ACCOUNTANT ) {
 
         req.body.ownerAdminId = req.user.ownerAdminId,
 

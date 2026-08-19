@@ -26,7 +26,6 @@ export const generateInvoiceSchema = yup.object().shape({
     ),
   terms: yup.string().nullable().optional().label('Terms'),
   paymentOptions: yup.string().label("Payment Method").required("Please select a payment method"),
-  name: yup.string().label("Customer Name").required('Customer name is required'),
   email: yup.string().label("Customer Email").email('Invalid email').optional(),
   address: yup.string().label("Customer Address").required('Customer address is required'),
   tax: yup.string().nullable().label("Tax").test("is-objectid", "Invalid Tax", (value) => {
@@ -110,7 +109,6 @@ export const initialInvoiseData:IInvoice = {
   dueDate: undefined as any,
   terms: "",
   paymentOptions:PaymentMethods.NA,
-  name: "",
   email: "",
   address: "",
   tax: undefined,

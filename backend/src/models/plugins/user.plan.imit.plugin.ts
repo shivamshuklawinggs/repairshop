@@ -3,17 +3,14 @@ import User from "../user.model";
 import { Role } from "microservices/auth-service/types";
 import UserPlan, { IUserPlanDocument } from "models/user.plans.model";
 import { canCreatorAssignRole } from "utils/roleBaseAccessControl";
-import { adminMenuPermissions } from "models/shared/schemas";
-
 export const planLimitPlugin = (schema: Schema) => {
   schema.pre("save", async function (next: any) {
     try {
-      if (this.role == Role.MANAGER) {
+      if (this.role == Role.ACCOUNTANT) {
         this.manager = this._id
       }
       // ── 2. New ADMIN setup ───────────────────────────────────────────────────
       if (this.role === Role.ADMIN) {
-        this.menuPermission = adminMenuPermissions;
       
         if (!this.ownerAdminId) this.ownerAdminId = this._id;
 
@@ -47,7 +44,7 @@ export const planLimitPlugin = (schema: Schema) => {
       // Derive ownerAdminId from creator (ADMIN case handled above)
       if (!this.ownerAdminId && this.role !== Role.ADMIN) {
         this.ownerAdminId =
-          creator.role === Role.MANAGER ? creator.ownerAdminId : creator._id;
+          creator.role === Role.ACCOUNTANT ? creator.ownerAdminId : creator._id;
       }
 
       // SUPERADMIN bypasses plan limits
@@ -55,7 +52,7 @@ export const planLimitPlugin = (schema: Schema) => {
 
       // For MANAGER, validate against their ownerAdmin's plan
       const planOwner =
-        creator.role === Role.MANAGER
+        creator.role === Role.ACCOUNTANT
           ? await User.findById(creator.ownerAdminId)
             .select("ActivePlan")
             .populate<{ ActivePlan: { PlanId: IUserPlanDocument; expires: Date } }>("ActivePlan.PlanId")
@@ -70,7 +67,7 @@ export const planLimitPlugin = (schema: Schema) => {
         return next(new Error("Subscription expired. Please renew your subscription."));
       }
 
-      const adminId = creator.role === Role.MANAGER ? creator.ownerAdminId : creator._id;
+      const adminId = creator.role === Role.ACCOUNTANT ? creator.ownerAdminId : creator._id;
 
       const [maxUsers, usedUsers] = await Promise.all([
         Promise.resolve(activePlan.PlanId.noOfUsers || 0),

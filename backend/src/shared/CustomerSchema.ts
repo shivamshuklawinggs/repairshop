@@ -1,6 +1,6 @@
 
 import * as yup from 'yup';
-import { baseEntityFields, insuranceLiabilitySchema, addressSchema,optionaladdressSchema, agentInsurerFields, accountingContactFields, entityDetailsFields, contactPersonSchema, truckSchema } from './CommonSchema';
+import { baseEntityFields, insuranceLiabilitySchema,optionaladdressSchema, agentInsurerFields, accountingContactFields, entityDetailsFields, contactPersonSchema, truckSchema } from './CommonSchema';
 
 // Base fields common to both customer types (imported from CommonSchema)
 const baseCustomerFields = baseEntityFields;
@@ -53,12 +53,9 @@ const freightCustomerSchema = yup.object().shape({
 });
 
 // Accounting customer schema (without freight fields)
-const accountingCustomerSchema = (isRepairCompany: boolean) => {
-  return yup.object().shape({
+const accountingCustomerSchema =yup.object().shape({
     ...baseCustomerFields,
     ...accountingContactFields,
-    ...(!isRepairCompany ? addressSchema : {}),
-    ...(isRepairCompany ? truckSchema : {}),
+    ...truckSchema,
   })
-}
 export { freightCustomerSchema, accountingCustomerSchema };

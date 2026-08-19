@@ -8,69 +8,6 @@ export interface IUser {
   _id: string;
   email: string;
   name: string;
-  menuPermission: {
-    dashboard: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-   
-    customers: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    carriers: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    documents: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    expense_service: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    accounting: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-  };
   role: Role,
 
 }

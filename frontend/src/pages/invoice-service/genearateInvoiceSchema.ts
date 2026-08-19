@@ -106,7 +106,6 @@ export const initialInvoiseData:IInvoice = {
   dueDate: undefined as any,
   terms: "",
   paymentOptions:PaymentMethods.NA,
-  name: "",
   email: "",
   address: "",
   tax: undefined,

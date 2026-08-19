@@ -283,14 +283,9 @@ export interface SideDrawerProps {
 export enum Role {
   ADMIN = 'admin',
   SUPERADMIN = 'superadmin',
-  MANAGER = 'manager',
-  ACCOUNTANT = 'accountant',
-  CARRIER = 'carrier',
-  CUSTOMER = 'customer',
-  DRIVER = 'driver',
+  ACCOUNTANT = 'accountant'
 }
-export const ADMIN_ASSIGNABLE_ROLES = [Role.MANAGER, Role.ACCOUNTANT];
-export const MANAGER_ASSIGNABLE_ROLES = [Role.ACCOUNTANT];
+export const ADMIN_ASSIGNABLE_ROLES = [Role.ACCOUNTANT];
 export const SUPERADMIN_ASSIGNABLE_ROLES = [Role.ADMIN];
 export type StatusConfig = { color: string; bg: string; border: string };
 export const STATUS_MAP: Record<ICustomerInvoicesPaymentDetails["status"], StatusConfig> = {
@@ -305,7 +300,7 @@ export const STATUS_MAP: Record<ICustomerInvoicesPaymentDetails["status"], Statu
   "unsettled": { color: '#9f1239', bg: '#fff1f2', border: '#fecdd3' },
 };
 export const ROLES = Object.values(Role);
-export const VisibleCompanyAssignedRoles = [Role.MANAGER, Role.ACCOUNTANT];
+export const VisibleCompanyAssignedRoles = [Role.ACCOUNTANT];
 export interface IExpenseItem {
   value: number | any
   service: string | any
@@ -888,7 +883,6 @@ export interface IInvoice {
   email?: string;
   expense: invoiceexpense[]
   address: string;
-  name: string;
   tax?: string;
   files: IFile[];
   invoiceNumber: string;
@@ -930,7 +924,6 @@ export interface IVendorBill {
   email?: string;
   expense: invoiceexpense[]
   address: string;
-  name: string;
   tax?: string;
   files: IFile[];
   BillNumber: string;
@@ -1036,38 +1029,7 @@ export interface IUser {
   createdBy?: string,
   isUpdate?: boolean,
   updatedBy?: string;
-  menuPermission: {
-    customers: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    carriers: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-    documents: {
-      permissions: {
-        create: boolean,
-        delete: boolean,
-        update: boolean,
-        view: boolean,
-        import: boolean,
-        export: boolean
-      }
-    },
-  };
+ 
 }
 
 export interface INotification {

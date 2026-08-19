@@ -53,7 +53,7 @@ const AccountRegister: React.FC = () => {
   const { data: accounts = [] } = useQuery<IChartAccount[]>({
     queryKey: ["chartAccounts"],
     queryFn: async () => {
-      const response = await apiService.getChartAccounts();
+      const response = await apiService.getChartAccounts({limit:100,isProductServicesPage:"0",isChartData:"1",nor:""});
       return response.data.data || [];
     },
   });

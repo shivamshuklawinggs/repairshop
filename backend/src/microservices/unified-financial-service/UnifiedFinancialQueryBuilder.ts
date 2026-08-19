@@ -1,7 +1,5 @@
-import { Request ,Response} from "express";
+import { Request} from "express";
 import { PipelineStage, Types } from "mongoose";
-import { getCompanyType } from "microservices/company-services/company.controller";
-import { companyType } from "models/company.model";
 import { IUserDocument } from "models/user.model";
 import { ActionType, ResourceType, UserPermissionChecker } from "utils/roleBaseAccessControl";
 import { getServicesByCreatedBy } from "utils/CreatedBy.Pipeline.Service";
@@ -75,11 +73,10 @@ class UnifiedFinancialQueryBuilder {
  /**
    * Role-based middleware
    */
-  static hasAccessRole =async ({action,res,resource,req,allowedCompanyTypes}:{allowedCompanyTypes?:companyType[],action: ActionType, resource: ResourceType[], req: Request,res:Response}) => {
+  static hasAccessRole =async ({action,resource,req}:{action: ActionType, resource: ResourceType[], req: Request}) => {
     try {
       const checker = new UserPermissionChecker(req.user as IUserDocument);
-      const companyType = await getCompanyType(res.locals.companyId)
-      const hasPermission = checker.hasPermission({ action: action, resources: resource, companyType, allowedCompanyTypes: allowedCompanyTypes });
+      const hasPermission = checker.hasPermission({ action: action, resources: resource });
       return hasPermission
     } catch (error: any) {
       return false

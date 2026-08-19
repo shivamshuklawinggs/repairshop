@@ -1,18 +1,6 @@
 import { IUser, Role } from '@/types';
 import * as Yup from 'yup';
 
-const permissionSchema = Yup.object().shape({
-  create: Yup.boolean().default(false).optional(),
-  delete: Yup.boolean().default(false).optional(),
-  update: Yup.boolean().default(false).optional(),
-  view: Yup.boolean().default(false).optional(),
-  import: Yup.boolean().default(false).optional(),
-  export: Yup.boolean().default(false).optional(),
-});
-
-const menuPermissionObjectSchema = Yup.object().shape({
-  permissions: permissionSchema
-});
 
 const Userschema = Yup.object().shape({
   isUpdate: Yup.boolean().default(false),
@@ -29,9 +17,7 @@ const Userschema = Yup.object().shape({
     .label('Password')
     .when('isUpdate', {
       is: false,
-      then: (schema) => schema.required('Please create a password').min(6, 'Password must contain at least 6 characters')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one number'),
+      then: (schema) => schema.required('Please create a password').min(8, 'Password must contain at least 8 characters'),
       otherwise: (schema) => schema.optional(),
     }),
     phone: Yup.string()
@@ -57,17 +43,9 @@ const Userschema = Yup.object().shape({
   manager: Yup.string()
     .label('Manager').optional().nullable(),
   visibleCompany: Yup.array().of(Yup.string()).optional().when('role', {
-    is: (role: string) => role === Role.MANAGER,
-    then: (schema) => schema.required('Visible company is required for manager')
+    is: (role: string) => role === Role.ACCOUNTANT,
+    then: (schema) => schema.required('Visible company is required')
   }),
-  menuPermission: Yup.object().shape({
-    customers: menuPermissionObjectSchema,
-    carriers: menuPermissionObjectSchema,
-    documents: menuPermissionObjectSchema,
-  }).when('role', {
-    is: (role: string) => role === Role.MANAGER || role === Role.ACCOUNTANT,
-    then: (schema) => schema.required("Menu permission is required for the selected role")
-  })
 });
 export const MenuTitles={
   dashboard:"Dashboard",
@@ -78,11 +56,7 @@ export const MenuTitles={
 }
 const defaulUsertValues:IUser = {
   isUpdate:false,
-  menuPermission:{
-    customers: { permissions: { create: false, delete: false, update: false, view: false, import: false, export: false } },
-    carriers: { permissions: { create: false, delete: false, update: false, view: false, import: false, export: false } },
-    documents: { permissions: { create: false, delete: false, update: false, view: false, import: false, export: false } },
- },
+  
    phone: '',
   extentionNo: '',
   name: '', // Default name

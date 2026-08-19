@@ -16,17 +16,7 @@ const AuthRegisterSchema=yup.object().shape({
        .min(1, "At least one role is required"),
         manager: yup.string()
            .label('Manager').optional(),
-          menuPermission:yup.array().of(yup.object().shape({
-            menuName:yup.string().required("Menu name is required"),
-            permissions:yup.object().shape({
-              create:yup.boolean().default(false).optional(),
-              delete:yup.boolean().default(false).optional(),
-              update:yup.boolean().default(false).optional(),
-              view:yup.boolean().default(false).optional(),
-              import:yup.boolean().default(false).optional(),
-              export:yup.boolean().default(false).optional(),
-            })
-          }))
+        
 })
 const AuthUpdateSchema = yup.object().shape({
   name: yup.string()

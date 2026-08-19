@@ -26,7 +26,7 @@ const baseMenuItems: SidebarMenuItem[] = [
     icon: 'users',
     action: 'view',
     resource: ['users', 'superadmin'],
-    roles: [Role.SUPERADMIN, Role.ADMIN,Role.MANAGER],
+    roles: [Role.SUPERADMIN, Role.ADMIN,Role.ACCOUNTANT],
   },
 
    {
@@ -72,7 +72,7 @@ const baseMenuItems: SidebarMenuItem[] = [
         children: [
           { path: '/accounting/sales/invoices', title: 'Invoices', icon: 'invoices', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
           { path: '/accounting/sales/estimates', title: 'Estimates', icon: 'estimates', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
-          { path: '/accounting/sales/accounts/customers', title: 'Customers', icon: 'CustomerIcon', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
+          { path: '/accounting/sales/accounts/customers', title: 'Customers', icon: 'CustomerIcon', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT,Role.ACCOUNTANT] },
           { path: '/accounting/sales/accounts/recievedpayment', title: 'Receive Payment', icon: 'ReceivePaymentIcon', action: 'create', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
         ],
         roles: [Role.ADMIN, Role.ACCOUNTANT]
@@ -91,16 +91,14 @@ const baseMenuItems: SidebarMenuItem[] = [
         ],
       },
       { path: `/accounting${paths.paymentterms}`, title: 'Payment Terms', icon: 'PaymentTermsIcon', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
-      { path: `/accounting${paths.invoiceReminderTemplates}`, title: 'Invoice Reminder', icon: 'email', action: 'view', resource: ["InvoiceReminderTemplatesList"], roles: [Role.ADMIN, Role.MANAGER,Role.ACCOUNTANT] },
+      // { path: `/accounting${paths.invoiceReminderTemplates}`, title: 'Invoice Reminder', icon: 'email', action: 'view', resource: ["InvoiceReminderTemplatesList"], roles: [Role.ADMIN, Role.ACCOUNTANT,Role.ACCOUNTANT] },
       { path: `/accounting${paths.taxoptions}`, title: 'Tax Rate', icon: 'tax', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
       { path: `/accounting${paths.productservices}`, title: 'Product Services', icon: 'product', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
       { path: `/accounting${paths.chartofaccounts}`, title: 'Chart Of Accounts', icon: 'chartAccounts', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
       { path: `/accounting${paths.JournalEntryList}`, title: 'Journal Entry', icon: 'JournalEntryIcon', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
       { path: `/accounting${paths.payments}`, title: 'Payments', icon: 'PaymentsNew', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
-      // { path: paths.creditNotes, title: 'Sales Returns', icon: 'creditNote', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
-      // { path: paths.debitNotes, title: 'Purchase Returns', icon: 'debitNote', action: 'view', resource: ['accounting'], roles: [Role.ADMIN, Role.ACCOUNTANT] },
     ],
-    roles:[Role.ADMIN,Role.ACCOUNTANT]
+    roles:[Role.ADMIN,Role.ACCOUNTANT,Role.ACCOUNTANT]
   },
   {
     path: paths.Reports,

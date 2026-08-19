@@ -64,15 +64,7 @@ export interface IAddress {
   zipCode: string;
   country: string;
 }
-// Permission structure for reuse
-export interface IPermissions {
-  create: boolean;
-  delete: boolean;
-  update: boolean;
-  view: boolean;
-  import: boolean;
-  export: boolean;
-}
+
 // Common schema options
 export const commonSchemaOptions = {
   timestamps: true,
@@ -219,29 +211,6 @@ export const IRecievePaymentSchema = new Schema({
 });
 
 
-export const createPermissionSchema = () => ({
-  create: { type: Boolean, default: false },
-  delete: { type: Boolean, default: false },
-  update: { type: Boolean, default: false },
-  view: { type: Boolean, default: false },
-  import: { type: Boolean, default: false },
-  export: { type: Boolean, default: false }
-});
-const allPermissions:IPermissions = {
-  create: true,
-  delete: true,
-  update: true,
-  view: true,
-  import: true,
-  export: true,
-};
-
-export const adminMenuPermissions = {
-  customers: { permissions: allPermissions },
-  carriers: { permissions: allPermissions },
-  documents: { permissions: allPermissions },
-  expense_service: { permissions: allPermissions },
-};
 
 
 

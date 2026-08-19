@@ -97,7 +97,6 @@ export const initialInvoiseData:IVendorBill = {
   dueDate: undefined as any,
   terms: "",
   paymentOptions:PaymentMethods.NA,
-  name: "",
   email: "",
   address: "",
   tax: undefined,

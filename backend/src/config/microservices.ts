@@ -27,7 +27,7 @@ import taxServicesConfig from 'microservices/tax-services/config.json';
 import transactionServicesConfig from 'microservices/transaction-services/config.json';
 import userServicesConfig from 'microservices/user-service/config.json';
 import invoiceReminderTemplatesConfig from 'microservices/invoice-reminder-templates/config.json';
-
+import carrierServicesConfig from 'microservices/carrier-services/config.json';
 // Define the interface for microservice config
 interface MicroserviceConfig {
   baseUrl: string;
@@ -62,6 +62,7 @@ export const microservicesConfig: Record<string, MicroserviceConfig> = {
   transaction: transactionServicesConfig  as MicroserviceConfig,
   user: userServicesConfig  as MicroserviceConfig,
   'invoice-reminder-templates': invoiceReminderTemplatesConfig as MicroserviceConfig,
+  carrier: carrierServicesConfig  as MicroserviceConfig,
 };
 // Default export
 export default microservicesConfig;

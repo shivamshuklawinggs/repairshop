@@ -5,7 +5,6 @@ import mongoose, { PipelineStage, Types } from 'mongoose';
 import { generateUniqueId } from 'models/universalid.model';
 import { parseCsvToJson } from 'utils/parseCsvToJson';
 import ChartOfAccount from 'models/chartOfAccounts.model';
-import companyModel from 'models/company.model';
 /**
  * @description Create a new item service
  * @type POST
@@ -57,7 +56,6 @@ const skip = (pageNumber - 1) * limitNumber;
 
 const query: Record<string, any> = {
   companyId: new Types.ObjectId(res.locals.companyId),
-  ...(isPagination && { isLoad: false }),
 };
 
 // Optional search
@@ -67,10 +65,7 @@ if (search?.trim()) {
     $options: "i",
   };
 }
-const companyDetails=await companyModel.findById(res.locals.companyId).select("type").lean()
-if(companyDetails && companyDetails.type==="REPAIR"){
-  query.isLoad= false
-}
+
 const accountLookups: Array<PipelineStage.Lookup |PipelineStage.Unwind > = [
   {
     $lookup: {

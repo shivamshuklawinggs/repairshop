@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import ItemService, { companyType, ICompany } from 'models/company.model';
+import ItemService, { ICompany } from 'models/company.model';
 import { AppError } from 'middlewares/error';
 import { getServicesByCreatedBy } from 'utils/CreatedBy.Pipeline.Service';
 import { Role } from 'microservices/auth-service/types';
@@ -41,18 +41,7 @@ const models = [
   Statement,
   InvoiceReminder,
 ];
-export const getCompanyType=async(companyId:string):Promise<companyType | undefined>=>{
-  const cacheKey = `company-${companyId}`;
-       const userCompanyType = await cacheWrapper(
-         { key: cacheKey,ttlSeconds:36000 },
-         async () => {
-           return await ItemService.findById(companyId).select("type -_id").lean().then(data => data?.type)
-         }
-       );
-       if(userCompanyType) return userCompanyType
-       return undefined
-       
-}
+
 /**
  * @description Create a new item service
  * @type POST
@@ -109,7 +98,6 @@ const getAllCompanyServices = async (req: Request, res: Response, next: NextFunc
         const query = {};
 
         if (
-          currentRole === Role.MANAGER ||
           currentRole === Role.ACCOUNTANT
         ) {
           const data = await User.findById(userId)

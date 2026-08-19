@@ -14,7 +14,6 @@ import { parseJsonToCsv } from 'utils/parseJsonToCsv';
 import { clean, parseCleanValidate } from 'middlewares/cleanRequestBodyMiddleware';
 import { CustomerFilters } from './services/filter.service';
 import { accountingCustomerSchema } from 'shared/CustomerSchema';
-import { getCompanyType } from 'microservices/company-services/company.controller';
 type CustomerWithpaymentTerms = Omit<ICustomer, 'paymentTerms' | 'parentCustomer'> & { paymentTerms: IPaymentTerms, balanceDue: number, parentCustomer: ICustomer };
 export default class CustomerController {
   constructor() {
@@ -32,8 +31,7 @@ export default class CustomerController {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
       // Check for required documents
-      const companyType=await getCompanyType(res.locals.companyId)
-      req.body = await parseCleanValidate(req.body.CustomerData, accountingCustomerSchema(companyType==="REPAIR"))
+      req.body = await parseCleanValidate(req.body.CustomerData, accountingCustomerSchema)
       const userId = req.user?._id
       req.body.documents = files.documents as IFile[]
       req.body.createdBy = userId
@@ -217,8 +215,7 @@ export default class CustomerController {
       const userId = req.user?._id
       // Add new files if uploaded
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-      const companyType=await getCompanyType(res.locals.companyId)
-      req.body = await parseCleanValidate(req.body.CustomerData, accountingCustomerSchema(companyType==="REPAIR"))
+      req.body = await parseCleanValidate(req.body.CustomerData, accountingCustomerSchema)
       req.body.updatedBy = userId
       const {  documents, ...CustomerData } = req.body
 

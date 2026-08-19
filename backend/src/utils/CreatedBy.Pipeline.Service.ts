@@ -65,7 +65,7 @@ const getServicesByCreatedBy = ({
     /**
      * 🧑‍🔧 MANAGER
      */
-    case Role.MANAGER:
+    case Role.ACCOUNTANT:
       addOrCondition([
         { createdBy: oid(userId) },
         { manager: oid(userId) },
@@ -133,7 +133,7 @@ const getServicesByCreatedByKey=({
      * - Records they created
      * - Records created by users assigned to them (i.e., users where this manager is set)
      */
-    case Role.MANAGER:
+    case Role.ACCOUNTANT:
       createdByFilter["$or"] = [
         { createdBy: oid(userId) },
         { "createdUser.manager": oid(userId) },

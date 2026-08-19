@@ -132,7 +132,6 @@ const UniversalEntityForm: React.FC<UniversalEntityFormProps> = ({
               {
                 title: 'Truck Details',
                 component:(props)=> <TruckDetails {...props}/>,
-                condition: ({isRepairCompany}) => isRepairCompany
               },
 
               {

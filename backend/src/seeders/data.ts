@@ -78,7 +78,6 @@ export const defaultCompany = (userId: Types.ObjectId) => {
     const company: Omit<ICompany, keyof Document> = {
         label: "Test-Company",
         description: "Test-Company",
-        type: "BROKER",
         physicalDetails: {
             phone: "8459784241",
             email: "jenaro.xavian@dropmeon.com",

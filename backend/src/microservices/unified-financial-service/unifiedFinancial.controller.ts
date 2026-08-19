@@ -74,7 +74,7 @@ class UnifiedFinancialController {
       const customerFilter = await UnifiedFinancialQueryBuilder.buildCustomerFilter(query, companyId,req);
       const carrierFilter = await UnifiedFinancialQueryBuilder.buildCarrierFilter(query, companyId,req);
       // permission
-      const invPayBilAccess = await UnifiedFinancialQueryBuilder.hasAccessRole({action:"view",resource:["accounting"],req:req,res:res});
+      const invPayBilAccess = await UnifiedFinancialQueryBuilder.hasAccessRole({action:"view",resource:["accounting"],req:req});
     
       const sortOptions = UnifiedFinancialQueryBuilder.buildSortOptions(query.sortBy, query.sortOrder);
 

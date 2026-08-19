@@ -24,7 +24,7 @@ import transactionRoutes from "microservices/transaction-services/route";
 import userRoutes from "microservices/user-service/route";
 import unifiedFinancialRoutes from "microservices/unified-financial-service/route";
 import invoiceReminderTemplatesRoutes from "microservices/invoice-reminder-templates/route";
-
+import carrierRoutes from "microservices/carrier-services/route";
 const rootRouter = Router();
 // apply global middleware
 rootRouter.use(Middleware.encryptResponseMiddleware);
@@ -55,6 +55,7 @@ rootRouter.use(microservicesConfig.transaction.baseUrl, transactionRoutes);
 rootRouter.use(microservicesConfig.user.baseUrl, userRoutes);
 rootRouter.use(microservicesConfig['unified-financial'].baseUrl, unifiedFinancialRoutes);
 rootRouter.use(microservicesConfig['invoice-reminder-templates'].baseUrl, invoiceReminderTemplatesRoutes);
+rootRouter.use(microservicesConfig.carrier.baseUrl, carrierRoutes);
 rootRouter.use(notFound);
 rootRouter.use(errorHandler as ErrorRequestHandler);
 

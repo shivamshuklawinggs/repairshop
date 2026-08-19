@@ -19,36 +19,21 @@ const UNAUTHORIZED_ACTIONS: ActionType[] = ['create', 'delete', 'update', 'expor
 
 export class UserPermissionChecker {
   private user: UserState;
-
   constructor(user: UserState) {
     this.user = user;
   }
-
   hasPermission(
     action: ActionType,
     resource: ResourceType[],
   ): boolean {
     const userRole = this.user?.user?.role;
-   
-
     if (resource.includes('layout')) {
       return true;
     }
-
     if (hasRoleAccess(userRole, resource)) {
       return true;
     }
-
-    const hasPermissionForAnyResource = resource.some((res) => {
-      const menuPermissions = this.user?.user?.menuPermission;
-      if (!menuPermissions) return false;
-      const permissions = menuPermissions[res as keyof typeof menuPermissions]?.permissions;
-      if (!permissions) return false;
-      const checkAction = action === 'view' ? 'view' : action;
-      return permissions[checkAction as keyof typeof permissions] ?? false;
-    });
-
-    return hasPermissionForAnyResource;
+    return false;
   }
 }
 
@@ -107,7 +92,6 @@ export function withPermission(
 export const getFilteredMenuItems = (user: UserState) => {
   return getMenuItems(
     user?.user?.role,
-    user?.user?.menuPermission
   );
 };
 

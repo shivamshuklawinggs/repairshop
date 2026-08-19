@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isRole } from '@/utils';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { fetchAllCompanies } from '@/redux/api';
-import MenuPermissionsTable from './MenuPermissionsTable';
 import { getIcon } from '@/components/common/icons/getIcon';
 import { NumericInput } from '@/components/ui';
 import AppDialog from '@/components/ui/AppDialog';
@@ -89,9 +88,9 @@ const UserForm: React.FC<UserFormProps> = ({
   });
 
   const { data: users = [] } = useQuery<IUser[]>({
-    queryKey: ['users', Role.MANAGER],
+    queryKey: ['users', Role.ACCOUNTANT],
     queryFn: async () => {
-      const response = await apiService.getUsers({ page: 1, limit: 100, role: Role.MANAGER });
+      const response = await apiService.getUsers({ page: 1, limit: 100, role: Role.ACCOUNTANT });
       return response.data;
     }
   });
@@ -121,14 +120,18 @@ const UserForm: React.FC<UserFormProps> = ({
   }, [user, open, reset]);
 
   useEffect(() => {
+    console.log("start useEffect", currentUser?.role, open);
+    if (!open) return;
     
     if (currentUser?.role === Role.SUPERADMIN) {
-      setValue("role", Role.ADMIN)
+      console.log(`Setting role to ADMIN for SUPERADMIN`);
+      setValue('role', Role.ADMIN);
+    } else if (currentUser?.role === Role.ADMIN) {
+      console.log(`Setting role to ACCOUNTANT and manager to ${currentUser._id} for ADMIN`);
+      setValue('role', Role.ACCOUNTANT);
+      setValue('manager', currentUser._id);
     }
-    if (currentUser?.role === Role.MANAGER) {
-      setValue("manager",currentUser._id)
-    }
-  }, [watch('role')]);
+  }, [currentUser, open, setValue]);
 
   // Fetch companies using React Query
   const { data: companies = [] } = useQuery<ICompany[], Error, ICompany[], CompanyQueryKey>({
@@ -139,7 +142,7 @@ const UserForm: React.FC<UserFormProps> = ({
     },
     enabled: !!currentUser && currentUser.role !== Role.SUPERADMIN,
   });
-
+console.log("watch",watch())
   const handleClose = () => {
     reset();
     onClose();
@@ -382,7 +385,7 @@ const UserForm: React.FC<UserFormProps> = ({
                           <Select
                             label="Role *"
                             required
-                            defaultValue={user?.role || ''}
+                            defaultValue={watch('role')}
                             {...register('role')}
                             style={{ textTransform: "capitalize" }}
                           >
@@ -399,6 +402,8 @@ const UserForm: React.FC<UserFormProps> = ({
                           {errors.role && <FormHelperText>{errors.role.message}</FormHelperText>}
                         </FormControl>
                       </Grid>
+                      {/* {
+                       [Role.ACCOUNTANT].includes( watch("role")) && 
                         <Grid item xs={12} md={12}>
                           <FormControl size='small' fullWidth error={!!errors.manager}>
                             <InputLabel>Manager <span style={{color:'#c62828'}}>*</span></InputLabel>
@@ -422,6 +427,7 @@ const UserForm: React.FC<UserFormProps> = ({
                             {errors.manager && <FormHelperText>{errors.manager.message}</FormHelperText>}
                           </FormControl>
                         </Grid>
+                      } */}
                       {/* Visible Companies */}
                       {(VisibleCompanyAssignedRoles.includes(watch('role') as Role) && companies?.length > 0) && (
                         <Grid item xs={12}>
@@ -530,30 +536,6 @@ const UserForm: React.FC<UserFormProps> = ({
                   </CardContent>
                 </Card>
               </Grid>
-
-              {/* Menu Permissions Section */}
-              {[Role.MANAGER ,Role.ACCOUNTANT].includes(watch('role') as Role) && (
-                <Grid item xs={12}>
-                  <Card
-                    variant="outlined"
-                    sx={{
-                      p: 0,
-                      borderRadius: 0,
-                      border: 'none',
-                    }}
-                  >
-                    <CardContent style={{ padding: 0 }}>
-                      {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                         <AdminPanelSettings sx={{ fontSize: 16, color: 'primary.main' }} />
-                         <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                          Menu Permissions
-                        </Typography>
-                      </Box> */}
-                      <MenuPermissionsTable />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )}
             </Grid>
           </DialogContent>
 

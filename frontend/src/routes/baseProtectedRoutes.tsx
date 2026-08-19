@@ -283,7 +283,7 @@ const baseProtectedRoutes: Route[] = [
             currentCompany: true,
             action: 'view',
             resource: ['accounting'],
-            roles:[Role.ADMIN,Role.ACCOUNTANT]
+            roles:[Role.ADMIN,Role.ACCOUNTANT,Role.ACCOUNTANT]
           },
           {
             path: '/accounts/recievedpayment/:customerId?',
@@ -317,7 +317,7 @@ const baseProtectedRoutes: Route[] = [
             currentCompany: true,
             action: 'view',
             resource: ['accounting'],
-            roles:[Role.ADMIN,Role.ACCOUNTANT]
+            roles:[Role.ADMIN,Role.ACCOUNTANT,Role.ACCOUNTANT]
           },
           {
             path: '/bills',
@@ -366,7 +366,7 @@ const baseProtectedRoutes: Route[] = [
         action: 'view',
         hideInMenu:false,
         resource: ["InvoiceReminderTemplatesList"],
-        roles:[Role.ACCOUNTANT,Role.ADMIN,Role.MANAGER],
+        roles:[Role.ACCOUNTANT,Role.ADMIN,Role.ACCOUNTANT],
       },
       {
         path: '/taxoptions',
@@ -481,7 +481,7 @@ const baseProtectedRoutes: Route[] = [
     currentCompany: false,
     action: 'view',
     resource: ['users','superadmin'],
-    roles: [Role.SUPERADMIN, Role.ADMIN,Role.MANAGER],
+    roles: [Role.SUPERADMIN, Role.ADMIN,Role.ACCOUNTANT],
   },
   {
     path: '/profile',

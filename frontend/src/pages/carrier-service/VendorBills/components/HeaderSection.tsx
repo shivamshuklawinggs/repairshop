@@ -25,7 +25,7 @@ const HeaderSection: FC<HeaderSectionProps> = ({ initialData,openCustomerModal }
     <Grid item xs={12}>
       <Grid container spacing={2}>
         {/* Bill Number */}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <FormControl size='small' fullWidth error={!!form.formState.errors.BillNumber}>
             <TextField size='small'
               fullWidth
@@ -48,7 +48,7 @@ const HeaderSection: FC<HeaderSectionProps> = ({ initialData,openCustomerModal }
           </FormControl>
         </Grid>
         {/* Vendor Name */}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
            <CustomerSelect openCustomerModal={openCustomerModal} /> 
         </Grid>
 

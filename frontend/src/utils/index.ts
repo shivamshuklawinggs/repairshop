@@ -361,10 +361,6 @@ const isRole = {
   isAdmin: (role: string) => {
     return role === Role.ADMIN;
   },
-  
-  isManager: (role: string) => {
-    return role === Role.MANAGER;
-  },
   isAccountant: (role: string) => {
     return role === Role.ACCOUNTANT;
   }

@@ -2,11 +2,10 @@ import {  Role } from '@/types';
 import {  roleMenuConfig } from '@/utils/roleHelpers';
 import { Route } from '..';
 /**
- * Filter routes based on role and menuPermissions
+ * Filter routes based on role 
  * - Direct role access (explicit roles or roleMenuConfig) → bypass, always include
- * - No direct role access → fall back to menuPermissions view check
  */
-export const filterRoutesByRole = (routes: Route[], userRole: Role, menuPermissions?: any): Route[] => {
+export const filterRoutesByRole = (routes: Route[], userRole: Role): Route[] => {
   if (!userRole) return [];
 
   const allowedResources = roleMenuConfig[userRole] || [];
@@ -23,16 +22,10 @@ export const filterRoutesByRole = (routes: Route[], userRole: Role, menuPermissi
 
       // Direct role access → bypass
       if (hasDirectRoleAccess) return true;
-
-      // No direct access → check menuPermissions
-      if (menuPermissions) {
-        return route.resource.some(r => menuPermissions[r]?.permissions?.view);
-      }
-
       return false;
     })
     .map(route => ({
       ...route,
-      children: route.children ? filterRoutesByRole(route.children, userRole, menuPermissions) : undefined,
+      children: route.children ? filterRoutesByRole(route.children, userRole) : undefined,
     }));
 };

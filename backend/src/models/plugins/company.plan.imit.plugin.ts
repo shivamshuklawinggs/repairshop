@@ -16,13 +16,13 @@ export const companyPlanLimitPlugin = (schema: Schema) => {
 
       if (!this.ownerAdminId) {
         this.ownerAdminId =
-          creator.role === Role.MANAGER ? creator.ownerAdminId : creator._id;
+          creator.role === Role.ACCOUNTANT ? creator.ownerAdminId : creator._id;
       }
 
       if (creator.role === Role.SUPERADMIN) return next();
 
       const planOwner =
-        creator.role === Role.MANAGER
+        creator.role === Role.ACCOUNTANT
           ? await User.findById(creator.ownerAdminId)
               .select("ActivePlan")
               .populate<{ ActivePlan: { PlanId: IUserPlanDocument; expires: Date } }>("ActivePlan.PlanId")
@@ -37,7 +37,7 @@ export const companyPlanLimitPlugin = (schema: Schema) => {
         return next(new Error("Subscription expired. Please renew your subscription."));
       }
 
-      const adminId = creator.role === Role.MANAGER ? creator.ownerAdminId : creator._id;
+      const adminId = creator.role === Role.ACCOUNTANT ? creator.ownerAdminId : creator._id;
       const [maxCompanies, usedCompanies] = await Promise.all([
         Promise.resolve(activePlan.PlanId.noOfCompanies || 0),
         (this.constructor as any).countDocuments({ ownerAdminId: adminId }),

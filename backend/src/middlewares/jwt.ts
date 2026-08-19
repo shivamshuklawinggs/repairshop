@@ -5,8 +5,6 @@ import User, { IUserDocument } from 'models/user.model';
 import { ActionType, ResourceType, UserPermissionChecker } from 'utils/roleBaseAccessControl';
 import { Producer } from 'config/rabbitmq/producers';
 import { Role } from 'microservices/auth-service/types';
-import  { companyType } from 'models/company.model';
-import { getCompanyType } from 'microservices/company-services/company.controller';
 
 export class JWTMiddleware {
   /**
@@ -41,7 +39,7 @@ export class JWTMiddleware {
       // Attach user to request object
       req.user = user
       res.locals.companyId = req.headers["companyid"] as string
-      if(req.user.role==Role.MANAGER && req.user._id!==req.user.manager){
+      if(req.user.role==Role.ACCOUNTANT && req.user._id!==req.user.manager){
         user.manager=user._id
         await user.save()
         req.user=user
@@ -69,7 +67,7 @@ export class JWTMiddleware {
   /**
    * Middleware factory for permission checking
    */
-  static requirePermission = (action: ActionType, resource: ResourceType[],allowedCompanyTypes?: companyType[]) => {
+  static requirePermission = (action: ActionType, resource: ResourceType[]) => {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         // Ensure token is valid (wrap if it's callback-based)
@@ -81,8 +79,7 @@ export class JWTMiddleware {
         });
 
         const checker = new UserPermissionChecker(req.user as IUserDocument);
-        const companyType=await getCompanyType(res.locals.companyId)
-        const hasPermission = checker.hasPermission({action:action, resources:resource,companyType,allowedCompanyTypes:allowedCompanyTypes});
+        const hasPermission = checker.hasPermission({action:action, resources:resource});
         if (!hasPermission) {
           return next(
             new AppError(

@@ -23,7 +23,7 @@ function getStatusColor(status: string): { color: string; bgColor: string } {
   return statusColors[status] || { color: '#6b7280', bgColor: '#f3f4f6' };
 }
 
-async function getAdminAndManagerUsers(companyId: Types.ObjectId,ownerAdminId:Types.ObjectId,updatedById:Types.ObjectId): Promise<{
+async function getAdminAndManagerUsers(_companyId: Types.ObjectId,ownerAdminId:Types.ObjectId,updatedById:Types.ObjectId): Promise<{
       email:string;
     name:string;
     role:Role
@@ -38,13 +38,6 @@ async function getAdminAndManagerUsers(companyId: Types.ObjectId,ownerAdminId:Ty
           _id: ownerAdminId,
           role: Role.ADMIN
         },
-
-        // Managers assigned to company
-        {
-          role: Role.MANAGER,
-          ownerAdminId,
-          visibleCompany: companyId
-        }
       ]
     }
    const users = await User.find(filter)

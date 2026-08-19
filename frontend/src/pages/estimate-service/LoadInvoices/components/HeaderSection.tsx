@@ -21,32 +21,6 @@ const HeaderSection: FC<HeaderSectionProps> = ({ initialData, openCustomerModal 
     documentNumber: invoiceNumber,
     documentType: 'estimate',
     initialData,
-    onDocumentCheckSuccess: (response: any) => {
-      // Handle successful document check
-      if (!response?.load) {
-        // Reset customer fields when no load found
-        form.setValue("name", "");
-        form.setValue("address", "");
-        form.setValue("email", form.watch("email") || "");
-        form.setValue("customer", undefined);
-        form.setValue("customerId", "");
-        form.setValue("paymentOptions", PaymentMethods.NA);
-        form.setValue("terms", "");
-      }
-    },
-    onDocumentCheckError: () => {
-      // Handle document check error
-    },
-    onDocumentNotFound: () => {
-      // Handle when no document is found
-      form.setValue("name", "");
-      form.setValue("address", "");
-      form.setValue("email", form.watch("email") || "");
-      form.setValue("customer", undefined);
-      form.setValue("customerId", "");
-      form.setValue("paymentOptions", PaymentMethods.NA);
-      form.setValue("terms", "");
-    },
     apiMethod: 'checkAccountInvoiceNumberExist'
   });
   return (
