@@ -173,7 +173,9 @@ const getAllChartAccounts = async (
       };
     }
     if (isProductServicesPage == "1") {
-      initialquery["SystemAccount"] = false
+        initialquery["masterType"] = {
+        $nin: [masterType.customer,masterType.retainedearnings,masterType.vendor],
+      }
     }
 
     // REGEX FILTERS

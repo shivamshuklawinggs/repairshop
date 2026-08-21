@@ -27,6 +27,8 @@ import { toast } from 'react-toastify';
 import { Info as InfoIcon } from '@mui/icons-material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import AppDialog from '@/components/ui/AppDialog';
+import { getIcon } from '@/components/common/icons/getIcon';
 
 interface TemplateFormProps {
   open: boolean;
@@ -128,8 +130,14 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle>
+    <AppDialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogActions className='dialog-close'>
+        <Button onClick={onClose}>
+          {getIcon('CloseIcon')}
+        </Button>
+      </DialogActions>
+
+      <DialogTitle style={{paddingBottom:'10px'}}>
         {template ? 'Edit Template' : 'Create New Template'}
       </DialogTitle>
       <DialogContent>
@@ -143,7 +151,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                 render={({ field }) => (
                   <FormControl fullWidth error={!!errors.templateType}>
                     <InputLabel>Template Type</InputLabel>
-                    <Select {...field} label="Template Type">
+                    <Select {...field} label="Template Type" size="small">
                       <MenuItem value="before">Before Due Date</MenuItem>
                       <MenuItem value="on_due">On Due Date</MenuItem>
                       <MenuItem value="after">After Due Date</MenuItem>
@@ -165,6 +173,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                   <TextField
                     {...field}
                     fullWidth
+                    size="small"
                     label="Template Name"
                     error={!!errors.name}
                     helperText={errors.name?.message}
@@ -182,6 +191,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                   <TextField
                     {...field}
                     fullWidth
+                    size="small"
                     label="Email Subject"
                     error={!!errors.subject}
                     helperText={errors.subject?.message}
@@ -191,7 +201,6 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
             </Grid>
 
             <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
               <Typography variant="subtitle2" fontWeight={600} gutterBottom>
                 Scheduling Configuration
               </Typography>
@@ -207,13 +216,19 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     <TextField
                       {...field}
                       fullWidth
+                      size="small"
                       type="number"
                       label="Days Before Due Date"
                       InputProps={{ inputProps: { min: 1, max: 365 } }}
                       error={!!errors.daysBeforeDue}
                       helperText={errors.daysBeforeDue?.message || 'How many days before due date to start sending reminders'}
                       InputLabelProps={{
-                        shrink: true
+                        shrink: true,
+                      }}
+                      sx={{
+                        '& .MuiFormHelperText-root': {
+                          lineHeight:'17px',
+                        },
                       }}
                     />
                   )}
@@ -231,6 +246,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     <TextField
                       {...field}
                       fullWidth
+                      size="small"
                       type="number"
                       label="Days After Due Date"
                       InputProps={{ inputProps: { min: 1, max: 365 } }}
@@ -253,7 +269,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                 render={({ field }) => (
                   <FormControl fullWidth error={!!errors.frequency}>
                     <InputLabel>Reminder Frequency</InputLabel>
-                    <Select {...field} label="Reminder Frequency">
+                    <Select {...field} label="Reminder Frequency" size="small">
                       <MenuItem value="once">Once Only</MenuItem>
                       <MenuItem value="daily">Daily</MenuItem>
                       <MenuItem value="weekly">Weekly</MenuItem>
@@ -277,6 +293,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     <TextField
                       {...field}
                       fullWidth
+                      size="small"
                       type="number"
                       label="Custom Interval (Days)"
                       InputProps={{ inputProps: { min: 1, max: 365 } }}
@@ -300,6 +317,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                   <TextField
                     {...field}
                     fullWidth
+                    size="small"
                     type="number"
                     label="Maximum Number of Reminders"
                     InputProps={{ inputProps: { min: 1, max: 50 } }}
@@ -322,6 +340,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                   <TextField
                     {...field}
                     fullWidth
+                    size="small"
                     type="time"
                     label="Send Time"
                     error={!!errors.sendTime}
@@ -346,13 +365,12 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
             </Grid>
 
             <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
               <Typography variant="subtitle2" fontWeight={600} gutterBottom>
                 Email Content
               </Typography>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{paddingTop:'0px'}}>
               <Controller
                 name="htmlContent"
                 control={control}
@@ -371,6 +389,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                             variant="outlined"
                             onClick={() => insertVariable(variable.name)}
                             title={variable.description}
+                            sx={{
+                              padding:'0px 7px',
+                            }}
                           >
                             {`{{${variable.name}}}`}
                           </Button>
@@ -379,10 +400,10 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     </Box>
                     <Box
                       sx={{
-                        border: errors.htmlContent ? '1px solid #d32f2f' : '1px solid #c4c4c4',
-                        borderRadius: 1,
+                        border: errors.htmlContent ? '1px solid #d32f2f' : '0px solid #c4c4c4',
+                        //borderRadius: 1,
                         '& .ck-editor__editable': {
-                          minHeight: '300px'
+                        minHeight: '180px'
                         }
                       }}
                     >
@@ -435,8 +456,39 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                 control={control}
                 render={({ field }) => (
                   <FormControlLabel
-                    control={<Switch {...field} checked={field.value} />}
-                    label="Active (Only one active template per type)"
+                    control={
+                    <Switch
+                    size="small"
+                    {...field} checked={field.value}
+                     sx={{
+                        ml:{xs:1, md:1.5},
+                        '& .MuiSwitch-switchBase': {
+                          color: '#616161', // thumb color when inactive (dark grey)
+                        },
+
+                        '& .MuiSwitch-track': {
+                          backgroundColor: '#636363', // inactive track color
+                        },
+
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: '#10b981', // active thumb
+                        },
+
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                          backgroundColor: '#10b981',
+                        },
+                      }}
+                    />
+                   }
+                    label={
+                    <Typography
+                    fontSize={{xs:14, md:15}}
+                    sx={{
+                      ml:1,
+                      lineHeight:'17px',
+                    }}>
+                      Active (Only one active template per type)
+                    </Typography>}
                   />
                 )}
               />
@@ -444,8 +496,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
           </Grid>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} disabled={loading}>
+
+      <DialogActions sx={{padding:'18px 25px !important', borderTop:'1px solid #ddd', gap:1}}>
+        <Button variant='outlined' onClick={onClose} disabled={loading}>
           Cancel
         </Button>
         <Button
@@ -457,7 +510,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
           {loading ? 'Saving...' : template ? 'Update' : 'Create'}
         </Button>
       </DialogActions>
-    </Dialog>
+    </AppDialog>
   );
 };
 

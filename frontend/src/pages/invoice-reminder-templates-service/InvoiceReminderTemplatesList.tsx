@@ -22,7 +22,9 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   ContentCopy as DuplicateIcon,
-  Visibility as VisibilityIcon
+  Visibility as VisibilityIcon,
+  DeleteOutline,
+  DeleteOutlineOutlined
 } from '@mui/icons-material';
 import { PageHeader } from '@/components/ui';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -32,6 +34,7 @@ import { toast } from 'react-toastify';
 import TemplateForm from './components/TemplateForm';
 import { HasPermission } from '@/hooks/authUtils';
 import { useTheme } from '@mui/material/styles';
+import AppDialog from '@/components/ui/AppDialog';
 
 const InvoiceReminderTemplatesList: React.FC = () => {
   const theme = useTheme();
@@ -169,15 +172,10 @@ const InvoiceReminderTemplatesList: React.FC = () => {
         return 'default';
     }
   };
-   console.log("templates",templates)
-  const groupedTemplates = templates?.data?.reduce((acc: Record<ReminderTemplateType, IInvoiceReminderTemplate[]>, template: IInvoiceReminderTemplate) => {
-    if (!acc[template.templateType]) {
-      acc[template.templateType] = [];
-    }
-    acc[template.templateType].push(template);
-    return acc;
-  }, {} as Record<ReminderTemplateType, IInvoiceReminderTemplate[]>);
-
+  console.log("templates", templates)
+  const groupedTemplates = templates?.data ?? []
+  console.log("groupedTemplates", groupedTemplates)
+  console.log("groupedTemplates", groupedTemplates)
   return (
     <Box sx={{ minHeight: '100vh' }}>
       <PageHeader
@@ -189,10 +187,25 @@ const InvoiceReminderTemplatesList: React.FC = () => {
               variant="contained"
               startIcon={<AddIcon />}
               onClick={() => handleOpenForm()}
-            >
+              sx={{
+                borderRadius: { xs: '6px', md: '6px' },
+                boxShadow: 'none',
+                py: { xs: 0, md: 0.5 },
+                pr: { xs: 1.5, md: 2.5 },
+                pl: { xs: 1.3, md: 2 },
+                fontWeight: '500',
+                minHeight: { xs: '28px', md: '35px' },
+                fontSize: { xs: '13px', md: '14px' },
+                '& .MuiButton-startIcon': {
+                  marginRight: '3px',
+                },
+                '& .MuiButton-startIcon svg': {
+                  fontSize: '15px'
+                }
+              }}>
               Create Template
             </Button>
-          }/>
+          } />
         }
       />
 
@@ -200,113 +213,185 @@ const InvoiceReminderTemplatesList: React.FC = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
           <Typography>Loading templates...</Typography>
         </Box>
-      ) : (
-        <Grid container spacing={3} sx={{ mt: 2 }}>
-          {(Object.keys(groupedTemplates) as ReminderTemplateType[]).map((type: ReminderTemplateType) => (
-            <Grid item xs={12} md={4} key={type}>
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {getTemplateTypeLabel(type)}
+      ) : groupedTemplates?.length > 0 ? (
+        <Grid container spacing={3}>
+          {groupedTemplates.map((template: IInvoiceReminderTemplate) => (
+            <Grid item xs={12} md={4} key={template._id}>
+              <Typography fontSize={14} sx={{ mb: 1, fontWeight: 600 }}>
+                {getTemplateTypeLabel(template.templateType)}
               </Typography>
-              {groupedTemplates[type].map((template: IInvoiceReminderTemplate) => (
-                <Card
-                  key={template._id}
-                  sx={{
-                    mb: 2,
-                    border: template.isActive ? `2px solid ${theme.palette.primary.main}` : '1px solid #e0e0e0',
-                    backgroundColor: template.isActive ? alpha(theme.palette.primary.main, 0.05) : 'background.paper'
-                  }}
-                >
-                  <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                      <Box sx={{ flex: 1 }}>
-                        <Typography variant="subtitle1" fontWeight={600} gutterBottom>
-                          {template.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          {template.subject}
-                        </Typography>
-                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+              <Card
+                key={template._id}
+                sx={{
+                  mb: 0,
+                  border: '1px solid #ddd',
+                  borderLeft: template.isActive ? `3px solid ${theme.palette.success.main}` : '1px solid #ddd',
+                  backgroundColor: '#fff',
+                }}
+              >
+                <CardContent style={{ padding: '12px 20px 12px 20px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                    <Box sx={{ flex: 1 }}>
+                      <Typography variant="subtitle1" fontWeight={600}>
+                        {template.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb:1.5}}>
+                        {template.subject}
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+                        <Chip
+                          label={template.isActive ? 'Active' : 'Inactive'}
+                          size="small"
+                          sx={{
+                            fontSize: '13px',
+                            height: 'auto',
+                            fontWeight: '600',
+                           // border:template.isActive ? '1px solid #52b594' : '1px solid #94a3b8',
+                            color: template.isActive ? '#008c5e' : '#101721',
+                            backgroundColor: template.isActive ? '#daf6ee' : '#e2e2e2',
+                          }}
+                        />
+                        <Chip
+                          label={`Frequency: ${template.frequency}`}
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            fontSize: '13px',
+                            height: 'auto',
+                            fontWeight: '500',
+                            color: '#333',
+                            backgroundColor: '#fff',
+                          }}
+                        />
+                        {template.templateType === 'before' && (
                           <Chip
-                            label={template.isActive ? 'Active' : 'Inactive'}
-                            color={template.isActive ? 'success' : 'default'}
-                            size="small"
-                          />
-                          <Chip
-                            label={`Frequency: ${template.frequency}`}
-                            size="small"
-                            variant="outlined"
-                          />
-                          {template.templateType === 'before' && (
-                            <Chip
-                              label={`${template.daysBeforeDue} days before`}
-                              size="small"
-                              variant="outlined"
-                            />
-                          )}
-                          {template.templateType === 'after' && (
-                            <Chip
-                              label={`${template.daysAfterDue} days after`}
-                              size="small"
-                              variant="outlined"
-                            />
-                          )}
-                          <Chip
-                            label={`Max: ${template.maxReminders}`}
-                            size="small"
-                            variant="outlined"
-                          />
-                          <Chip
-                            label={`Time: ${template.sendTime}`}
+                            label={`${template.daysBeforeDue} days before`}
                             size="small"
                             variant="outlined"
+                            sx={{
+                              fontSize: '13px',
+                              height: 'auto',
+                              fontWeight: '500',
+                              color: '#333',
+                              backgroundColor: '#fff',
+                            }}
                           />
-                        </Box>
+                        )}
+                        {template.templateType === 'after' && (
+                          <Chip
+                            label={`${template.daysAfterDue} days after`}
+                            size="small"
+                            variant="outlined"
+                            sx={{
+                              fontSize: '13px',
+                              height: 'auto',
+                              fontWeight: '500',
+                              color: '#333',
+                              backgroundColor: '#fff',
+                            }}
+                          />
+                        )}
+                        <Chip
+                          label={`Max: ${template.maxReminders}`}
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            fontSize: '13px',
+                            height: 'auto',
+                            fontWeight: '500',
+                            color: '#333',
+                            backgroundColor: '#fff',
+                          }}
+                        />
+                        <Chip
+                          label={`Time: ${template.sendTime}`}
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            fontSize: '13px',
+                            height: 'auto',
+                            fontWeight: '500',
+                            color: '#333',
+                            backgroundColor: '#fff',
+                          }}
+                        />
                       </Box>
-                      <Switch
-                        checked={template.isActive}
-                        onChange={() => handleSetActive(template)}
-                        disabled={template.isActive}
-                        size="small"
-                      />
                     </Box>
 
-                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
-                      <HasPermission action="update" resource={["accounting"]} component={
-                        <Tooltip title="Edit">
-                          <IconButton
-                            size="small"
-                            onClick={() => handleOpenForm(template)}
-                          >
-                            <EditIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      }/>
-                      <HasPermission action="create" resource={["accounting"]} component={
-                        <Tooltip title="Duplicate">
-                          <IconButton
-                            size="small"
-                            onClick={() => handleDuplicate(template)}
-                          >
-                            <DuplicateIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      }/>
-                      <HasPermission action="delete" resource={["accounting"]} component={
-                        <Tooltip title="Delete">
-                          <IconButton
-                            size="small"
-                            onClick={() => handleDeleteClick(template)}
-                            color="error"
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      }/>
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
-              {groupedTemplates[type].length === 0 && (
+                    <Switch
+                      checked={template.isActive}
+                      onChange={() => handleSetActive(template)}
+                      disabled={template.isActive}
+                      size="small"
+                      sx={{
+                        '& .MuiSwitch-switchBase': {
+                          color: '#616161', // thumb color when inactive (dark grey)
+                        },
+
+                        '& .MuiSwitch-track': {
+                          backgroundColor: '#636363', // inactive track color
+                        },
+
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: theme.palette.success.main, // active thumb
+                        },
+
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                          backgroundColor: theme.palette.success.main, // active track
+                        },
+
+                        // Disabled
+                        '& .MuiSwitch-switchBase.Mui-disabled': {
+                          color: '#10b981 !important',
+
+                        },
+                        '& .MuiSwitch-switchBase.Mui-disabled + .MuiSwitch-track': {
+                          backgroundColor: '#10b981 !important',
+                          opacity:0.35,
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+                    <HasPermission action="update" resource={["accounting"]} component={
+                      <Tooltip title="Edit">
+                        <IconButton sx={{p:0}}
+                          size="small"
+                          color="primary"
+                          onClick={() => handleOpenForm(template)}
+                        >
+                          <EditIcon fontSize="small" sx={{ fontSize: '16px' }} />
+                        </IconButton>
+                      </Tooltip>
+                    } />
+                    <HasPermission action="create" resource={["accounting"]} component={
+                      <Tooltip title="Duplicate">
+                        <IconButton sx={{p:0}}
+                          size="small"
+                          color="primary"
+                          onClick={() => handleDuplicate(template)}
+                        >
+                          <DuplicateIcon fontSize="small" sx={{ fontSize: '16px' }} />
+                        </IconButton>
+                      </Tooltip>
+                    } />
+                    <HasPermission action="delete" resource={["accounting"]} component={
+                      <Tooltip title="Delete">
+                        <IconButton sx={{p:0}}
+                          size="small"
+                          onClick={() => handleDeleteClick(template)}
+                          color="error"
+                        >
+                          <DeleteOutlineOutlined fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    } />
+                  </Box>
+                </CardContent>
+              </Card>
+
+              {groupedTemplates.length === 0 && (
                 <Card sx={{ border: '1px dashed #ccc', backgroundColor: 'background.paper' }}>
                   <CardContent sx={{ textAlign: 'center', py: 4 }}>
                     <Typography variant="body2" color="text.secondary">
@@ -318,6 +403,20 @@ const InvoiceReminderTemplatesList: React.FC = () => {
             </Grid>
           ))}
         </Grid>
+      ) : (
+        <Box
+          sx={{
+            gridColumn: '1 / -1',
+            textAlign: 'center',
+            py: 6,
+            color: '#64748b',
+            fontWeight: 500,
+            fontSize: '17px',
+          }}
+        >
+          <img src="/empty.png" alt="empty" width={44} /> <br />
+          No templates found
+        </Box>
       )}
 
       <TemplateForm
@@ -328,15 +427,16 @@ const InvoiceReminderTemplatesList: React.FC = () => {
         loading={createMutation.isPending || updateMutation.isPending}
       />
 
-      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Confirm Delete</DialogTitle>
+      <AppDialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+        <DialogTitle style={{paddingBottom:'10px'}} fontSize={{xs:16, md:17}}>Confirm Delete</DialogTitle>
         <DialogContent>
-          <Typography>
+          <Typography fontSize={{xs:14.6, md:16}}>
             Are you sure you want to delete the template "{templateToDelete?.name}"? This action cannot be undone.
           </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} disabled={deleteMutation.isPending}>
+
+        <DialogActions className='dialog-action'>
+          <Button variant="outlined" onClick={() => setDeleteDialogOpen(false)} disabled={deleteMutation.isPending}>
             Cancel
           </Button>
           <Button
@@ -349,7 +449,7 @@ const InvoiceReminderTemplatesList: React.FC = () => {
             Delete
           </Button>
         </DialogActions>
-      </Dialog>
+      </AppDialog>
     </Box>
   );
 };
