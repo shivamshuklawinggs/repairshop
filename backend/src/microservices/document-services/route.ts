@@ -19,6 +19,5 @@ const router=express.Router()
  * @path /api/document/
  */
 router.get("/",verifyToken,documentController.getDocuments)
-router.get("/subdocument",verifyToken,documentController.getSubDocuments)
 router.post("/sendDocumentByEmail",verifyToken,documentController.sendDocumentByEmail)
 export default router

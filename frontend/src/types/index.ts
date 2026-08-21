@@ -954,47 +954,12 @@ export interface IVendorBill {
   }[]
 }
 export interface IDocument {
-  _id: string;
-  company: string;
-  insurerCompany: string;
-  agentName: string;
-  agentAddress: string;
-  agentEmail: string;
-  agentPhoneNumber: string;
-
-  amount: number;
-  createdAt: Date;
-  updatedAt: Date;
-  files: IFile
-  documents: IFile;
-  customerDocs: IFile[];
-  insuranceDocuments: IFile;
+  company: string
+  createdAt: string
+  updatedAt: string
+  _id: string
   file: IFile;
-  service: IitemService;
-  type: string;
-  invoiceNumber: string;
-  carrierName: string;
-  usdot: string;
-  mcNumber: string;
-  driverName: string;
-  pickupLocationId: {
-    files: IFile;
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    _id: string;
-  };
-  deliveryLocationId: {
-    files: IFile;
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    _id: string;
-  };
+  invoiceNumber?:string
 }
 
 export interface LoginFormData {

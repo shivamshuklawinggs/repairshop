@@ -6,7 +6,7 @@ export const ProductServiceSchema = yup.object().shape({
   name: yup.string().label('Name').required('Name is required'),
   isUpdate:yup.boolean().default(false),
     category: yup.string().label('Category').oneOf(ProductServiceData.category.map((item) => item.value), 'Invalid category').required('Category is required'),
-    description: yup.string().label('Description').required('Description is required'),
+    description: yup.string().label('Description').optional(),
     incomeAccount: yup.string().label('Income Account').required('Income Account is required'),
     expenseAccount: yup.string().label('Expense Account').required('Expense Account is required'),
     OpeningStock: yup.number().optional().default(0).label('Opening Stock').transform((value)=>value || 0),

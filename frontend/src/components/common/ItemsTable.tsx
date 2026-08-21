@@ -13,6 +13,7 @@ import { calculateexpenseAmount, serviceGetQuery } from '@/utils/calculateInvoic
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { NumericInput } from '../ui';
+import ReorderAlert from './ReorderAlert';
 
 const columnSize = {
   service: 2,
@@ -168,6 +169,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ handleTaxModalShow, handleProdu
                           {errors.expense[index].productservice.message}
                         </Typography>
                       )}
+                     {type==="invoice" && <ReorderAlert expense={expense} product={expense.productservice} productServiceArray={productServiceArray}/>}
                     </Box>
                   </Grid>
 

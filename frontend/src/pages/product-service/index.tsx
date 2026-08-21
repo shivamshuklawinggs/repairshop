@@ -86,7 +86,7 @@ const ProductServices: React.FC = () => {
                 size="small"
                 href={`${API_URL}public/samples/products.csv`}
                 download
-                sx={{ color: '#5c626e', '& svg': { fontSize: 21 } }}
+                sx={{ color: '#5c626e', mx:{xs:0.8, md:1}, '& svg': { fontSize: {xs:21, md:24} } }}
               >
                 {getIcon('fileDownload')}
               </IconButton>
@@ -160,7 +160,7 @@ const ProductServices: React.FC = () => {
                 color="primary" onClick={() => handleEdit(item)}
                 sx={{
                     '& svg': {
-                      fontSize: 16
+                      fontSize: 15
                     }
                   }}
                 >
@@ -170,7 +170,7 @@ const ProductServices: React.FC = () => {
                 color="error" onClick={() => item._id && handleDelete(item._id)}
                 sx={{
                     '& svg': {
-                      fontSize: 16
+                      fontSize: 15
                     }
                   }}
                 >

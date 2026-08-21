@@ -33,7 +33,7 @@ const ProductServiceForm: React.FC<{ showModal: boolean, handleModalClose: () =>
   const expenseAccount = useChartOfAccount({ type: "expense", isProductServicesPage:"1"})
   const incomeAccount = useChartOfAccount({ type: "income",isProductServicesPage:"1" })
   const inventoryAccount = useChartOfAccount({ type: "asset",isProductServicesPage:"1"})
-  const { watch, control, reset, handleSubmit, formState: { errors } } = useForm<IProductService>({
+  const { watch, control, reset, handleSubmit, setValue, getValues, formState: { errors } } = useForm<IProductService>({
     resolver: yupResolver(ProductServiceSchema) as any,
     defaultValues: {
       isUpdate: editingItem?._id ? true : false,
@@ -126,6 +126,40 @@ const ProductServiceForm: React.FC<{ showModal: boolean, handleModalClose: () =>
     }
     return editingItem?.currentLevel || 0
   }
+  const category = watch("category");
+  const getDefaultAccountId = (options: { value: string; label: string }[], keywords: string[]) => {
+    const lowerKeywords = keywords.map((k) => k.toLowerCase());
+    const exact = options.find((o) => lowerKeywords.includes(o.label.toLowerCase()));
+    if (exact) return exact.value;
+    const startsWith = options.find((o) => lowerKeywords.some((k) => o.label.toLowerCase().startsWith(k)));
+    if (startsWith) return startsWith.value;
+    const includes = options.find((o) => lowerKeywords.some((k) => o.label.toLowerCase().includes(k)));
+    if (includes) return includes.value;
+    return options[0]?.value || '';
+  };
+
+  useEffect(() => {
+    if (editingItem?._id) return;
+    if (incomeAccount.chartAccountOptions.length && !getValues('incomeAccount')) {
+      const defaultIncome = getDefaultAccountId(incomeAccount.chartAccountOptions, ['Sales']);
+      if (defaultIncome) setValue('incomeAccount', defaultIncome, { shouldValidate: true });
+    }
+    if (expenseAccount.chartAccountOptions.length && !getValues('expenseAccount')) {
+      const defaultExpense = getDefaultAccountId(expenseAccount.chartAccountOptions, ['Expense']);
+      if (defaultExpense) setValue('expenseAccount', defaultExpense, { shouldValidate: true });
+    }
+    if (category === 'inventory' && inventoryAccount.chartAccountOptions.length && !getValues('inventoryAccount')) {
+      const defaultInventory = getDefaultAccountId(inventoryAccount.chartAccountOptions, ['Inventory']);
+      if (defaultInventory) setValue('inventoryAccount', defaultInventory, { shouldValidate: true });
+    }
+  }, [incomeAccount.chartAccountOptions, expenseAccount.chartAccountOptions, inventoryAccount.chartAccountOptions, category, getValues, setValue, editingItem]);
+
+  useEffect(() => {
+    if (category !== 'inventory') {
+      setValue('inventoryAccount', '', { shouldValidate: true });
+    }
+  }, [category, setValue]);
+
   return (
     <AppDialog
       open={showModal}

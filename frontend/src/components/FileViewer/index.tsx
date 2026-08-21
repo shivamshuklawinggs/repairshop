@@ -24,19 +24,18 @@ import {
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { IFile } from '@/types';
-import { SxProps, Theme } from '@mui/material/styles';
-import AppDialog from '@/components/ui/AppDialog';
-
+import MuiDialog from "@mui/material/Dialog";
 interface FileViewerProps {
   file: IFile;
   url: string;
   files?: IFile[];
   getFileUrl?: (file: IFile) => string;
+  trigger?: React.ReactElement;
   ImageCss?: Object
   nonimageCss?: Object
 }
 
-const FileViewer: React.FC<FileViewerProps> = ({ file, url, files, getFileUrl, ImageCss, nonimageCss }) => {
+const FileViewer: React.FC<FileViewerProps> = ({ file, url, files, getFileUrl, trigger, ImageCss, nonimageCss }) => {
   console.log("file", file)
   console.log("url", url)
   const [internalOpen, setInternalOpen] = useState(false);
@@ -192,6 +191,13 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, url, files, getFileUrl, I
   const renderSmallPreview = () => {
     if (!file) return null;
 
+    if (trigger) {
+      return React.cloneElement(
+        trigger as React.ReactElement<{ onClick?: React.MouseEventHandler }>,
+        { onClick: handleOpenModal }
+      );
+    }
+
     if (isImage(file) && url) {
       return (
         <Box
@@ -276,7 +282,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, url, files, getFileUrl, I
       {/* Small preview by default */}
       {renderSmallPreview()}
       {/* Full modal dialog */}
-      <AppDialog
+      <MuiDialog
         open={isOpen}
         onClose={handleClose}
         maxWidth="md"
@@ -382,7 +388,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, url, files, getFileUrl, I
             Download
           </Button>
         </DialogActions>
-      </AppDialog>
+      </MuiDialog>
     </>
   );
 };

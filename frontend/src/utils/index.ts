@@ -48,7 +48,7 @@ const checkInsuranceExpiryDate = (
 
 const getSubDocumentName = (document: IDocument, subtype: string) => {
   switch (subtype) {
-    case 'carrier':
+    case 'vendor':
       return document?.company || 'N/A';
     case 'customer':
       return document?.company || 'N/A';
@@ -62,8 +62,8 @@ const getDocumentCell = (activeTab: string) => {
   switch (activeTab) {
     case 'customer':
       return "Customer Name";
-    case 'carrier':
-      return "Carrier Name";
+    case 'vendor':
+      return "Vendor Name";
     case 'invoice':
       return "Invoice Number";
     default:

@@ -7,6 +7,7 @@ const allowedOrigins = [
     'http://localhost:5070',  // Allow this URL
     'http://localhost:5056',  // Allow this URL
     'http://localhost:5174',  // Allow this URL
+    'http://localhost:5175',  // Allow this URL
     'http://192.168.168.7:5173',  // Allow this URL
     'http://192.168.168.7:5174',  // Allow this URL
     'http://localhost:5174',  // Allow this URL
